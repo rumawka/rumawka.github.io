@@ -619,6 +619,40 @@
             margin-bottom: 30px;
         }
 
+        .achievements-masonry {
+            columns: 1;
+            column-gap: 20px;
+        }
+
+        .achievement-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(196, 169, 98, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            break-inside: avoid;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px var(--shadow-light);
+        }
+
+        .achievement-year {
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .achievement-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
         .about-text strong {
             color: var(--primary-gold);
             font-weight: 600;
