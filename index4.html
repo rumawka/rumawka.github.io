@@ -331,70 +331,144 @@
             margin: 0 auto;
         }
 
-        /* Process Section with Timeline */
+        /* Process Section with Horizontal Layout for Desktop */
         .process-timeline {
             position: relative;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .timeline-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, var(--primary-gold), var(--deep-gold));
-            transform: translateX(-50%);
-            border-radius: 2px;
+        /* Desktop: Horizontal Layout */
+        @media (min-width: 1025px) {
+            .process-timeline {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 40px;
+            }
+
+            .timeline-line {
+                position: absolute;
+                top: 30px;
+                left: 15%;
+                right: 15%;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary-gold), var(--deep-gold));
+                border-radius: 2px;
+                z-index: 1;
+            }
+
+            .timeline-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 0;
+                position: relative;
+                flex: 1;
+                z-index: 2;
+            }
+
+            .timeline-content {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .timeline-card {
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(196, 169, 98, 0.3);
+                border-radius: 24px;
+                padding: 30px 25px;
+                position: relative;
+                transition: all 0.4s ease;
+                text-align: center;
+                min-height: 180px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-top: 50px;
+            }
+
+            .timeline-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 25px 50px var(--shadow-light);
+            }
+
+            .timeline-number {
+                position: relative;
+                width: 60px;
+                height: 60px;
+                background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: 700;
+                font-size: 1.5rem;
+                box-shadow: 0 10px 30px var(--shadow-medium);
+                z-index: 3;
+                margin: 0 auto 20px auto;
+            }
         }
 
-        .timeline-item {
-            display: flex;
-            margin-bottom: 80px;
-            position: relative;
-        }
+        /* Mobile and Tablet: Vertical Layout */
+        @media (max-width: 1024px) {
+            .timeline-line {
+                position: absolute;
+                left: 30px;
+                top: 0;
+                bottom: 0;
+                width: 4px;
+                background: linear-gradient(180deg, var(--primary-gold), var(--deep-gold));
+                border-radius: 2px;
+            }
 
-        .timeline-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
+            .timeline-item {
+                display: flex;
+                margin-bottom: 80px;
+                position: relative;
+                flex-direction: row;
+                padding-left: 80px;
+            }
 
-        .timeline-content {
-            flex: 1;
-            max-width: 450px;
-        }
+            .timeline-content {
+                flex: 1;
+                max-width: 100%;
+            }
 
-        .timeline-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(196, 169, 98, 0.3);
-            border-radius: 24px;
-            padding: 40px;
-            position: relative;
-            transition: all 0.4s ease;
-        }
+            .timeline-card {
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(196, 169, 98, 0.3);
+                border-radius: 24px;
+                padding: 40px;
+                position: relative;
+                transition: all 0.4s ease;
+            }
 
-        .timeline-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px var(--shadow-light);
-        }
+            .timeline-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 25px 50px var(--shadow-light);
+            }
 
-        .timeline-number {
-            position: absolute;
-            left: 50%;
-            top: 40px;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.5rem;
-            box-shadow: 0 10px 30px var(--shadow-medium);
+            .timeline-number {
+                position: absolute;
+                left: 30px;
+                top: 40px;
+                width: 60px;
+                height: 60px;
+                background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: 700;
+                font-size: 1.5rem;
+                box-shadow: 0 10px 30px var(--shadow-medium);
+                transform: translateX(-50%);
+            }
         }
 
         .card-title {
@@ -412,7 +486,7 @@
         /* Benefits with Advanced Cards */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
             gap: 30px;
             margin-bottom: 60px;
         }
@@ -590,7 +664,6 @@
             left: 0;
             right: 0;
             bottom: 0;
-            /*background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>') repeat;*/
         }
 
         .floating-badge {
@@ -604,7 +677,6 @@
             border-radius: 50px;
             font-size: 0.9rem;
             font-weight: 600;
-            /*color: var(--text-primary);*/
             color: #ffffff;
         }
 
@@ -718,19 +790,6 @@
                 grid-template-columns: 1fr;
                 gap: 50px;
             }
-            
-            .timeline-line {
-                left: 30px;
-            }
-            
-            .timeline-item {
-                flex-direction: row !important;
-                padding-left: 80px;
-            }
-            
-            .timeline-number {
-                left: 30px;
-            }
         }
 
         @media (max-width: 768px) {
@@ -769,10 +828,6 @@
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
-<!--                     <div class="hero-badge">
-                        Выпускник Сколково
-                    </div> -->
-                    
                     <h1>
                         Все успешные компании проходят <span class="highlight">стратегические сессии</span>. Остальные — догоняют.
                     </h1>
@@ -780,38 +835,11 @@
                      <p class="hero-subtitle">
                         <strong>Михаил Мамонтов</strong> — действующий предприниматель 12 лет в бизнесе, выпускник Сколково, 100+ индивидуальных консультаций предпринимателей.
                     </p>
-                    
-<!--                     <div class="hero-cta">
-                        <a href="#" class="btn-primary">Оставить заявку</a>
-                    </div> -->
                 </div>
-                
-<!--                 <div class="stats-card">
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-number">12</div>
-                            <div class="stat-label">лет в бизнесе</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">100+</div>
-                            <div class="stat-label">консультаций</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">1.6</div>
-                            <div class="stat-label">млрд оборот</div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="section">
-        <div class="container">
+<div class="container">
             <div class="section-header">
                 <h2 class="section-title">Из чего состоит стратегическая сессия</h2>
-<!--                 <p class="section-subtitle">Пошаговый процесс трансформации вашего бизнеса</p> -->
             </div>
             
             <div class="process-timeline">
@@ -819,6 +847,7 @@
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
+                        <div class="timeline-number">1</div>
                         <div class="timeline-card">
                             <h3 class="card-title">ДИАГНОСТИКА</h3>
                             <p class="card-description">
@@ -826,11 +855,11 @@
                             </p>
                         </div>
                     </div>
-                    <div class="timeline-number">1</div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
+                        <div class="timeline-number">2</div>
                         <div class="timeline-card">
                             <h3 class="card-title">СОСТАВЛЕНИЕ ПЛАНА СТРАТЕГИЧЕСКОЙ СЕССИИ</h3>
                             <p class="card-description">
@@ -838,25 +867,22 @@
                             </p>
                         </div>
                     </div>
-                    <div class="timeline-number">2</div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
+                        <div class="timeline-number">3</div>
                         <div class="timeline-card">
                             <h3 class="card-title">ПРОВЕДЕНИЕ СЕССИИ 2 ДНЯ</h3>
-<!--                             <p class="card-description">
-                                Интенсивная работа в течение 2 дней с командой. Разработка стратегии, создание планов действий и четкое распределение ответственности между участниками.
-                            </p> -->
                         </div>
                     </div>
-                    <div class="timeline-number">3</div>
                 </div>
             </div>
             
             <div class="btn-center">
                 <a href="#" class="btn-primary">Записаться на диагностику</a>
             </div>
+        </div>
         </div>
     </section>
 
@@ -932,7 +958,6 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Почему ко мне приходят?</h2>
-<!--                 <p class="section-subtitle">Основные вызовы, с которыми сталкиваются собственники бизнеса</p> -->
             </div>
             
             <div class="problems-container">
@@ -1020,47 +1045,48 @@
                             <div class="achievement-text">Всегда читаю профильную литературу (менеджмент, управление, продажи) — прочитал более 50 книг.</div>
                         </div>
 
-                        <div class="achievements-masonry">
                         <div class="achievement-year">Предпринимательский опыт и бизнесы</div>
                         <div class="achievement-card">
                             <div class="achievement-text">2013 год — производство одежды в Китае, более 10 деловых поездок в Гуанчжоу.</div>
                         </div>
-                            <div class="achievement-card">
+                        <div class="achievement-card">
                             <div class="achievement-text">2014–2016 — контракты с «Ашан» и «Фамилия».</div>
                         </div>
-                            <div class="achievement-card">
+                        <div class="achievement-card">
                             <div class="achievement-text">Основал компанию Noveksp:<br>
                                 Штат — 46 человек<br>
                                 Портфель — 90 компаний<br>
                                 Оборот — 1.6 млрд<br>
                                 Основной бизнес сегодня
                             </div>
-                            </div>
-                                <div class="achievement-card">
+                        </div>
+                        <div class="achievement-card">
                             <div class="achievement-text">За 12 лет запускал бизнесы:<br>
                                 Доставка пиццы — 2.5 года<br>
                                 Тендерный пошив — 1 год<br>
                                 Фотостудии для маркетплейсов — 2 года<br>
                                 Кадровое агентство — 1 год</div>
-                                </div>
+                        </div>
                               
-                                    <div class="achievements-masonry">
                         <div class="achievement-year">Деятельность, ценности и хобби</div>
                         <div class="achievement-card">
                             <div class="achievement-text">Более 50 выступлений на темы: маркетплейсы, HR, продажи, командообразование.</div>
                         </div> 
-                                        <div class="achievement-card">
+                        <div class="achievement-card">
                             <div class="achievement-text">Провёл 100+ консультаций предпринимателям по стратегии бизнеса.</div>
                         </div> 
-                                         <div class="achievement-card">
+                        <div class="achievement-card">
                             <div class="achievement-text">В 2023 году издал книгу о продажах.</div>
                         </div> 
-                                        <div class="achievement-card">
+                        <div class="achievement-card">
                             <div class="achievement-text">Считаю важным: помощь людям, спорт, творчество, саморазвитие, насмотренность, созидание</div>
                         </div> 
-                                        <div class="achievement-card">
+                        <div class="achievement-card">
                             <div class="achievement-text">За пределами профессиональной деятельности: выпускаю музыку, профессионально играю в гольф</div>
                         </div> 
+                    </div>
+                </div>
+            </div>
             
             <div class="btn-center">
                 <a href="#" class="btn-primary">Оставить заявку</a>
@@ -1068,7 +1094,7 @@
         </div>
     </section>
 
-      <script>
+    <script>
         // Advanced Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
