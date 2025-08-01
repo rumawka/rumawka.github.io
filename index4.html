@@ -331,87 +331,8 @@
             margin: 0 auto;
         }
 
-       /* Process Section */
-        .process-section {
-            margin-top: 60px;
-        }
-
-        .process-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 60px;
-            text-align: center;
-        }
-
-        /* Desktop Horizontal Timeline */
-        .process-timeline-horizontal {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-bottom: 60px;
-            position: relative;
-        }
-
-        /* Connecting line for horizontal timeline */
-        .process-timeline-horizontal::before {
-            content: '';
-            position: absolute;
-            top: 60px;
-            left: calc(16.66% + 30px);
-            right: calc(16.66% + 30px);
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-gold), var(--deep-gold));
-            border-radius: 2px;
-            z-index: 1;
-        }
-
-        .horizontal-timeline-item {
-            position: relative;
-            text-align: center;
-        }
-
-        .horizontal-timeline-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(196, 169, 98, 0.3);
-            border-radius: 24px;
-            padding: 40px 30px;
-            position: relative;
-            transition: all 0.4s ease;
-            height: 220px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .horizontal-timeline-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px var(--shadow-light);
-        }
-
-        .horizontal-timeline-number {
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.5rem;
-            box-shadow: 0 10px 30px var(--shadow-medium);
-            z-index: 2;
-        }
-
-        /* Mobile Vertical Timeline (hidden on desktop) */
-        .process-timeline-vertical {
-            display: none;
+        /* Process Section with Timeline */
+        .process-timeline {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
@@ -833,31 +754,7 @@
                 flex-direction: column;
                 gap: 15px;
             }
-            
-            /* Show vertical timeline on mobile, hide horizontal */
-            .process-timeline-horizontal {
-                display: none;
-            }
-
-            .process-timeline-vertical {
-                display: block;
-            }
-
-            .horizontal-timeline-card {
-                height: auto;
-            }
         }
-        /* Tablet breakpoint for process timeline */
-        @media (max-width: 900px) {
-            .process-timeline-horizontal {
-                display: none;
-            }
-
-            .process-timeline-vertical {
-                display: block;
-            }
-        }
-
     </style>
 </head>
 <body>
@@ -909,87 +806,56 @@
         </div>
     </section>
 
-     <!-- Process Section integrated into hero -->
-            <div class="process-section">
-                <h2 class="process-title">Из чего состоит стратегическая сессия</h2>
+    <!-- Process Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Из чего состоит стратегическая сессия</h2>
+<!--                 <p class="section-subtitle">Пошаговый процесс трансформации вашего бизнеса</p> -->
+            </div>
+            
+            <div class="process-timeline">
+                <div class="timeline-line"></div>
                 
-                <!-- Desktop Horizontal Timeline -->
-                <div class="process-timeline-horizontal">
-                    <div class="horizontal-timeline-item">
-                        <div class="horizontal-timeline-card">
-                            <div class="horizontal-timeline-number">1</div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-card">
                             <h3 class="card-title">ДИАГНОСТИКА</h3>
                             <p class="card-description">
                                 Проводим интервью с собственником и ключевыми сотрудниками компании.
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="horizontal-timeline-item">
-                        <div class="horizontal-timeline-card">
-                            <div class="horizontal-timeline-number">2</div>
+                    <div class="timeline-number">1</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-card">
                             <h3 class="card-title">СОСТАВЛЕНИЕ ПЛАНА СТРАТЕГИЧЕСКОЙ СЕССИИ</h3>
                             <p class="card-description">
                                 На основе интервью мы создаем план проведения сессии и презентуем его собственнику (корректируем)
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="horizontal-timeline-item">
-                        <div class="horizontal-timeline-card">
-                            <div class="horizontal-timeline-number">3</div>
-                            <h3 class="card-title">ПРОВЕДЕНИЕ СЕССИИ 2 ДНЯ</h3>
-                            <p class="card-description">
-                                Интенсивная работа в течение 2 дней с командой для достижения результата.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile Vertical Timeline -->
-                <div class="process-timeline-vertical">
-                    <div class="timeline-line"></div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-card">
-                                <h3 class="card-title">ДИАГНОСТИКА</h3>
-                                <p class="card-description">
-                                    Проводим интервью с собственником и ключевыми сотрудниками компании.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-number">1</div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-card">
-                                <h3 class="card-title">СОСТАВЛЕНИЕ ПЛАНА СТРАТЕГИЧЕСКОЙ СЕССИИ</h3>
-                                <p class="card-description">
-                                    На основе интервью мы создаем план проведения сессии и презентуем его собственнику (корректируем)
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-number">2</div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-card">
-                                <h3 class="card-title">ПРОВЕДЕНИЕ СЕССИИ 2 ДНЯ</h3>
-                                <p class="card-description">
-                                    Интенсивная работа в течение 2 дней с командой для достижения результата.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="timeline-number">3</div>
-                    </div>
+                    <div class="timeline-number">2</div>
                 </div>
                 
-                <div class="hero-cta">
-                    <a href="#" class="btn-primary">Записаться на диагностику</a>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-card">
+                            <h3 class="card-title">ПРОВЕДЕНИЕ СЕССИИ 2 ДНЯ</h3>
+<!--                             <p class="card-description">
+                                Интенсивная работа в течение 2 дней с командой. Разработка стратегии, создание планов действий и четкое распределение ответственности между участниками.
+                            </p> -->
+                        </div>
+                    </div>
+                    <div class="timeline-number">3</div>
                 </div>
+            </div>
+            
+            <div class="btn-center">
+                <a href="#" class="btn-primary">Записаться на диагностику</a>
             </div>
         </div>
     </section>
@@ -1218,8 +1084,7 @@
                     // Add stagger effect for grids
                     if (entry.target.classList.contains('benefit-card') || 
                         entry.target.classList.contains('problem-item') ||
-                        entry.target.classList.contains('achievement-card') ||
-                        entry.target.classList.contains('horizontal-timeline-card')) {
+                        entry.target.classList.contains('achievement-card')) {
                         const delay = Array.from(entry.target.parentNode.children).indexOf(entry.target) * 100;
                         entry.target.style.transitionDelay = delay + 'ms';
                     }
@@ -1230,7 +1095,7 @@
         // Initialize animations
         document.addEventListener('DOMContentLoaded', function() {
             // Set initial states
-            const animatedElements = document.querySelectorAll('.timeline-card, .horizontal-timeline-card, .benefit-card, .problem-item, .achievement-card');
+            const animatedElements = document.querySelectorAll('.timeline-card, .benefit-card, .problem-item, .achievement-card');
             animatedElements.forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(30px) scale(0.95)';
@@ -1303,7 +1168,7 @@
             });
 
             // Timeline number animation on scroll
-            const timelineNumbers = document.querySelectorAll('.timeline-number, .horizontal-timeline-number');
+            const timelineNumbers = document.querySelectorAll('.timeline-number');
             const timelineObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1313,6 +1178,34 @@
             }, { threshold: 0.5 });
 
             timelineNumbers.forEach(number => timelineObserver.observe(number));
+
+            // Stats animation
+            const statsNumbers = document.querySelectorAll('.stat-number');
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const finalText = entry.target.textContent;
+                        const isNumber = !isNaN(parseFloat(finalText));
+                        
+                        if (isNumber) {
+                            const finalNumber = parseFloat(finalText);
+                            let currentNumber = 0;
+                            const increment = finalNumber / 30;
+                            const timer = setInterval(() => {
+                                currentNumber += increment;
+                                if (currentNumber >= finalNumber) {
+                                    entry.target.textContent = finalText;
+                                    clearInterval(timer);
+                                } else {
+                                    entry.target.textContent = Math.floor(currentNumber).toString();
+                                }
+                            }, 50);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statsNumbers.forEach(stat => statsObserver.observe(stat));
         });
     </script>
 </body>
