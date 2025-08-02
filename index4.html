@@ -669,6 +669,223 @@
             line-height: 1.7;
         }
 
+        /* Contact Form Section */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(196, 169, 98, 0.03) 0%, rgba(166, 139, 71, 0.05) 100%);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 500px;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .contact-header {
+            position: sticky;
+            top: 100px;
+        }
+
+        .contact-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-subtitle {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .contact-subtitle p {
+            margin-bottom: 20px;
+        }
+
+        .contact-highlight {
+            color: var(--primary-gold) !important;
+            font-weight: 700 !important;
+            font-size: 1.2rem !important;
+        }
+
+        .contact-form-container {
+            position: relative;
+        }
+
+        .contact-form-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(196, 169, 98, 0.3);
+            border-radius: 30px;
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px var(--shadow-light);
+        }
+
+        .contact-form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--deep-gold));
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+/*             display: block; */
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(196, 169, 98, 0.2);
+            border-radius: 15px;
+            background: rgba(255, 248, 240, 0.8);
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: rgba(255, 248, 240, 1);
+            box-shadow: 0 0 0 3px rgba(196, 169, 98, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .radio-option:hover {
+            background: rgba(196, 169, 98, 0.05);
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(196, 169, 98, 0.3);
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+            border-radius: 50%;
+            transition: transform 0.2s ease;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom {
+            border-color: var(--primary-gold);
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-gold), var(--deep-gold));
+            color: white;
+            padding: 18px 36px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px var(--shadow-medium);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .form-privacy {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+            line-height: 1.5;
+        }
+
         /* Animations */
         @keyframes slideInLeft {
             from {
@@ -717,6 +934,15 @@
                 grid-template-columns: 1fr;
                 gap: 50px;
             }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .contact-header {
+                position: static;
+            }
         }
 
         @media (max-width: 768px) {
@@ -748,6 +974,10 @@
             
             .hero-process-item {
                 padding: 25px 20px;
+            }
+
+            .contact-form-card {
+                padding: 40px 30px;
             }
         }
     </style>
@@ -796,14 +1026,11 @@
                             <div class="hero-process-item">
                                 <div class="hero-process-number">3</div>
                                 <h3 class="hero-process-title-item">ПРОВЕДЕНИЕ СЕССИИ 2 ДНЯ</h3>
-<!--                                 <p class="hero-process-description">
-                                    Интенсивная работа в течение 2 дней с командой по разработке стратегии развития.
-                                </p> -->
                             </div>
                         </div>
-<div class="btn-center">
-                        <a href="#" class="btn-primary">Записаться на консультацию</a>
-                    </div>
+                        <div class="btn-center">
+                            <a href="#contact" class="btn-primary">Записаться на консультацию</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -871,7 +1098,7 @@
             </div>
             
             <div class="btn-center">
-                <a href="#" class="btn-primary">Подать заявку</a>
+                <a href="#contact" class="btn-primary">Подать заявку</a>
             </div>
         </div>
     </section>
@@ -927,7 +1154,7 @@
                 </div>
                 
                 <div class="btn-center">
-                    <a href="#" class="btn-primary">Оставить заявку</a>
+                    <a href="#contact" class="btn-primary">Оставить заявку</a>
                 </div>
             </div>
         </div>
@@ -1012,7 +1239,78 @@
             </div>
             
             <div class="btn-center">
-                <a href="#" class="btn-primary">Оставить заявку</a>
+                <a href="#contact" class="btn-primary">Оставить заявку</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-content">
+                    <div class="contact-header">
+                        <h2 class="contact-title">ФОРМА ЗАЯВКИ</h2>
+                        <div class="contact-subtitle">
+                            <p><strong>Заполните заявку — и получите бесплатную часовую сессию со мной!</strong></p>
+                            <p>Мы обсудим в чем сейчас основная просадка в бизнесе, как можно увеличить показатели, определим точки роста и более подробно расскажу о важности страт сессий в компании.</p>
+                            <p class="contact-highlight"><strong>Стратегическая сессия: 1 день, который экономит вам годы потерь.</strong></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <div class="contact-form-card">
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Имя</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sphere">Сфера деятельности</label>
+                                <input type="text" id="sphere" name="sphere" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="question">Ваш вопрос</label>
+                                <textarea id="question" name="question" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Номер телефона</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+380 (99) 999-99-99" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Как можно с вами связаться?</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="contact_method" value="phone" checked>
+                                        <span class="radio-custom"></span>
+                                        По номеру телефона
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="contact_method" value="telegram">
+                                        <span class="radio-custom"></span>
+                                        Telegram
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="contact_method" value="whatsapp">
+                                        <span class="radio-custom"></span>
+                                        WhatsApp
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn-submit">ОТПРАВИТЬ ЗАЯВКУ</button>
+                            
+                            <p class="form-privacy">
+                                Нажимая на кнопку, вы соглашаетесь с нашими правилами обработки данных
+                            </p>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1083,6 +1381,11 @@
             // Enhanced button interactions
             document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
                 button.addEventListener('click', function(e) {
+                    // Don't prevent default if it's a link to #contact
+                    if (this.getAttribute('href') === '#contact') {
+                        return; // Let the default anchor behavior work
+                    }
+                    
                     e.preventDefault();
                     
                     // Create ripple effect
@@ -1156,6 +1459,67 @@
             }, { threshold: 0.5 });
 
             statsNumbers.forEach(stat => statsObserver.observe(stat));
+
+            // Form submission handler
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Create loading state
+                const submitBtn = this.querySelector('.btn-submit');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'ОТПРАВЛЯЮ...';
+                submitBtn.disabled = true;
+                
+                // Simulate form submission (replace with actual form handling)
+                setTimeout(() => {
+                    alert('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+                    this.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+            });
+
+            // Phone number formatting
+            document.getElementById('phone').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = '';
+                
+                if (value.length > 0) {
+                    if (value.startsWith('380')) {
+                        formattedValue = '+380';
+                        if (value.length > 3) {
+                            formattedValue += ' (' + value.substring(3, 5);
+                            if (value.length > 5) {
+                                formattedValue += ') ' + value.substring(5, 8);
+                                if (value.length > 8) {
+                                    formattedValue += '-' + value.substring(8, 10);
+                                    if (value.length > 10) {
+                                        formattedValue += '-' + value.substring(10, 12);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        formattedValue = '+' + value;
+                    }
+                }
+                
+                e.target.value = formattedValue;
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
         });
     </script>
 </body>
