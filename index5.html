@@ -3,63 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Transfer | Заявка</title>
+    <title>Elite Transfer | Europe & Turkey</title>
     <style>
-        :root { --gold: #c58940; --dark: #1a1a1a; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 400px; text-align: center; }
-        h2 { font-weight: 300; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-        label { display: block; text-align: left; margin: 10px 0 5px; font-size: 14px; color: #666; }
-        select, input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
-        .price-box { background: var(--dark); color: white; padding: 15px; border-radius: 4px; margin-bottom: 25px; font-size: 20px; }
-        .price-box span { color: var(--gold); font-weight: bold; }
-        button { width: 100%; padding: 15px; background: var(--dark); color: white; border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        button:hover { background: var(--gold); }
+        :root {
+            --gold: #c5a059;
+            --dark: #121212;
+            --light-grey: #f8f9fa;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            background-color: var(--light-grey);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        header p {
+            color: var(--gold);
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: -40px auto 60px;
+            padding: 0 20px;
+        }
+
+        .booking-card {
+            background: white;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .booking-card { grid-template-columns: 1fr; padding: 25px; }
+        }
+
+        /* Form Elements */
+        .form-group { margin-bottom: 25px; }
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            background: #fff;
+            font-size: 16px;
+            border-radius: 0;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Pricing Area */
+        .price-display {
+            background: var(--light-grey);
+            padding: 30px;
+            text-align: center;
+            border: 1px dashed var(--gold);
+        }
+
+        .price-label { font-size: 14px; color: #666; }
+        .price-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: block;
+            margin: 10px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 20px;
+            background: var(--dark);
+            color: white;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover { background: var(--gold); transform: translateY(-2px); }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .feature-item { font-size: 13px; color: #777; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>Transfer Service</h2>
-    
-    <label>Маршрут</label>
-    <select id="route" onchange="updatePrice()">
-        <option value="180">Стамбул — Бургас</option>
-        <option value="220">Стамбул — Варна</option>
-        <option value="60">Бургас — Варна</option>
-    </select>
+<header>
+    <h1>Elite Transfer</h1>
+    <p>Istanbul • Bulgaria • Eastern Europe</p>
+</header>
 
-    <label>Ваш телефон (WhatsApp/TG)</label>
-    <input type="text" id="phone" placeholder="+7 ___ ___ __ __">
+<div class="container">
+    <div class="booking-card">
+        <div class="form-side">
+            <div class="form-group">
+                <label>Маршрут поездки</label>
+                <select id="route" onchange="calculate()">
+                    <option value="180" data-name="Стамбул — Бургас">Стамбул — Бургас</option>
+                    <option value="230" data-name="Стамбул — Варна">Стамбул — Варна</option>
+                    <option value="200" data-name="Стамбул — Солнечный Берег">Стамбул — Солнечный Берег</option>
+                    <option value="350" data-name="Стамбул — София">Стамбул — София</option>
+                    <option value="70"  data-name="Бургас — Варна">Бургас — Варна</option>
+                </select>
+            </div>
 
-    <div class="price-box">
-        Стоимость: <span id="displayPrice">180</span>€
+            <div class="form-group">
+                <label>Класс автомобиля</label>
+                <select id="carClass" onchange="calculate()">
+                    <option value="1">Комфорт (Skoda Octavia / VW Passat)</option>
+                    <option value="1.5">Бизнес (Mercedes E-Class / BMW 5)</option>
+                    <option value="2.2">Минивэн (Mercedes V-Class / Vito)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ваш номер телефона</label>
+                <input type="text" id="phone" placeholder="+7 / +359 / +90 ...">
+            </div>
+
+            <div class="form-group">
+                <label>Дата и время</label>
+                <input type="datetime-local" id="datetime">
+            </div>
+        </div>
+
+        <div class="price-side">
+            <div class="price-display">
+                <span class="price-label">Предварительная стоимость*</span>
+                <span class="price-amount"><span id="totalPrice">180</span>€</span>
+                <p style="font-size: 10px; color: #999;">*Включает налоги, платные дороги и ожидание в аэропорту</p>
+            </div>
+            
+            <button onclick="sendOrder()">Забронировать поездку</button>
+            
+            <div class="features">
+                <div class="feature-item">✓ Личный водитель</div>
+                <div class="feature-item">✓ Wi-Fi в салоне</div>
+                <div class="feature-item">✓ Детское кресло</div>
+            </div>
+        </div>
     </div>
-
-    <button onclick="sendOrder()">Забронировать</button>
 </div>
 
 <script>
-    // Токен и ID уже вшиты
     const TG_TOKEN = '8772133903:AAHPXEKuXFrzSBQWt8L60Nk1uO6Iqe4IEbw';
     const TG_CHAT_ID = '699505010';
 
-    function updatePrice() {
-        const price = document.getElementById('route').value;
-        document.getElementById('displayPrice').innerText = price;
+    function calculate() {
+        const basePrice = parseFloat(document.getElementById('route').value);
+        const multiplier = parseFloat(document.getElementById('carClass').value);
+        const total = Math.round(basePrice * multiplier);
+        
+        document.getElementById('totalPrice').innerText = total;
     }
 
     async function sendOrder() {
-        const routeName = document.getElementById('route').selectedOptions[0].text;
-        const price = document.getElementById('displayPrice').innerText;
+        const routeSelect = document.getElementById('route');
+        const routeName = routeSelect.options[routeSelect.selectedIndex].getAttribute('data-name');
+        const carClass = document.getElementById('carClass').selectedOptions[0].text;
+        const price = document.getElementById('totalPrice').innerText;
         const phone = document.getElementById('phone').value;
+        const datetime = document.getElementById('datetime').value;
 
-        if (!phone || phone.length < 5) {
-            alert("Пожалуйста, введите номер телефона для связи");
+        if (!phone || phone.length < 7) {
+            alert("Пожалуйста, укажите корректный номер телефона");
             return;
         }
 
-        const message = `🚀 НОВЫЙ ЗАКАЗ\n\n📍 Маршрут: ${routeName}\n💰 Цена: ${price}€\n📱 Клиент: ${phone}`;
+        const message = `
+🌟 *НОВЫЙ ЗАКАЗ ТРАНСФЕРА*
+-------------------------
+📍 *Маршрут:* ${routeName}
+🚗 *Класс:* ${carClass}
+📅 *Когда:* ${datetime || 'Не указано'}
+💰 *Стоимость:* ${price}€
+-------------------------
+📱 *Телефон:* ${phone}
+        `;
 
         try {
             const response = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
@@ -67,21 +234,23 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     chat_id: TG_CHAT_ID,
-                    text: message
+                    text: message,
+                    parse_mode: 'Markdown'
                 })
             });
 
-            const result = await response.json();
-
-            if (result.ok) {
-                alert("✅ Заявка успешно отправлена! Ожидайте звонка.");
+            if (response.ok) {
+                alert("Благодарим! Ваша заявка принята. Мы свяжемся с вами в течение 15 минут.");
             } else {
-                alert("Ошибка: " + result.description);
+                alert("Ошибка отправки. Попробуйте еще раз.");
             }
         } catch (error) {
-            alert("Произошла ошибка при отправке. Проверьте соединение.");
+            alert("Ошибка сети.");
         }
     }
+
+    // Запуск расчета при загрузке
+    calculate();
 </script>
 
 </body>
