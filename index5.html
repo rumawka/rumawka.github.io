@@ -160,46 +160,35 @@
 
 <script>
 async function sendOrder() {
-    // ВСТАВЬ СВОИ ДАННЫЕ ТУТ:
-    const token = '8772133903:AAHPXEKuXFrzSBQWt8L60Nk1uO6Iqe4IEbw'; 
-    const chatId = '699505010';
+    console.log("Кнопка нажата, функция запустилась!");
 
-    // Проверка на заполнение даты
-    const date = document.getElementById('date').value;
-    if (!date) {
-        alert("Пожалуйста, выберите дату поездки");
-        return;
-    }
+    const token = '8772133903:AAHPXEKuXFrzSBQWt8L60Nk1uO6Iqe4IEbw'; // Проверь, чтобы не было лишних пробелов
+    const chatId = '699505010';
 
     const from = document.getElementById('from').selectedOptions[0].text;
     const to = document.getElementById('to').selectedOptions[0].text;
-    const car = document.getElementById('carClass').selectedOptions[0].text;
     const price = document.getElementById('totalPrice').innerText;
 
-    const message = `🚀 НОВЫЙ ЗАКАЗ\n📍 Откуда: ${from}\n🏁 Куда: ${to}\n🚗 Класс: ${car}\n📅 Дата: ${date}\n💰 Цена: ${price}€`;
+    const message = `Проверка связи!\nМаршрут: ${from} -> ${to}\nЦена: ${price}€`;
+    
+    console.log("Пытаюсь отправить сообщение:", message);
 
-    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: message
-            })
-        });
-
-        if (response.ok) {
-            alert("✅ Заявка отправлена! Подруга скоро напишет.");
+        const response = await fetch(url);
+        const result = await response.json();
+        
+        if (result.ok) {
+            console.log("Успех! Ответ от TG:", result);
+            alert("✅ Сообщение в Телеграм ушло!");
         } else {
-            const errorData = await response.json();
-            console.error("Ошибка TG:", errorData);
-            alert("Ошибка сервера Telegram. Проверьте Token и ChatID.");
+            console.error("TG вернул ошибку:", result);
+            alert("Ошибка TG: " + result.description);
         }
-    } catch (error) {
-        console.error("Ошибка сети:", error);
-        alert("Проблема с интернетом или блокировка запроса.");
+    } catch (e) {
+        console.error("Ошибка сети/скрипта:", e);
+        alert("Произошла ошибка, посмотри в консоль!");
     }
 }
     
