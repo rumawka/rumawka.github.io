@@ -193,7 +193,38 @@
 
     // Инициализация при загрузке
     calculate();
+
+    async function sendOrder() {
+    const token = '8772133903:AAHPXEKuXFrzSBQWt8L60Nk1uO6Iqe4IEbw';
+    const chatId = '699505010';
+    
+    // Собираем данные из полей
+    const from = document.getElementById('from').selectedOptions[0].text;
+    const to = document.getElementById('to').selectedOptions[0].text;
+    const car = document.getElementById('carClass').selectedOptions[0].text;
+    const price = document.getElementById('totalPrice').innerText;
+    const date = document.getElementById('date').value;
+
+    const message = `
+🚀 *Новый заказ трансфера!*
+📍 Откуда: ${from}
+🏁 Куда: ${to}
+🚗 Класс: ${car}
+📅 Дата: ${date}
+💰 Сумма: ${price}€
+    `;
+
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+
+    try {
+        await fetch(url);
+        alert("Заявка успешно отправлена! Мы свяжемся с вами.");
+    } catch (error) {
+        alert("Ошибка при отправке. Попробуйте еще раз.");
+    }
+}
 </script>
 
+    
 </body>
 </html>
