@@ -111,7 +111,7 @@
 <div class="container">
     <header>
         <h1>Premium Transfer</h1>
-        <p>Болгария • Стамбул • Восточная Европ1а</p>
+        <p>Болгария • Стамбул • Восточная Европ31а</p>
     </header>
 
     <div class="booking-card">
@@ -159,6 +159,50 @@
 </div>
 
 <script>
+async function sendOrder() {
+    // ВСТАВЬ СВОИ ДАННЫЕ ТУТ:
+    const token = '8772133903:AAHPXEKuXFrzSBQWt8L60Nk1uO6Iqe4IEbw'; 
+    const chatId = '699505010';
+
+    // Проверка на заполнение даты
+    const date = document.getElementById('date').value;
+    if (!date) {
+        alert("Пожалуйста, выберите дату поездки");
+        return;
+    }
+
+    const from = document.getElementById('from').selectedOptions[0].text;
+    const to = document.getElementById('to').selectedOptions[0].text;
+    const car = document.getElementById('carClass').selectedOptions[0].text;
+    const price = document.getElementById('totalPrice').innerText;
+
+    const message = `🚀 НОВЫЙ ЗАКАЗ\n📍 Откуда: ${from}\n🏁 Куда: ${to}\n🚗 Класс: ${car}\n📅 Дата: ${date}\n💰 Цена: ${price}€`;
+
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
+            })
+        });
+
+        if (response.ok) {
+            alert("✅ Заявка отправлена! Подруга скоро напишет.");
+        } else {
+            const errorData = await response.json();
+            console.error("Ошибка TG:", errorData);
+            alert("Ошибка сервера Telegram. Проверьте Token и ChatID.");
+        }
+    } catch (error) {
+        console.error("Ошибка сети:", error);
+        alert("Проблема с интернетом или блокировка запроса.");
+    }
+}
+    
     // Примерная сетка тарифов (базовая цена за маршрут)
     const routes = {
         'istanbul-burgas': 180,
@@ -193,36 +237,6 @@
 
     // Инициализация при загрузке
     calculate();
-
-    async function sendOrder() {
-    const token = '8772133903:AAHPXEKuXFrzSBQWt8L60Nk1uO6Iqe4IEbw';
-    const chatId = '699505010';
-    
-    // Собираем данные из полей
-    const from = document.getElementById('from').selectedOptions[0].text;
-    const to = document.getElementById('to').selectedOptions[0].text;
-    const car = document.getElementById('carClass').selectedOptions[0].text;
-    const price = document.getElementById('totalPrice').innerText;
-    const date = document.getElementById('date').value;
-
-    const message = `
-🚀 *Новый заказ трансфера!*
-📍 Откуда: ${from}
-🏁 Куда: ${to}
-🚗 Класс: ${car}
-📅 Дата: ${date}
-💰 Сумма: ${price}€
-    `;
-
-    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-
-    try {
-        await fetch(url);
-        alert("Заявка успешно отправлена! Мы свяжемся с вами.");
-    } catch (error) {
-        alert("Ошибка при отправке. Попробуйте еще раз.");
-    }
-}
 </script>
 
     
