@@ -1066,7 +1066,11 @@ function setLang(l) {
   ['ru','en','bg'].forEach(code => {
     const isActive = code === l;
     document.querySelectorAll('.t-' + code).forEach(el => {
-      el.style.display = isActive ? '' : 'none';
+      if (isActive) {
+        el.style.display = el.tagName === 'LABEL' ? 'block' : 'inline';
+      } else {
+        el.style.display = 'none';
+      }
     });
     const btn = document.getElementById('btn-' + code);
     if (btn) btn.classList.toggle('active', isActive);
