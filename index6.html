@@ -24,28 +24,97 @@
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden}
 
-/* ── LANG BAR ── */
-.lang-bar{
+/* ── SITE HEADER ── */
+.site-header{
   position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 40px;
-  background:linear-gradient(to bottom,rgba(10,10,15,0.97),transparent);
-  backdrop-filter:blur(4px);
+  background:rgba(10,10,15,0.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:62px;gap:16px;
 }
 .brand-top{
   font-family:'Playfair Display',serif;
-  font-size:1.1rem;letter-spacing:2px;color:var(--gold);
+  font-size:1.05rem;letter-spacing:2px;color:var(--gold);
+  text-decoration:none;white-space:nowrap;flex-shrink:0;
 }
-.lang-group{display:flex;gap:4px;align-items:center}
+.nav-links{
+  display:flex;align-items:center;gap:2px;
+  list-style:none;margin:0;padding:0;flex:1;justify-content:center;
+}
+.nav-links a{
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;padding:5px 10px;
+  border-radius:2px;transition:color .2s,background .2s;white-space:nowrap;
+}
+.nav-links a:hover{color:var(--gold);background:rgba(212,168,75,.07)}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header-socials{display:flex;gap:6px;align-items:center}
+.h-ico{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  transition:all .2s;text-decoration:none;flex-shrink:0;
+}
+.h-ico:hover{background:rgba(212,168,75,.14);border-color:var(--gold)}
+.h-ico svg{width:13px;height:13px;transition:all .2s}
+.h-ico:hover svg{transform:scale(1.15)}
+.lang-group{display:flex;gap:2px;align-items:center;margin-left:6px}
 .lang-btn{
   background:none;border:none;cursor:pointer;
   font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;padding:5px 10px;color:var(--muted);
+  text-transform:uppercase;padding:5px 9px;color:var(--muted);
   border-radius:2px;transition:all .2s;
 }
-.lang-btn.active{color:var(--gold);background:rgba(212,168,75,.1)}
+.lang-btn.active{color:var(--gold);background:rgba(212,168,75,.12)}
 .lang-btn:hover{color:var(--text)}
-.lang-sep{color:var(--muted);font-size:11px}
+.lang-sep{color:var(--border);font-size:11px;padding:0 2px}
+/* burger */
+.burger{
+  display:none;background:none;border:none;cursor:pointer;
+  flex-direction:column;gap:5px;padding:6px;flex-shrink:0;
+}
+.burger span{
+  display:block;width:22px;height:2px;
+  background:var(--text);border-radius:2px;
+  transition:all .3s;transform-origin:center;
+}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+/* mobile drawer */
+.mobile-drawer{
+  display:none;
+  position:fixed;top:62px;left:0;right:0;z-index:199;
+  background:rgba(10,10,15,0.99);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:20px 24px 28px;
+  transform:translateY(-110%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+.mobile-drawer.open{transform:translateY(0);pointer-events:auto}
+.mob-nav{list-style:none;padding:0;margin:0 0 18px}
+.mob-nav li{border-bottom:1px solid rgba(255,255,255,.05)}
+.mob-nav a{
+  display:block;padding:13px 4px;
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text);text-decoration:none;transition:color .2s;
+}
+.mob-nav a:hover{color:var(--gold)}
+.mob-lang{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.mob-lang .lang-btn{border:1px solid var(--border);padding:8px 18px;font-size:10px}
+.mob-socials{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+@media(max-width:1060px){.header-socials{display:none}}
+@media(max-width:860px){
+  .nav-links{display:none}
+  .burger{display:flex}
+  .mobile-drawer{display:block}
+  .header-inner{padding:0 18px}
+}
 
 /* ── HERO ── */
 .hero{
@@ -360,11 +429,22 @@ select.form-control option{background:#18181F;color:var(--text)}
 .contact-card:hover{background:var(--dark3)}
 .contact-icon{font-size:1.5rem;margin-bottom:14px;display:block}
 .contact-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.contact-icon-wrap{
+  width:48px;height:48px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);margin-bottom:16px;
+}
+.contact-svg{width:22px;height:22px}
 .contact-val{
   font-size:14px;color:var(--text);text-decoration:none;
-  transition:color .2s;display:block;line-height:1.6;
+  transition:color .2s;display:flex;align-items:center;gap:8px;line-height:1.6;flex-wrap:wrap;
 }
 .contact-val:hover{color:var(--gold)}
+.contact-badge{
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(212,168,75,.12);color:var(--gold);
+  padding:2px 7px;border-radius:20px;flex-shrink:0;
+}
 .contact-person{font-size:11px;color:var(--muted);margin-top:4px}
 
 /* ── FOOTER ── */
@@ -409,7 +489,6 @@ footer{
 
 /* ── RESPONSIVE ── */
 @media(max-width:680px){
-  .lang-bar{padding:12px 20px}
   .hero-prices{flex-direction:column;gap:0}
   .hero-price-item{border-right:none;border-bottom:1px solid var(--border)}
   .hero-price-item:last-child{border-bottom:none}
@@ -423,15 +502,101 @@ footer{
 </head>
 <body>
 
-<!-- ── LANG BAR ── -->
-<div class="lang-bar">
-  <div class="brand-top">Taxi VIP Gala<span style="color:var(--text)">24</span></div>
-  <div class="lang-group">
-    <button class="lang-btn active" onclick="setLang('ru')" id="btn-ru">RU</button>
-    <span class="lang-sep">|</span>
-    <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
-    <span class="lang-sep">|</span>
-    <button class="lang-btn" onclick="setLang('bg')" id="btn-bg">BG</button>
+<!-- ── SITE HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+
+    <a href="#" class="brand-top">Taxi VIP Gala<span style="color:var(--text)">24</span></a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#services" class="t-ru">Услуги</a><a href="#services" class="t-en">Services</a><a href="#services" class="t-bg">Услуги</a></li>
+        <li><a href="#routes"   class="t-ru">Маршруты</a><a href="#routes" class="t-en">Routes</a><a href="#routes" class="t-bg">Маршрути</a></li>
+        <li><a href="#fleet"    class="t-ru">Автопарк</a><a href="#fleet" class="t-en">Fleet</a><a href="#fleet" class="t-bg">Автопарк</a></li>
+        <li><a href="#reviews"  class="t-ru">Отзывы</a><a href="#reviews" class="t-en">Reviews</a><a href="#reviews" class="t-bg">Отзиви</a></li>
+        <li><a href="#booking"  class="t-ru">Бронирование</a><a href="#booking" class="t-en">Book</a><a href="#booking" class="t-bg">Резервация</a></li>
+        <li><a href="#contacts" class="t-ru">Контакты</a><a href="#contacts" class="t-en">Contacts</a><a href="#contacts" class="t-bg">Контакти</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-right">
+      <!-- social icons desktop -->
+      <div class="header-socials">
+        <!-- Telegram -->
+        <a href="https://t.me/VipTaxiGala24" target="_blank" class="h-ico" title="Telegram">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.77l-1.68 7.92c-.12.56-.45.7-.91.43l-2.52-1.85-1.22 1.17c-.13.14-.25.25-.51.25l.18-2.56 4.65-4.2c.2-.18-.04-.28-.31-.1L7.67 14.5l-2.47-.77c-.54-.17-.55-.54.11-.8l9.64-3.72c.45-.16.84.11.68.56z" fill="currentColor"/></svg>
+        </a>
+        <!-- WhatsApp -->
+        <a href="https://wa.me/359885055578" target="_blank" class="h-ico" title="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.52 3.66 1.42 5.18L2 22l4.95-1.39A9.93 9.93 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm5.07 14.27c-.21.59-1.23 1.12-1.69 1.18-.43.06-.98.08-1.58-.1-.36-.11-.83-.26-1.42-.51-2.5-1.08-4.13-3.6-4.26-3.77-.12-.17-.99-1.32-.99-2.52 0-1.2.63-1.79.85-2.03.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.54.41l.7 1.73c.06.14.1.3.02.48-.08.18-.12.29-.24.44-.12.15-.25.33-.36.44-.12.12-.24.25-.1.49.14.24.62.96 1.33 1.55.91.77 1.68 1.01 1.92 1.12.24.11.38.09.52-.05.14-.14.6-.7.76-.94.16-.24.32-.2.54-.12l1.7.8c.2.1.33.14.38.22.05.27-.06.88-.27 1.47z" fill="currentColor"/></svg>
+        </a>
+        <!-- Viber -->
+        <a href="viber://chat?number=%2B359885055578" class="h-ico" title="Viber">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 2.07.63 4 1.71 5.59L2 22l4.54-1.68A9.93 9.93 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm3.36 14.1c-.27.75-1.35 1.37-2.22 1.55-.6.11-1.38.2-4.01-.86-2.87-1.14-4.71-4.05-4.86-4.24-.14-.19-1.17-1.56-1.17-2.97s.74-2.1 1-2.38a1.07 1.07 0 01.78-.37c.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.59.82 2.02.89 2.17.07.15.12.32.02.51-.1.2-.14.32-.28.49l-.42.49c-.14.14-.28.3-.12.58.16.28.7 1.15 1.51 1.86 1.03.92 1.9 1.21 2.17 1.34.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.35-.22.6-.13l1.9.9c.22.1.37.15.42.24.05.28-.05.88-.3 1.43z" fill="currentColor"/></svg>
+        </a>
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/taxibulgariastambul" target="_blank" class="h-ico" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="currentColor"/></svg>
+        </a>
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/share/1E1BdqshFE/" target="_blank" class="h-ico" title="Facebook">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" fill="currentColor"/></svg>
+        </a>
+        <!-- Email -->
+        <a href="mailto:galinanaymov@gmail.com" class="h-ico" title="Email">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
+        </a>
+      </div>
+
+      <div class="lang-group">
+        <button class="lang-btn active" onclick="setLang('ru')" id="btn-ru">RU</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" onclick="setLang('bg')" id="btn-bg">BG</button>
+      </div>
+
+      <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── MOBILE DRAWER ── -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <ul class="mob-nav">
+    <li><a href="#services" onclick="closeMenu()" class="t-ru">Услуги</a><a href="#services" onclick="closeMenu()" class="t-en">Services</a><a href="#services" onclick="closeMenu()" class="t-bg">Услуги</a></li>
+    <li><a href="#routes"   onclick="closeMenu()" class="t-ru">Маршруты</a><a href="#routes" onclick="closeMenu()" class="t-en">Routes</a><a href="#routes" onclick="closeMenu()" class="t-bg">Маршрути</a></li>
+    <li><a href="#fleet"    onclick="closeMenu()" class="t-ru">Автопарк</a><a href="#fleet" onclick="closeMenu()" class="t-en">Fleet</a><a href="#fleet" onclick="closeMenu()" class="t-bg">Автопарк</a></li>
+    <li><a href="#reviews"  onclick="closeMenu()" class="t-ru">Отзывы</a><a href="#reviews" onclick="closeMenu()" class="t-en">Reviews</a><a href="#reviews" onclick="closeMenu()" class="t-bg">Отзиви</a></li>
+    <li><a href="#booking"  onclick="closeMenu()" class="t-ru">Бронирование</a><a href="#booking" onclick="closeMenu()" class="t-en">Book</a><a href="#booking" onclick="closeMenu()" class="t-bg">Резервация</a></li>
+    <li><a href="#contacts" onclick="closeMenu()" class="t-ru">Контакты</a><a href="#contacts" onclick="closeMenu()" class="t-en">Contacts</a><a href="#contacts" onclick="closeMenu()" class="t-bg">Контакти</a></li>
+  </ul>
+  <div class="mob-lang">
+    <button class="lang-btn active" onclick="setLang('ru')" id="mob-btn-ru">RU</button>
+    <button class="lang-btn" onclick="setLang('en')" id="mob-btn-en">EN</button>
+    <button class="lang-btn" onclick="setLang('bg')" id="mob-btn-bg">BG</button>
+  </div>
+  <div class="mob-socials">
+    <a href="https://t.me/VipTaxiGala24" target="_blank" class="h-ico" title="Telegram" style="width:36px;height:36px">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.77l-1.68 7.92c-.12.56-.45.7-.91.43l-2.52-1.85-1.22 1.17c-.13.14-.25.25-.51.25l.18-2.56 4.65-4.2c.2-.18-.04-.28-.31-.1L7.67 14.5l-2.47-.77c-.54-.17-.55-.54.11-.8l9.64-3.72c.45-.16.84.11.68.56z" fill="#D4A84B"/></svg>
+    </a>
+    <a href="https://wa.me/359885055578" target="_blank" class="h-ico" title="WhatsApp" style="width:36px;height:36px">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.52 3.66 1.42 5.18L2 22l4.95-1.39A9.93 9.93 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm5.07 14.27c-.21.59-1.23 1.12-1.69 1.18-.43.06-.98.08-1.58-.1-.36-.11-.83-.26-1.42-.51-2.5-1.08-4.13-3.6-4.26-3.77-.12-.17-.99-1.32-.99-2.52 0-1.2.63-1.79.85-2.03.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.54.41l.7 1.73c.06.14.1.3.02.48-.08.18-.12.29-.24.44-.12.15-.25.33-.36.44-.12.12-.24.25-.1.49.14.24.62.96 1.33 1.55.91.77 1.68 1.01 1.92 1.12.24.11.38.09.52-.05.14-.14.6-.7.76-.94.16-.24.32-.2.54-.12l1.7.8c.2.1.33.14.38.22.05.27-.06.88-.27 1.47z" fill="#D4A84B"/></svg>
+    </a>
+    <a href="viber://chat?number=%2B359885055578" class="h-ico" title="Viber" style="width:36px;height:36px">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.477 2 2 6.477 2 12c0 2.07.63 4 1.71 5.59L2 22l4.54-1.68A9.93 9.93 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm3.36 14.1c-.27.75-1.35 1.37-2.22 1.55-.6.11-1.38.2-4.01-.86-2.87-1.14-4.71-4.05-4.86-4.24-.14-.19-1.17-1.56-1.17-2.97s.74-2.1 1-2.38a1.07 1.07 0 01.78-.37c.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.59.82 2.02.89 2.17.07.15.12.32.02.51-.1.2-.14.32-.28.49l-.42.49c-.14.14-.28.3-.12.58.16.28.7 1.15 1.51 1.86 1.03.92 1.9 1.21 2.17 1.34.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.35-.22.6-.13l1.9.9c.22.1.37.15.42.24.05.28-.05.88-.3 1.43z" fill="#D4A84B"/></svg>
+    </a>
+    <a href="https://www.instagram.com/taxibulgariastambul" target="_blank" class="h-ico" title="Instagram" style="width:36px;height:36px">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="#D4A84B"/></svg>
+    </a>
+    <a href="https://www.facebook.com/share/1E1BdqshFE/" target="_blank" class="h-ico" title="Facebook" style="width:36px;height:36px">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" fill="#D4A84B"/></svg>
+    </a>
+    <a href="mailto:galinanaymov@gmail.com" class="h-ico" title="Email" style="width:36px;height:36px">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#D4A84B"/></svg>
+    </a>
   </div>
 </div>
 
@@ -974,59 +1139,86 @@ footer{
 
     <div class="contacts-grid fade-in">
 
+      <!-- TELEGRAM -->
       <div class="contact-card">
-        <span class="contact-icon">✈️</span>
+        <div class="contact-icon-wrap" style="background:rgba(39,174,228,.12);border-color:rgba(39,174,228,.25)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:#29B6D9"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.77l-1.68 7.92c-.12.56-.45.7-.91.43l-2.52-1.85-1.22 1.17c-.13.14-.25.25-.51.25l.18-2.56 4.65-4.2c.2-.18-.04-.28-.31-.1L7.67 14.5l-2.47-.77c-.54-.17-.55-.54.11-.8l9.64-3.72c.45-.16.84.11.68.56z"/></svg>
+        </div>
         <div class="contact-label">Telegram</div>
-        <a href="https://t.me/VipTaxiGala24" target="_blank" class="contact-val">@VipTaxiGala24</a>
-        <div class="contact-person">
-          <span class="t-ru">Наш канал</span><span class="t-en">Our channel</span><span class="t-bg">Нашият канал</span>
-        </div>
-        <a href="https://t.me/transferGala" target="_blank" class="contact-val" style="margin-top:10px">@transferGala</a>
-        <div class="contact-person">
-          <span class="t-ru">Личный Telegram Галины</span>
-          <span class="t-en">Galina's personal Telegram</span>
-          <span class="t-bg">Личен Telegram на Галина</span>
-        </div>
+        <a href="https://t.me/VipTaxiGala24" target="_blank" class="contact-val">@VipTaxiGala24 <span class="contact-badge t-ru">канал</span><span class="contact-badge t-en">channel</span><span class="contact-badge t-bg">канал</span></a>
+        <a href="https://t.me/transferGala" target="_blank" class="contact-val" style="margin-top:8px">@transferGala <span class="contact-badge">Galina</span></a>
       </div>
 
+      <!-- WHATSAPP -->
       <div class="contact-card">
-        <span class="contact-icon">📱</span>
-        <div class="contact-label">WhatsApp · Viber · IMO</div>
+        <div class="contact-icon-wrap" style="background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.25)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:#25D366"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.52 3.66 1.42 5.18L2 22l4.95-1.39A9.93 9.93 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm5.07 14.27c-.21.59-1.23 1.12-1.69 1.18-.43.06-.98.08-1.58-.1-.36-.11-.83-.26-1.42-.51-2.5-1.08-4.13-3.6-4.26-3.77-.12-.17-.99-1.32-.99-2.52 0-1.2.63-1.79.85-2.03.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.54.41l.7 1.73c.06.14.1.3.02.48-.08.18-.12.29-.24.44-.12.15-.25.33-.36.44-.12.12-.24.25-.1.49.14.24.62.96 1.33 1.55.91.77 1.68 1.01 1.92 1.12.24.11.38.09.52-.05.14-.14.6-.7.76-.94.16-.24.32-.2.54-.12l1.7.8c.2.1.33.14.38.22.05.27-.06.88-.27 1.47z"/></svg>
+        </div>
+        <div class="contact-label">WhatsApp</div>
+        <a href="https://wa.me/359885055578" target="_blank" class="contact-val">+359 885 055 578</a>
+        <div class="contact-person">Galina</div>
+      </div>
+
+      <!-- VIBER -->
+      <div class="contact-card">
+        <div class="contact-icon-wrap" style="background:rgba(127,84,179,.12);border-color:rgba(127,84,179,.25)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:#7F54B3"><path d="M12 2C6.477 2 2 6.477 2 12c0 2.07.63 4 1.71 5.59L2 22l4.54-1.68A9.93 9.93 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm3.36 14.1c-.27.75-1.35 1.37-2.22 1.55-.6.11-1.38.2-4.01-.86-2.87-1.14-4.71-4.05-4.86-4.24-.14-.19-1.17-1.56-1.17-2.97s.74-2.1 1-2.38a1.07 1.07 0 01.78-.37c.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.59.82 2.02.89 2.17.07.15.12.32.02.51-.1.2-.14.32-.28.49l-.42.49c-.14.14-.28.3-.12.58.16.28.7 1.15 1.51 1.86 1.03.92 1.9 1.21 2.17 1.34.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.35-.22.6-.13l1.9.9c.22.1.37.15.42.24.05.28-.05.88-.3 1.43z"/></svg>
+        </div>
+        <div class="contact-label">Viber</div>
+        <a href="viber://chat?number=%2B359885055578" class="contact-val">+359 885 055 578</a>
+        <div class="contact-person">Galina</div>
+      </div>
+
+      <!-- IMO -->
+      <div class="contact-card">
+        <div class="contact-icon-wrap" style="background:rgba(0,168,255,.12);border-color:rgba(0,168,255,.25)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:#00A8FF"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 3a7 7 0 110 14A7 7 0 0112 5zm-1 4v2H9v2h2v4h2v-4h2v-2h-2V9h-2z"/></svg>
+        </div>
+        <div class="contact-label">IMO</div>
         <a href="tel:+359885055578" class="contact-val">+359 885 055 578</a>
         <div class="contact-person">Galina</div>
       </div>
 
+      <!-- MAX (RU) -->
       <div class="contact-card">
-        <span class="contact-icon">📞</span>
-        <div class="contact-label">
-          <span class="t-ru">Телефон (Россия)</span>
-          <span class="t-en">Phone (Russia)</span>
-          <span class="t-bg">Телефон (Русия)</span>
+        <div class="contact-icon-wrap" style="background:rgba(212,168,75,.12);border-color:rgba(212,168,75,.25)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:#D4A84B"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 9H7V9h4v2zm6 0h-4V9h4v2z"/></svg>
         </div>
+        <div class="contact-label">MAX <span class="t-ru">(мессенджер)</span><span class="t-en">(messenger)</span><span class="t-bg">(месинджър)</span></div>
         <a href="tel:+79131439210" class="contact-val">+7 913 143 92 10</a>
         <div class="contact-person">Max</div>
       </div>
 
+      <!-- INSTAGRAM -->
       <div class="contact-card">
-        <span class="contact-icon">📧</span>
-        <div class="contact-label">Email</div>
-        <a href="mailto:galinanaymov@gmail.com" class="contact-val">galinanaymov@gmail.com</a>
-      </div>
-
-      <div class="contact-card">
-        <span class="contact-icon">📸</span>
+        <div class="contact-icon-wrap" style="background:rgba(228,64,95,.12);border-color:rgba(228,64,95,.25)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:url(#ig-grad)">
+            <defs><linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#F58529"/><stop offset="50%" stop-color="#DD2A7B"/><stop offset="100%" stop-color="#8134AF"/></linearGradient></defs>
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </div>
         <div class="contact-label">Instagram</div>
         <a href="https://www.instagram.com/taxibulgariastambul" target="_blank" class="contact-val">@taxibulgariastambul</a>
       </div>
 
+      <!-- FACEBOOK -->
       <div class="contact-card">
-        <span class="contact-icon">👥</span>
+        <div class="contact-icon-wrap" style="background:rgba(24,119,242,.12);border-color:rgba(24,119,242,.25)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:#1877F2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        </div>
         <div class="contact-label">Facebook</div>
         <a href="https://www.facebook.com/share/1E1BdqshFE/" target="_blank" class="contact-val">
-          <span class="t-ru">Наша страница</span>
-          <span class="t-en">Our page</span>
-          <span class="t-bg">Нашата страница</span>
+          <span class="t-ru">Наша страница</span><span class="t-en">Our page</span><span class="t-bg">Нашата страница</span>
         </a>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="contact-card">
+        <div class="contact-icon-wrap" style="background:rgba(212,168,75,.1);border-color:rgba(212,168,75,.2)">
+          <svg viewBox="0 0 24 24" class="contact-svg" style="fill:#D4A84B"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </div>
+        <div class="contact-label">Email</div>
+        <a href="mailto:galinanaymov@gmail.com" class="contact-val">galinanaymov@gmail.com</a>
       </div>
 
     </div>
@@ -1038,10 +1230,21 @@ footer{
   <div class="footer-brand">Taxi VIP Gala<span style="color:var(--gold)">24</span></div>
   <div class="footer-cities">Istanbul · Burgas · Varna · Sofia · Greece</div>
   <div class="footer-socials">
-    <a href="https://t.me/VipTaxiGala24" target="_blank" class="footer-social">Telegram</a>
-    <a href="https://www.instagram.com/taxibulgariastambul" target="_blank" class="footer-social">Instagram</a>
-    <a href="https://www.facebook.com/share/1E1BdqshFE/" target="_blank" class="footer-social">Facebook</a>
-    <a href="mailto:galinanaymov@gmail.com" class="footer-social">Email</a>
+    <a href="https://t.me/VipTaxiGala24" target="_blank" class="footer-social">
+      <svg viewBox="0 0 24 24" width="14" height="14" style="fill:currentColor;margin-right:6px;vertical-align:middle"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.77l-1.68 7.92c-.12.56-.45.7-.91.43l-2.52-1.85-1.22 1.17c-.13.14-.25.25-.51.25l.18-2.56 4.65-4.2c.2-.18-.04-.28-.31-.1L7.67 14.5l-2.47-.77c-.54-.17-.55-.54.11-.8l9.64-3.72c.45-.16.84.11.68.56z"/></svg>Telegram
+    </a>
+    <a href="https://wa.me/359885055578" target="_blank" class="footer-social">
+      <svg viewBox="0 0 24 24" width="14" height="14" style="fill:currentColor;margin-right:6px;vertical-align:middle"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.52 3.66 1.42 5.18L2 22l4.95-1.39A9.93 9.93 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm5.07 14.27c-.21.59-1.23 1.12-1.69 1.18-.43.06-.98.08-1.58-.1-.36-.11-.83-.26-1.42-.51-2.5-1.08-4.13-3.6-4.26-3.77-.12-.17-.99-1.32-.99-2.52 0-1.2.63-1.79.85-2.03.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.54.41l.7 1.73c.06.14.1.3.02.48-.08.18-.12.29-.24.44-.12.15-.25.33-.36.44-.12.12-.24.25-.1.49.14.24.62.96 1.33 1.55.91.77 1.68 1.01 1.92 1.12.24.11.38.09.52-.05.14-.14.6-.7.76-.94.16-.24.32-.2.54-.12l1.7.8c.2.1.33.14.38.22.05.27-.06.88-.27 1.47z"/></svg>WhatsApp
+    </a>
+    <a href="https://www.instagram.com/taxibulgariastambul" target="_blank" class="footer-social">
+      <svg viewBox="0 0 24 24" width="14" height="14" style="fill:currentColor;margin-right:6px;vertical-align:middle"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram
+    </a>
+    <a href="https://www.facebook.com/share/1E1BdqshFE/" target="_blank" class="footer-social">
+      <svg viewBox="0 0 24 24" width="14" height="14" style="fill:currentColor;margin-right:6px;vertical-align:middle"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>Facebook
+    </a>
+    <a href="mailto:galinanaymov@gmail.com" class="footer-social">
+      <svg viewBox="0 0 24 24" width="14" height="14" style="fill:currentColor;margin-right:6px;vertical-align:middle"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email
+    </a>
   </div>
   <div class="footer-note">© 2025 Taxi VIP Gala24. 
     <span class="t-ru">Все права защищены.</span>
@@ -1072,8 +1275,11 @@ function setLang(l) {
         el.style.display = 'none';
       }
     });
-    const btn = document.getElementById('btn-' + code);
-    if (btn) btn.classList.toggle('active', isActive);
+    // sync all lang buttons (desktop + mobile)
+    ['btn-','mob-btn-'].forEach(prefix => {
+      const btn = document.getElementById(prefix + code);
+      if (btn) btn.classList.toggle('active', isActive);
+    });
   });
   recalc();
 }
@@ -1198,6 +1404,18 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12 });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  const burger  = document.getElementById('burger');
+  const drawer  = document.getElementById('mobileDrawer');
+  burger.classList.toggle('open');
+  drawer.classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('mobileDrawer').classList.remove('open');
+}
 
 // ── INIT ──
 setLang('ru');
