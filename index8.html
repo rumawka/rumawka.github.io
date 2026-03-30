@@ -6,874 +6,542 @@
 <title>PUPPY POWER — Элитные щенки</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
   :root {
-    --green-deep:    #0b1f12;
-    --green-dark:    #102918;
-    --green-mid:     #1a4028;
-    --green-accent:  #2e6b45;
-    --green-light:   #3d8c5a;
-    --gold:          #c8a96e;
-    --gold-light:    #e2c994;
-    --gold-pale:     #f5e9cc;
-    --cream:         #faf6ef;
-    --white:         #ffffff;
-    --text-muted:    rgba(200,169,110,0.55);
+    --emerald-deep:   #050F09; 
+    --emerald-dark:   #091A10; 
+    --emerald-mid:    #0E2618; 
+    --gold-main:      #CFA660; 
+    --gold-light:     #E8CA8C; 
+    --gold-muted:     rgba(207, 166, 96, 0.4);
+    --gold-border:    rgba(207, 166, 96, 0.15);
+    --text-cream:     #FDFBF7; 
+    --text-dim:       rgba(253, 251, 247, 0.65); 
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
+  body { background: var(--emerald-deep); color: var(--text-cream); font-family: 'Montserrat', sans-serif; font-weight: 300; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9000; opacity: 0.3; }
 
-  body {
-    background: var(--green-deep);
-    color: var(--cream);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
-
-  /* ─── NOISE TEXTURE overlay ─── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 9999; opacity: .4;
-  }
-
-  /* ─── HEADER / NAV ─── */
-  header {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 24px 60px;
-    background: linear-gradient(180deg, rgba(11,31,18,.96) 0%, rgba(11,31,18,0) 100%);
-    backdrop-filter: blur(4px);
-  }
-
-  .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 400; letter-spacing: .22em;
-    color: var(--gold);
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  .logo span { color: var(--cream); font-weight: 300; }
-
-  nav { display: flex; gap: 40px; align-items: center; }
-  nav a {
-    font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
-    color: var(--gold-pale); text-decoration: none; font-weight: 400;
-    transition: color .3s;
-  }
-  nav a:hover { color: var(--gold); }
-
-  .nav-cta {
-    border: 1px solid var(--gold);
-    padding: 10px 24px;
-    color: var(--gold) !important;
-    letter-spacing: .18em;
-    transition: background .3s, color .3s !important;
-  }
-  .nav-cta:hover { background: var(--gold); color: var(--green-deep) !important; }
-
-  /* ─── HERO ─── */
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 0 60px 90px;
-    position: relative;
-    overflow: hidden;
-    background: radial-gradient(ellipse 80% 80% at 60% 40%, #1a4028 0%, #0b1f12 70%);
-  }
-
-  .hero-bg-ring {
-    position: absolute; top: 50%; left: 58%;
-    transform: translate(-50%, -50%);
-    width: 680px; height: 680px;
-    border: 1px solid rgba(200,169,110,.1);
-    border-radius: 50%;
-    animation: rotate 40s linear infinite;
-  }
-  .hero-bg-ring::after {
-    content: '';
-    position: absolute; inset: 40px;
-    border: 1px solid rgba(200,169,110,.06);
-    border-radius: 50%;
-  }
-  .hero-bg-ring::before {
-    content: '';
-    position: absolute; inset: -40px;
-    border: 1px solid rgba(200,169,110,.04);
-    border-radius: 50%;
-  }
-  @keyframes rotate { to { transform: translate(-50%,-50%) rotate(360deg); } }
-
-  .hero-label {
-    font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 20px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .hero-label::before {
-    content: ''; display: block;
-    width: 40px; height: 1px; background: var(--gold);
-  }
-
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 7vw, 96px);
-    font-weight: 300; line-height: 1.0;
-    color: var(--cream); letter-spacing: .02em;
-    max-width: 720px;
-  }
-  .hero h1 em {
-    font-style: italic; color: var(--gold);
-  }
-
-  .hero-sub {
-    margin-top: 28px; max-width: 480px;
-    font-size: 12px; letter-spacing: .12em; line-height: 2;
-    color: rgba(245,233,204,.6); text-transform: uppercase;
-  }
-
-  .hero-actions {
-    margin-top: 48px; display: flex; gap: 20px; align-items: center;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: var(--green-deep);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px; font-weight: 600; letter-spacing: .28em;
-    text-transform: uppercase; text-decoration: none;
-    padding: 18px 44px;
-    transition: background .3s, transform .3s;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-
-  .btn-ghost {
-    border: 1px solid rgba(200,169,110,.45);
-    color: var(--gold-pale);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px; font-weight: 400; letter-spacing: .28em;
-    text-transform: uppercase; text-decoration: none;
-    padding: 17px 40px;
-    transition: border-color .3s, color .3s;
-    display: inline-block;
-  }
-  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-
-  .hero-prices {
-    position: absolute; right: 60px; bottom: 90px;
-    display: flex; flex-direction: column; gap: 10px;
-    text-align: right;
-  }
-  .price-item {
-    font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
-    color: rgba(200,169,110,.55);
-  }
-  .price-item strong { color: var(--gold); font-weight: 400; }
-
-  /* ─── DIVIDER ─── */
-  .ornament {
-    display: flex; align-items: center; justify-content: center; gap: 20px;
-    padding: 60px 0;
-  }
-  .ornament-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,169,110,.25), transparent); }
-  .ornament-diamond {
-    width: 8px; height: 8px;
-    background: var(--gold); transform: rotate(45deg);
-    opacity: .6;
-  }
-
-  /* ─── TRUST STRIP ─── */
-  .trust-strip {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid rgba(200,169,110,.12);
-    border-bottom: 1px solid rgba(200,169,110,.12);
-  }
-  .trust-item {
-    padding: 48px 40px;
-    border-right: 1px solid rgba(200,169,110,.12);
-    text-align: center;
-  }
-  .trust-item:last-child { border-right: none; }
-  .trust-item .number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px; font-weight: 300;
-    color: var(--gold); letter-spacing: .05em;
-    line-height: 1;
-  }
-  .trust-item p {
-    margin-top: 10px; font-size: 10px;
-    letter-spacing: .2em; text-transform: uppercase;
-    color: rgba(200,169,110,.55); line-height: 1.8;
-  }
-
-  /* ─── SECTION COMMON ─── */
+  h2.st { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4.5vw, 60px); font-weight: 300; color: var(--text-cream); letter-spacing: .03em; line-height: 1.1; }
+  h2.st em { font-style: italic; color: var(--gold-main); }
+  .sl { font-size: 9px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .sl::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold-main); }
   section { padding: 100px 60px; }
-  .section-label {
-    font-size: 9px; letter-spacing: .35em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 16px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .section-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
-  h2.section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 4.5vw, 60px);
-    font-weight: 300; color: var(--cream);
-    letter-spacing: .03em; line-height: 1.1;
-  }
-  h2.section-title em { font-style: italic; color: var(--gold); }
 
-  /* ─── ABOUT ─── */
-  .about-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 80px; margin-top: 64px; align-items: center;
-  }
-  .about-text p {
-    font-size: 14px; line-height: 2; color: rgba(245,233,204,.7);
-    margin-top: 24px;
-  }
-  .about-text p strong { color: var(--gold-pale); font-weight: 400; }
-  .about-visual {
-    position: relative; aspect-ratio: 1;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .about-circle {
-    width: 340px; height: 340px; border-radius: 50%;
-    border: 1px solid rgba(200,169,110,.2);
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-  }
-  .about-circle::before {
-    content: ''; position: absolute; inset: 20px;
-    border: 1px solid rgba(200,169,110,.1); border-radius: 50%;
-  }
-  .about-circle-inner {
-    width: 220px; height: 220px; border-radius: 50%;
-    background: radial-gradient(circle, var(--green-mid) 0%, var(--green-dark) 100%);
-    border: 1px solid rgba(200,169,110,.3);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-  }
-  .about-circle-inner span {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 52px; font-weight: 300; color: var(--gold);
-  }
-  .about-circle-inner p {
-    font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
-    color: rgba(200,169,110,.6); margin-top: 4px;
-  }
+  .btn-p { background: var(--gold-main); color: var(--emerald-deep); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; padding: 18px 44px; transition: background .3s, transform .3s; display: inline-block; cursor: pointer; border: none; text-decoration: none; }
+  .btn-p:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-g { border: 1px solid var(--gold-muted); color: var(--gold-main); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: .28em; text-transform: uppercase; padding: 17px 40px; transition: border-color .3s, color .3s; display: inline-block; cursor: pointer; background: none; text-decoration: none; }
+  .btn-g:hover { border-color: var(--gold-main); color: var(--gold-light); }
 
-  /* ─── BREEDS ─── */
-  .breeds { background: var(--green-dark); }
-  .breeds-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 2px; margin-top: 60px;
-  }
-  .breed-card {
-    background: var(--green-deep);
-    padding: 52px 48px;
-    position: relative; overflow: hidden;
-    cursor: pointer;
-    transition: background .4s;
-    text-decoration: none; display: block;
-  }
-  .breed-card:hover { background: #112a1a; }
-  .breed-card::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 2px; background: var(--gold);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform .4s;
-  }
-  .breed-card:hover::after { transform: scaleX(1); }
+  .orn { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 36px 60px; }
+  .orn-l { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-border), transparent); }
+  .orn-d { width: 8px; height: 8px; background: var(--gold-main); transform: rotate(45deg); opacity: 0.45; }
 
-  .breed-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 72px; font-weight: 300;
-    color: rgba(200,169,110,.08); line-height: 1;
-    position: absolute; top: 20px; right: 40px;
-  }
-  .breed-tag {
-    font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 16px;
-  }
-  .breed-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 36px; font-weight: 300; color: var(--cream);
-    letter-spacing: .05em;
-  }
-  .breed-price {
-    margin-top: 20px; font-size: 10px; letter-spacing: .2em;
-    text-transform: uppercase; color: rgba(200,169,110,.5);
-  }
-  .breed-price strong { color: var(--gold); font-weight: 400; }
-  .breed-arrow {
-    margin-top: 32px;
-    display: flex; align-items: center; gap: 12px;
-    font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
-    color: rgba(200,169,110,.4);
-    transition: color .3s, gap .3s;
-  }
-  .breed-card:hover .breed-arrow { color: var(--gold); gap: 20px; }
-  .breed-arrow::after { content: '→'; font-size: 14px; }
+  header { position: fixed; top: 0; left: 0; right: 0; z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; background: linear-gradient(180deg, rgba(5,15,9,0.96) 0%, rgba(5,15,9,0) 100%); backdrop-filter: blur(4px); }
+  .logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; letter-spacing: .22em; color: var(--gold-main); text-decoration: none; text-transform: uppercase; }
+  .logo span { color: var(--text-cream); font-weight: 300; }
+  nav { display: flex; gap: 40px; align-items: center; }
+  nav a { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; font-weight: 400; transition: color .3s; }
+  nav a:hover { color: var(--gold-main); }
+  .nav-cta { border: 1px solid var(--gold-main); padding: 10px 24px; color: var(--gold-main) !important; transition: background .3s, color .3s !important; }
+  .nav-cta:hover { background: var(--gold-main); color: var(--emerald-deep) !important; }
 
-  /* ─── PUPPIES CATALOGUE STRIP ─── */
-  .puppies-strip { background: var(--green-deep); }
-  .puppies-scroll {
-    display: flex; gap: 2px; margin-top: 56px;
-    overflow-x: auto; padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-  .puppy-card {
-    flex: 0 0 300px;
-    background: var(--green-dark);
-    padding: 36px 32px;
-    border: 1px solid rgba(200,169,110,.08);
-    transition: border-color .3s;
-  }
-  .puppy-card:hover { border-color: rgba(200,169,110,.3); }
-  .puppy-breed {
-    font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 12px;
-  }
-  .puppy-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 300; color: var(--cream);
-    line-height: 1.4; margin-bottom: 16px;
-  }
-  .puppy-desc {
-    font-size: 11px; line-height: 1.9; color: rgba(245,233,204,.5);
-    margin-bottom: 24px;
-  }
-  .puppy-price {
-    font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
-  }
-  .puppy-price span { color: var(--gold); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 60px 90px; position: relative; overflow: hidden; background: radial-gradient(ellipse 80% 80% at 60% 40%, var(--emerald-mid) 0%, var(--emerald-deep) 70%); }
+  .hero-ring { position: absolute; top: 50%; left: 58%; transform: translate(-50%,-50%); width: 680px; height: 680px; border: 1px solid var(--gold-border); border-radius: 50%; animation: rot 40s linear infinite; pointer-events: none; }
+  .hero-ring::after { content: ''; position: absolute; inset: 40px; border: 1px solid rgba(207, 166, 96, 0.05); border-radius: 50%; }
+  @keyframes rot { to { transform: translate(-50%,-50%) rotate(360deg); } }
+  .hero-lbl { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+  .hero-lbl::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold-main); }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 7vw, 96px); font-weight: 300; line-height: 1.0; color: var(--text-cream); max-width: 720px; }
+  .hero h1 em { font-style: italic; color: var(--gold-main); }
+  .hero-sub { margin-top: 28px; max-width: 480px; font-size: 12px; letter-spacing: .12em; line-height: 2; color: var(--text-dim); text-transform: uppercase; }
+  .hero-actions { margin-top: 48px; display: flex; gap: 20px; align-items: center; }
+  .hero-prices { position: absolute; right: 60px; bottom: 90px; display: flex; flex-direction: column; gap: 10px; text-align: right; }
+  .pi { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-muted); }
+  .pi strong { color: var(--gold-main); font-weight: 400; }
 
-  /* ─── WHY US ─── */
-  .why { background: var(--green-dark); }
-  .why-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; margin-top: 60px;
-    background: rgba(200,169,110,.08);
-  }
-  .why-item {
-    background: var(--green-dark); padding: 48px 40px;
-    position: relative;
-  }
-  .why-item::before {
-    content: attr(data-num);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 60px; font-weight: 300;
-    color: rgba(200,169,110,.07);
-    position: absolute; top: 20px; right: 28px;
-    line-height: 1;
-  }
-  .why-icon { font-size: 20px; margin-bottom: 20px; }
-  .why-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 300;
-    color: var(--gold-pale); margin-bottom: 14px;
-    letter-spacing: .04em;
-  }
-  .why-text {
-    font-size: 12px; line-height: 2;
-    color: rgba(245,233,204,.5);
-  }
+  .trust { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border); }
+  .ti { padding: 48px 40px; border-right: 1px solid var(--gold-border); text-align: center; }
+  .ti:last-child { border-right: none; }
+  .ti .n { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--gold-main); line-height: 1; }
+  .ti p { margin-top: 10px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-muted); line-height: 1.8; }
 
-  /* ─── TESTIMONIALS ─── */
-  .testimonials { }
-  .testi-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 2px; margin-top: 60px;
-  }
-  .testi-card {
-    background: var(--green-dark);
-    padding: 44px 36px;
-    border-top: 2px solid rgba(200,169,110,.0);
-    transition: border-color .4s;
-  }
-  .testi-card:hover { border-top-color: var(--gold); }
-  .testi-stars { color: var(--gold); font-size: 12px; letter-spacing: 4px; margin-bottom: 20px; }
-  .testi-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 18px; line-height: 1.7;
-    color: rgba(245,233,204,.8); margin-bottom: 24px;
-  }
-  .testi-author {
-    font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
-    color: var(--gold); display: flex; align-items: center; gap: 12px;
-  }
-  .testi-author::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+  .breeds { background: var(--emerald-dark); }
+  .breeds-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 60px; }
+  .bc { background: var(--emerald-deep); position: relative; overflow: hidden; cursor: pointer; transition: background .4s; text-decoration: none; display: block; min-height: 440px; }
+  .bc:hover { background: var(--emerald-mid); }
+  .bc-imgw { overflow: hidden; height: 280px; }
+  .bc-img { width: 100%; height: 280px; object-fit: cover; display: block; filter: brightness(.8) saturate(.85); transition: filter .5s, transform .5s; }
+  .bc:hover .bc-img { filter: brightness(.95) saturate(1); transform: scale(1.04); }
+  .bc-ov { position: absolute; top: 0; left: 0; right: 0; height: 280px; background: linear-gradient(180deg, transparent 40%, var(--emerald-deep) 100%); pointer-events: none; }
+  .bc-body { padding: 26px 34px 34px; position: relative; }
+  .bc::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold-main); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+  .bc:hover::after { transform: scaleX(1); }
+  .bc-num { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300; color: rgba(207, 166, 96, 0.05); line-height: 1; position: absolute; top: 10px; right: 28px; }
+  .bc-tag { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 8px; }
+  .bc-name { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: var(--text-cream); letter-spacing: .04em; }
+  .bc-desc { margin-top: 8px; font-size: 11px; line-height: 1.9; color: var(--text-dim); max-width: 340px; }
+  .bc-price { margin-top: 14px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+  .bc-price strong { color: var(--gold-main); font-weight: 400; }
+  .bc-arrow { margin-top: 18px; display: flex; align-items: center; gap: 12px; font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold-muted); transition: color .3s, gap .3s; }
+  .bc:hover .bc-arrow { color: var(--gold-main); gap: 20px; }
+  .bc-arrow::after { content: '→'; font-size: 14px; }
 
-  /* ─── DELIVERY ─── */
-  .delivery { background: var(--green-dark); }
-  .delivery-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 60px; margin-top: 60px;
-  }
-  .delivery-block h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; font-weight: 300; color: var(--cream);
-    margin-bottom: 24px;
-  }
-  .delivery-list { list-style: none; }
-  .delivery-list li {
-    font-size: 12px; line-height: 2; color: rgba(245,233,204,.6);
-    display: flex; align-items: center; gap: 16px;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(200,169,110,.08);
-  }
-  .delivery-list li::before {
-    content: '◆'; color: var(--gold); font-size: 6px; flex-shrink: 0;
-  }
+  /* =========================================
+     COATS SECTION (TABS & SWIPER)
+     ========================================= */
+  .coats { background: var(--emerald-deep); }
+  .coats-intro { margin-top: 18px; font-size: 12px; letter-spacing: .08em; line-height: 2; color: var(--text-dim); max-width: 560px; }
+  
+  /* Tabs */
+  .coats-tabs { display: flex; gap: 24px; margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--gold-border); padding-bottom: 16px; overflow-x: auto; scrollbar-width: none; }
+  .coats-tabs::-webkit-scrollbar { display: none; }
+  .coat-tab { background: none; border: none; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-muted); cursor: pointer; white-space: nowrap; padding: 8px 0; position: relative; transition: color 0.3s; }
+  .coat-tab:hover { color: var(--gold-light); }
+  .coat-tab.active { color: var(--gold-main); }
+  .coat-tab.active::after { content: ''; position: absolute; bottom: -17px; left: 0; right: 0; height: 2px; background: var(--gold-main); }
 
-  /* ─── FAQ ─── */
+  /* Sliders Container */
+  .coats-slider-wrapper { display: none; width: 100%; animation: fade-in 0.4s ease; }
+  .coats-slider-wrapper.active { display: block; }
+  @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .coats-swiper { width: 100%; padding-bottom: 70px; margin-top: 20px; }
+  .coats-swiper .swiper-slide { height: auto; } /* Для одинаковой высоты карточек */
+  
+  /* Cards */
+  .cc { position: relative; overflow: hidden; cursor: pointer; transition: transform .35s; display: flex; flex-direction: column; height: 100%; min-height: 360px; }
+  .cc:hover { transform: translateY(-6px); z-index: 2; }
+  
+  /* Image Area */
+  .cc-sw { height: 220px; position: relative; overflow: hidden; background: var(--emerald-mid); flex-shrink: 0; }
+  .cc-pat { position: absolute; inset: 0; transition: filter .4s; z-index: 1; }
+  
+  /* Стили для реальных фото (прячем иконку битого фото, если src пустой) */
+  .cc-sw img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; transition: transform .6s ease; }
+  .cc-sw img[src=""] { display: none; }
+  .cc:hover .cc-sw img { transform: scale(1.08); }
+  .cc:hover .cc-pat { filter: brightness(1.08); }
+
+  /* Gradients for placeholders */
+  .c-orange { background: linear-gradient(135deg, #c45220 0%, #e8824a 35%, #f5b070 65%, #b04818 100%); }
+  .c-white { background: linear-gradient(135deg, #e8e4db 0%, #fdfaf5 45%, #e0dbd0 100%); }
+  .c-cream { background: linear-gradient(135deg, #ddc898 0%, #f0ddb8 45%, #faf1de 65%, #ccb280 100%); }
+  .c-choc { background: linear-gradient(135deg, #2e1508 0%, #5a2c10 35%, #7a3e18 65%, #3a1c08 100%); }
+  .c-marb { background: linear-gradient(135deg, #f8f8f8 0%, #c8c8c8 20%, #e8e8e8 35%, #aaa 50%, #f0f0f0 65%, #bbb 80%, #f5f5f5 100%); }
+  .c-apri { background: linear-gradient(135deg, #d88c5e 0%, #eeaa7a 35%, #facea0 65%, #c47848 100%); }
+  .c-bltn { background: linear-gradient(135deg, #3c4e60 0%, #6a7f96 35%, #a89060 60%, #4e6070 100%); }
+  .c-biew { background: linear-gradient(135deg, #111122 0%, #111122 30%, #f0f0f0 30%, #f0f0f0 65%, #c8a060 65%, #c8a060 100%); }
+  .c-black { background: linear-gradient(135deg, #111 0%, #282828 40%, #363636 65%, #0a0a0a 100%); }
+  .c-redb { background: linear-gradient(135deg,#5e2100 0%,#8a3500 40%,#a84b14 70%,#4a1a00 100%); }
+  .c-silv { background: linear-gradient(135deg,#8c9296 0%,#b5b9bc 40%,#d8dbdd 70%,#696d72 100%); }
+  .c-goldd { background: linear-gradient(135deg,#d4af37 0%,#f3e5ab 40%,#ffdf00 70%,#aa8529 100%); }
+  
+  .cc-frame { position: absolute; inset: 0; border: 1px solid var(--gold-border); pointer-events: none; z-index: 3; }
+  .cc-tl, .cc-tr, .cc-bl, .cc-br { position: absolute; width: 18px; height: 18px; z-index: 3; }
+  .cc-tl { top: 9px; left: 9px; border-top: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
+  .cc-tr { top: 9px; right: 9px; border-top: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
+  .cc-bl { bottom: 9px; left: 9px; border-bottom: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
+  .cc-br { bottom: 9px; right: 9px; border-bottom: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
+  
+  .cc-badge { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(5, 15, 9, 0.82); backdrop-filter: blur(6px); border: 1px solid var(--gold-muted); padding: 5px 16px; font-size: 8px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold-main); white-space: nowrap; z-index: 3; }
+  
+  .cc-info { background: var(--emerald-dark); padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; border-top: 1px solid rgba(207, 166, 96, 0.08); }
+  .cc-breed { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 5px; }
+  .cc-name { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 300; color: var(--text-cream); line-height: 1.2; flex: 1; }
+  .cc-rar { margin-top: 14px; display: flex; align-items: center; gap: 8px; }
+  .cc-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .dot-r { background: var(--gold-main); box-shadow: 0 0 6px var(--gold-muted); }
+  .dot-c { background: var(--gold-muted); }
+  .cc-rar span { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); }
+
+  /* Навигация слайдера */
+  .swiper-button-next, .swiper-button-prev { color: var(--gold-main); top: auto; bottom: 0; width: 44px; height: 44px; border: 1px solid var(--gold-muted); border-radius: 50%; background: var(--emerald-dark); transition: all 0.3s; margin: 0; }
+  .swiper-button-next::after, .swiper-button-prev::after { font-size: 14px; }
+  .swiper-button-next:hover, .swiper-button-prev:hover { background: var(--gold-main); color: var(--emerald-deep); border-color: var(--gold-main); }
+  .swiper-button-prev { left: calc(50% - 50px); }
+  .swiper-button-next { right: calc(50% - 50px); }
+
+  /* =========================================
+     OTHER SECTIONS
+     ========================================= */
+  .why { background: var(--emerald-dark); }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 60px; background: var(--gold-border); }
+  .wi { background: var(--emerald-dark); padding: 48px 40px; position: relative; }
+  .wi::before { content: attr(data-n); font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 300; color: rgba(207, 166, 96, 0.05); position: absolute; top: 20px; right: 28px; line-height: 1; }
+  .wi-ic { font-size: 16px; margin-bottom: 18px; color: var(--gold-main); }
+  .wi-t { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--gold-light); margin-bottom: 12px; }
+  .wi-tx { font-size: 12px; line-height: 2; color: var(--text-dim); }
+
+  .tg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px; }
+  .tcard { background: var(--emerald-dark); padding: 44px 36px; border-top: 2px solid transparent; transition: border-color .4s; }
+  .tcard:hover { border-top-color: var(--gold-main); }
+  .tst { color: var(--gold-main); font-size: 12px; letter-spacing: 4px; margin-bottom: 20px; }
+  .ttxt { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; line-height: 1.7; color: var(--text-cream); margin-bottom: 22px; opacity: 0.9;}
+  .tau { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold-main); display: flex; align-items: center; gap: 12px; }
+  .tau::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold-main); }
+
+  .delivery { background: var(--emerald-dark); }
+  .dg { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; }
+  .db h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--text-cream); margin-bottom: 24px; }
+  .dl { list-style: none; }
+  .dl li { font-size: 12px; line-height: 2; color: var(--text-dim); display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--gold-border); }
+  .dl li::before { content: '◆'; color: var(--gold-main); font-size: 6px; flex-shrink: 0; }
+
   .faq-list { margin-top: 60px; }
-  .faq-item {
-    border-bottom: 1px solid rgba(200,169,110,.12);
-    padding: 0;
-  }
-  .faq-q {
-    padding: 28px 0;
-    display: flex; justify-content: space-between; align-items: center;
-    cursor: pointer;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px; font-weight: 300; color: var(--cream);
-    letter-spacing: .03em;
-    transition: color .3s;
-  }
-  .faq-q:hover { color: var(--gold); }
-  .faq-q span { color: var(--gold); font-size: 18px; }
-  .faq-a {
-    font-size: 13px; line-height: 2; color: rgba(245,233,204,.55);
-    max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s;
-    padding: 0 0 0;
-  }
-  .faq-item.open .faq-a { max-height: 300px; padding-bottom: 28px; }
-  .faq-item.open .faq-q { color: var(--gold); }
+  .faq-item { border-bottom: 1px solid var(--gold-border); }
+  .fq { padding: 28px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: var(--text-cream); transition: color .3s; }
+  .fq:hover { color: var(--gold-main); }
+  .fq span { color: var(--gold-main); font-size: 18px; flex-shrink: 0; margin-left: 20px; }
+  .fa { font-size: 13px; line-height: 2; color: var(--text-dim); max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; }
+  .faq-item.open .fa { max-height: 300px; padding-bottom: 28px; }
+  .faq-item.open .fq { color: var(--gold-main); }
 
-  /* ─── CONTACT ─── */
-  .contact { background: var(--green-mid); text-align: center; }
-  .contact .section-label { justify-content: center; }
-  .contact .section-label::before { display: none; }
-  .contact .section-title { text-align: center; }
-  .contact-sub {
-    margin: 20px auto 0; max-width: 440px;
-    font-size: 12px; letter-spacing: .1em; line-height: 2;
-    color: rgba(200,169,110,.55);
-  }
-  .contact-channels {
-    display: flex; justify-content: center; gap: 20px; margin-top: 48px;
-  }
-  .contact-btn {
-    display: inline-flex; align-items: center; gap: 12px;
-    border: 1px solid rgba(200,169,110,.3);
-    padding: 16px 36px;
-    font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--gold-pale); text-decoration: none;
-    transition: border-color .3s, color .3s, background .3s;
-  }
-  .contact-btn:hover { background: var(--gold); color: var(--green-deep); border-color: var(--gold); }
+  .contact { background: var(--emerald-mid); text-align: center; }
+  .contact .sl { justify-content: center; }
+  .contact .sl::before { display: none; }
+  .csub { margin: 18px auto 0; max-width: 440px; font-size: 12px; letter-spacing: .1em; line-height: 2; color: var(--text-dim); }
+  .cch { display: flex; justify-content: center; gap: 16px; margin-top: 44px; flex-wrap: wrap; }
+  .cbtn { display: inline-flex; align-items: center; border: 1px solid var(--gold-muted); padding: 15px 32px; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-light); text-decoration: none; transition: border-color .3s, color .3s, background .3s; cursor: pointer; background: none; }
+  .cbtn:hover { background: var(--gold-main); color: var(--emerald-deep); border-color: var(--gold-main); }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--green-deep);
-    border-top: 1px solid rgba(200,169,110,.1);
-    padding: 60px;
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
-  }
+  footer { background: var(--emerald-deep); border-top: 1px solid var(--gold-border); padding: 60px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
   footer .logo { font-size: 18px; display: block; margin-bottom: 16px; }
-  footer p { font-size: 11px; color: rgba(200,169,110,.4); line-height: 2; letter-spacing: .08em; }
-  footer h4 {
-    font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 20px;
-  }
+  footer p { font-size: 11px; color: var(--text-dim); line-height: 2; }
+  footer h4 { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 20px; }
   footer ul { list-style: none; }
-  footer ul li { margin-bottom: 10px; }
-  footer ul li a {
-    font-size: 12px; color: rgba(245,233,204,.5); text-decoration: none;
-    letter-spacing: .08em; transition: color .3s;
-  }
-  footer ul li a:hover { color: var(--gold); }
-  .footer-bottom {
-    padding: 24px 60px;
-    border-top: 1px solid rgba(200,169,110,.06);
-    display: flex; justify-content: space-between;
-    font-size: 10px; color: rgba(200,169,110,.25); letter-spacing: .12em;
-  }
+  footer ul li a { font-size: 12px; color: var(--text-dim); text-decoration: none; display: block; margin-bottom: 10px; transition: color .3s; }
+  footer ul li a:hover { color: var(--gold-main); }
+  .fb { padding: 24px 60px; border-top: 1px solid var(--gold-border); display: flex; justify-content: space-between; font-size: 10px; color: var(--text-dim); letter-spacing: .12em; }
 
-  /* ─── SCROLL REVEAL ANIMATION ─── */
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity .8s ease, transform .8s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
 
-  /* ─── RESPONSIVE ─── */
+  .popup-ov { position: fixed; inset: 0; z-index: 9999; background: rgba(5, 15, 9, 0.9); backdrop-filter: blur(14px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .4s; }
+  .popup-ov.active { opacity: 1; pointer-events: all; }
+  .popup { background: var(--emerald-dark); border: 1px solid var(--gold-muted); width: 100%; max-width: 540px; position: relative; padding: 56px 52px 50px; transform: translateY(28px); transition: transform .4s; }
+  .popup-ov.active .popup { transform: none; }
+  .pc { position: absolute; width: 22px; height: 22px; }
+  .pc.tl { top: 13px; left: 13px; border-top: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
+  .pc.tr { top: 13px; right: 13px; border-top: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
+  .pc.bl { bottom: 13px; left: 13px; border-bottom: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
+  .pc.br { bottom: 13px; right: 13px; border-bottom: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
+  .pclose { position: absolute; top: 18px; right: 18px; background: none; border: none; cursor: pointer; color: var(--gold-muted); font-size: 18px; transition: color .3s; padding: 6px; line-height: 1; }
+  .pclose:hover { color: var(--gold-main); }
+  .plbl { font-size: 9px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .plbl::before { content: ''; display: block; width: 20px; height: 1px; background: var(--gold-main); }
+  .popup h3 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--text-cream); margin-bottom: 8px; }
+  .popup h3 em { font-style: italic; color: var(--gold-main); }
+  .psub { font-size: 11px; letter-spacing: .08em; line-height: 2; color: var(--text-dim); margin-bottom: 34px; }
+  .pdiv { height: 1px; background: var(--gold-border); margin-bottom: 30px; }
+  .pmsgs { display: flex; flex-direction: column; gap: 10px; }
+  .pmsg { display: flex; align-items: center; gap: 18px; border: 1px solid var(--gold-border); padding: 17px 22px; text-decoration: none; transition: border-color .3s, background .3s; cursor: pointer; background: none; }
+  .pmsg:hover { border-color: var(--gold-main); background: rgba(207, 166, 96, 0.04); }
+  .micon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ic-tg { background: rgba(42,139,214,.14); }
+  .ic-wa { background: rgba(37,211,102,.1); }
+  .ic-ph { background: var(--gold-border); }
+  .minfo { flex: 1; }
+  .mname { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-light); font-weight: 400; }
+  .mdesc { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+  .marr { color: var(--gold-muted); font-size: 16px; transition: color .3s, transform .3s; }
+  .pmsg:hover .marr { color: var(--gold-main); transform: translateX(4px); }
+  .pnote { margin-top: 22px; font-size: 10px; letter-spacing: .1em; text-align: center; color: var(--text-dim); line-height: 1.8; }
+
   @media (max-width: 900px) {
     header { padding: 20px 24px; }
     nav { display: none; }
-    .hero { padding: 0 24px 60px; }
+    /* Исправленный HERO для мобильных из предыдущего шага */
+    .hero { min-height: 85vh; justify-content: center; padding: 120px 24px 60px; }
+    .hero h1 { font-size: 42px; line-height: 1.1; }
+    .hero-sub { margin-top: 20px; font-size: 11px; }
+    .hero-ring { width: 400px; height: 400px; left: 50%; top: 40%; }
     .hero-prices { display: none; }
     section { padding: 70px 24px; }
-    .trust-strip { grid-template-columns: repeat(2,1fr); }
-    .about-grid, .delivery-grid { grid-template-columns: 1fr; gap: 40px; }
-    .about-visual { display: none; }
+    .trust { grid-template-columns: repeat(2, 1fr); }
     .breeds-grid { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
-    .testi-grid { grid-template-columns: 1fr; }
+    .tg { grid-template-columns: 1fr; }
+    .dg { grid-template-columns: 1fr; gap: 40px; }
     footer { grid-template-columns: 1fr; padding: 40px 24px; }
-    .footer-bottom { padding: 16px 24px; flex-direction: column; gap: 8px; }
-    .contact-channels { flex-direction: column; align-items: center; }
+    .fb { padding: 16px 24px; flex-direction: column; gap: 8px; }
+    .popup { padding: 44px 24px 36px; margin: 16px; max-width: calc(100% - 32px); }
+    .orn { padding: 28px 24px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
+<div class="popup-ov" id="popup" onclick="if(event.target===this)closePopup()">
+  <div class="popup" role="dialog" aria-modal="true" aria-label="Связаться с нами">
+    <div class="pc tl"></div><div class="pc tr"></div><div class="pc bl"></div><div class="pc br"></div>
+    <button class="pclose" onclick="closePopup()" aria-label="Закрыть">✕</button>
+    <div class="plbl">Связаться с нами</div>
+    <h3>Подберём <em>вашего</em><br>щенка</h3>
+    <p class="psub">Выберите удобный способ связи — ответим в течение нескольких минут</p>
+    <div class="pdiv"></div>
+    <div class="pmsgs">
+      <a class="pmsg" href="https://t.me/+79361401900" target="_blank" rel="noopener">
+        <div class="micon ic-tg"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#2A8BD6" stroke-width="1.8" stroke-linecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#2A8BD6" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+        <div class="minfo"><div class="mname">Telegram</div><div class="mdesc">Быстрый ответ, фото и видео щенков</div></div>
+        <span class="marr">→</span>
+      </a>
+      <a class="pmsg" href="https://wa.link/7ojgi4" target="_blank" rel="noopener">
+        <div class="micon ic-wa"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#25D366" stroke-width="1.8"/><path d="M9 11c.4.9 1.4 1.9 2.4 2.4M9 11c-.2-.5-.2-1 0-1.4.2-.8.9-1.4 1.6-1.4.3 0 .5.2.6.4l.6 1.7c.1.3 0 .6-.2.7l-.4.3M11.4 13.4c.5.2 1.4.3 1.8-.2l.4-.4c.2-.2.4-.3.7-.2l1.7.6c.3.1.4.3.4.6 0 .7-.6 1.4-1.4 1.6-.5.1-1 0-1.4-.2" stroke="#25D366" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+        <div class="minfo"><div class="mname">WhatsApp</div><div class="mdesc">Консультация и видеознакомство со щенком</div></div>
+        <span class="marr">→</span>
+      </a>
+      <a class="pmsg" href="tel:+79361401900">
+        <div class="micon ic-ph"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke="#cfa660" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="minfo"><div class="mname">+7 936 140-19-00</div><div class="mdesc">Ежедневно с 9:00 до 21:00</div></div>
+        <span class="marr">→</span>
+      </a>
+    </div>
+    <p class="pnote">Заявки принимаются от 18 лет · Консультация бесплатна</p>
+  </div>
+</div>
+
 <header>
   <a class="logo" href="#">PUPPY<span> POWER</span></a>
   <nav>
     <a href="#breeds">Породы</a>
-    <a href="#catalogue">Щенки</a>
-    <a href="#about">О клубе</a>
+    <a href="#coats">Окрасы</a>
+    <a href="#why">О клубе</a>
     <a href="#faq">FAQ</a>
-    <a href="#contact" class="nav-cta">Подобрать щенка</a>
+    <a href="#" class="nav-cta" onclick="openPopup();return false;">Подобрать щенка</a>
   </nav>
 </header>
 
-<!-- ─── HERO ─── -->
 <section class="hero">
-  <div class="hero-bg-ring"></div>
-
-  <div class="hero-label">Элитный клуб заводчиков · с 2016 года</div>
+  <div class="hero-ring"></div>
+  <div class="hero-lbl">Элитный клуб заводчиков · с 2016 года</div>
   <h1>Щенки с <em>характером,</em><br>происхождением<br>и душой</h1>
   <p class="hero-sub">Шпицы · Мальтипу · Той-пудели · Йорки · Биверы<br>Официальные документы · Доставка по всему миру</p>
   <div class="hero-actions">
-    <a href="#contact" class="btn-primary">Подобрать щенка</a>
-    <a href="#catalogue" class="btn-ghost">Смотреть каталог</a>
+    <button class="btn-p" onclick="openPopup()">Подобрать щенка</button>
+    <a href="#breeds" class="btn-g">Смотреть породы</a>
   </div>
-
   <div class="hero-prices">
-    <div class="price-item">Шпицы — от <strong>50 000 ₽</strong></div>
-    <div class="price-item">Йорки / Биверы — от <strong>70 000 ₽</strong></div>
-    <div class="price-item">Той-пудели — от <strong>120 000 ₽</strong></div>
-    <div class="price-item">Мальтипу — от <strong>120 000 ₽</strong></div>
+    <div class="pi">Шпицы — от <strong>50 000 ₽</strong></div>
+    <div class="pi">Йорки / Биверы — от <strong>70 000 ₽</strong></div>
+    <div class="pi">Той-пудели — от <strong>120 000 ₽</strong></div>
+    <div class="pi">Мальтипу — от <strong>120 000 ₽</strong></div>
   </div>
 </section>
 
-<!-- ─── TRUST STRIP ─── -->
-<div class="trust-strip reveal">
-  <div class="trust-item">
-    <div class="number">7+</div>
-    <p>Лет<br>опыта</p>
-  </div>
-  <div class="trust-item">
-    <div class="number">2000+</div>
-    <p>Счастливых<br>семей</p>
-  </div>
-  <div class="trust-item">
-    <div class="number">200+</div>
-    <p>Щенков<br>в каталоге</p>
-  </div>
-  <div class="trust-item">
-    <div class="number">5★</div>
-    <p>Яндекс.Карты<br>рейтинг</p>
-  </div>
+<div class="trust reveal">
+  <div class="ti"><div class="n">7+</div><p>Лет<br>опыта</p></div>
+  <div class="ti"><div class="n">2000+</div><p>Счастливых<br>семей</p></div>
+  <div class="ti"><div class="n">200+</div><p>Щенков<br>в наличии</p></div>
+  <div class="ti"><div class="n">5★</div><p>Яндекс.Карты<br>рейтинг</p></div>
 </div>
 
-<!-- ─── ABOUT ─── -->
-<section class="about" id="about">
-  <div class="section-label">О нас</div>
-  <h2 class="section-title">Клуб профессиональных<br><em>заводчиков</em></h2>
-  <div class="about-grid">
-    <div class="about-text reveal">
-      <p><strong>Puppy Power</strong> — это клуб профессиональных заводчиков, работающий с 2016 года. Мы помогаем подобрать здорового, породистого щенка с документами и доставкой по России и всему миру.</p>
-      <p>Каждый щенок воспитывается в домашних условиях, проходит полное ветеринарное обследование и передаётся новому владельцу с официальным пакетом документов — метрикой РКФ/СКОР, ветеринарным паспортом и записями обо всех прививках.</p>
-      <p>Мы не просто продаём щенков. Мы создаём союз <strong>между исключительными питомцами и достойными владельцами</strong>.</p>
-      <div style="margin-top:40px;">
-        <a href="#contact" class="btn-primary">Получить консультацию</a>
-      </div>
-    </div>
-    <div class="about-visual reveal">
-      <div class="about-circle">
-        <div class="about-circle-inner">
-          <span>PP</span>
-          <p>Puppy Power<br>Est. 2016</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="ornament">
-  <div class="ornament-line"></div>
-  <div class="ornament-diamond"></div>
-  <div class="ornament-line"></div>
-</div>
-
-<!-- ─── BREEDS ─── -->
 <section class="breeds" id="breeds">
-  <div class="section-label">Коллекция пород</div>
-  <h2 class="section-title">Наши <em>породы</em></h2>
+  <div class="sl">Коллекция пород</div>
+  <h2 class="st">Наши <em>породы</em></h2>
   <div class="breeds-grid reveal">
-    <a class="breed-card" href="#">
-      <div class="breed-num">01</div>
-      <div class="breed-tag">Порода</div>
-      <div class="breed-name">Померанский Шпиц</div>
-      <div class="breed-price">от <strong>50 000 ₽</strong></div>
-      <div class="breed-arrow">Смотреть щенков</div>
-    </a>
-    <a class="breed-card" href="#">
-      <div class="breed-num">02</div>
-      <div class="breed-tag">Порода</div>
-      <div class="breed-name">Мальтипу</div>
-      <div class="breed-price">от <strong>120 000 ₽</strong></div>
-      <div class="breed-arrow">Смотреть щенков</div>
-    </a>
-    <a class="breed-card" href="#">
-      <div class="breed-num">03</div>
-      <div class="breed-tag">Порода</div>
-      <div class="breed-name">Той-Пудель</div>
-      <div class="breed-price">от <strong>120 000 ₽</strong></div>
-      <div class="breed-arrow">Смотреть щенков</div>
-    </a>
-    <a class="breed-card" href="#">
-      <div class="breed-num">04</div>
-      <div class="breed-tag">Порода</div>
-      <div class="breed-name">Йоркширский Терьер &amp; Бивер</div>
-      <div class="breed-price">от <strong>70 000 ₽</strong></div>
-      <div class="breed-arrow">Смотреть щенков</div>
-    </a>
+    <div class="bc" onclick="openPopup()">
+      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1600804531680-18b756c8b1b0?w=800&q=80" alt="Померанский шпиц" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <div class="bc-ov"></div>
+      <div class="bc-body">
+        <div class="bc-num">01</div><div class="bc-tag">Порода</div><div class="bc-name">Померанский Шпиц</div><div class="bc-desc">Пушистый, харизматичный, преданный. Идеальный городской компаньон.</div><div class="bc-price">от <strong>50 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+      </div>
+    </div>
+    <div class="bc" onclick="openPopup()">
+      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80" alt="Мальтипу" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <div class="bc-ov"></div>
+      <div class="bc-body">
+        <div class="bc-num">02</div><div class="bc-tag">Порода</div><div class="bc-name">Мальтипу</div><div class="bc-desc">Гипоаллергенный, умный, ласковый. Уникальное сочетание мальтезе и пуделя.</div><div class="bc-price">от <strong>120 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+      </div>
+    </div>
+    <div class="bc" onclick="openPopup()">
+      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&q=80" alt="Той-пудель" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <div class="bc-ov"></div>
+      <div class="bc-body">
+        <div class="bc-num">03</div><div class="bc-tag">Порода</div><div class="bc-name">Той-Пудель</div><div class="bc-desc">Интеллектуальный, обучаемый, нежный. Без линьки и с бесконечной преданностью.</div><div class="bc-price">от <strong>120 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+      </div>
+    </div>
+    <div class="bc" onclick="openPopup()">
+      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1591160690555-5debfba289f0?w=800&q=80" alt="Йорк и Бивер" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <div class="bc-ov"></div>
+      <div class="bc-body">
+        <div class="bc-num">04</div><div class="bc-tag">Порода</div><div class="bc-name">Йорк & Бивер</div><div class="bc-desc">Энергичный, бесстрашный, элегантный. Шелковистая шерсть и характер льва.</div><div class="bc-price">от <strong>70 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ─── PUPPIES CATALOGUE ─── -->
-<section class="puppies-strip" id="catalogue">
-  <div class="section-label">Доступные щенки</div>
-  <h2 class="section-title">Найдите <em>своего</em></h2>
-  <div class="puppies-scroll reveal">
-    <div class="puppy-card">
-      <div class="puppy-breed">Мальтипу</div>
-      <div class="puppy-name">Девочка, белый окрас</div>
-      <div class="puppy-desc">Умная, ориентирована на человека. Знает все команды, ко всему приучена. Ветеринарный паспорт, прививки.</div>
-      <div class="puppy-price">от <span>120 000 ₽</span></div>
-    </div>
-    <div class="puppy-card">
-      <div class="puppy-breed">Мальтипу</div>
-      <div class="puppy-name">Девочка, редкий окрас «мрамор»</div>
-      <div class="puppy-desc">Бело-красный мрамор, один глаз голубой. Редкий и красивый окрас для людей, которые хотят выделяться.</div>
-      <div class="puppy-price">от <span>120 000 ₽</span></div>
-    </div>
-    <div class="puppy-card">
-      <div class="puppy-breed">Той-Пудель</div>
-      <div class="puppy-name">Мальчик, шоколадный окрас</div>
-      <div class="puppy-desc">Ласковый, нежный. Любит сидеть на ручках. Готов переехать в любящую семью. Документы клуба.</div>
-      <div class="puppy-price">от <span>120 000 ₽</span></div>
-    </div>
-    <div class="puppy-card">
-      <div class="puppy-breed">Бивер Терьер</div>
-      <div class="puppy-name">Мальчик, очень мелкий</div>
-      <div class="puppy-desc">Рождён 8.08. Метрика щенка, ветпаспорт, прививки по возрасту. Стандарт породы.</div>
-      <div class="puppy-price">от <span>70 000 ₽</span></div>
-    </div>
-    <div class="puppy-card">
-      <div class="puppy-breed">Шпиц</div>
-      <div class="puppy-name">Девочка, пушистая шерсть</div>
-      <div class="puppy-desc">Добрая, спокойная — для тех, кто ценит тишину и любовь. Документы РКФ, короткий нос, набитая шерсть.</div>
-      <div class="puppy-price">от <span>50 000 ₽</span></div>
-    </div>
-    <div class="puppy-card">
-      <div class="puppy-breed">Йоркширский Терьер</div>
-      <div class="puppy-name">Мальчик, миниатюрный</div>
-      <div class="puppy-desc">Ожидаемый вес 2 кг. Контактный, дружелюбный, ко всему приучен. Документы клуба UCO.</div>
-      <div class="puppy-price">от <span>70 000 ₽</span></div>
-    </div>
+<div class="orn"><div class="orn-l"></div><div class="orn-d"></div><div class="orn-l"></div></div>
+
+<section class="coats" id="coats">
+  <div class="sl">Коллекция окрасов</div>
+  <h2 class="st">Редкие <em>окрасы</em></h2>
+  <p class="coats-intro">Выберите породу, чтобы посмотреть доступную палитру. От классики до эксклюзивных мраморных узоров.</p>
+
+  <div class="coats-tabs reveal">
+    <button class="coat-tab active" onclick="switchCoatTab('spitz')">Померанский шпиц</button>
+    <button class="coat-tab" onclick="switchCoatTab('maltipoo')">Мальтипу</button>
+    <button class="coat-tab" onclick="switchCoatTab('poodle')">Той-пудель</button>
+    <button class="coat-tab" onclick="switchCoatTab('york')">Йорк & Бивер</button>
   </div>
-  <div style="margin-top:48px; text-align:center;">
-    <a href="#" class="btn-ghost">Смотреть весь каталог</a>
+
+  <div class="coats-sliders reveal">
+    <div class="coats-slider-wrapper active" id="slider-spitz">
+      <div class="swiper coats-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-orange"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Рыжий · Огненный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-white"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Белоснежный</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-black"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Чёрный · Антрацит</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Редкий</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-cream"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Кремовый · Ваниль</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-marb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Мраморный (Мерль)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ультра-редкий</span></div></div></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </div>
+
+    <div class="coats-slider-wrapper" id="slider-maltipoo">
+      <div class="swiper coats-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-apri"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Карамель · Абрикос</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-cream"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Кремовый</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-redb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Ред Браун</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-black"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Чёрный фантом</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Редкий</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-marb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Ультра-редкий</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Мраморный (Мерль)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Под заказ</span></div></div></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </div>
+
+    <div class="coats-slider-wrapper" id="slider-poodle">
+      <div class="swiper coats-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-redb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Ред Браун</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-choc"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Шоколадный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограничено</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-apri"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Абрикосовый (Тедди)</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-black"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Иссиня-чёрный</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-silv"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Серебристый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Под заказ</span></div></div></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </div>
+
+    <div class="coats-slider-wrapper" id="slider-york">
+      <div class="swiper coats-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-bltn"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Сине-подпалый (Стандарт)</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-biew"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Бивер Терьер</div><div class="cc-name">Чёрно-бело-золотой</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Редкий стандарт</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-choc"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Шоколадный (Choco)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-goldd"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Голдаст (Golddust)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограничено</span></div></div></div></div>
+          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-marb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Ультра-редкий</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Мерль (Мрамор)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Под заказ</span></div></div></div></div>
+        </div>
+        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ─── WHY US ─── -->
+<div class="orn"><div class="orn-l"></div><div class="orn-d"></div><div class="orn-l"></div></div>
+
 <section class="why" id="why">
-  <div class="section-label">Наши преимущества</div>
-  <h2 class="section-title">Почему выбирают<br><em>Puppy Power</em></h2>
+  <div class="sl">Наши преимущества</div>
+  <h2 class="st">Почему выбирают<br><em>Puppy Power</em></h2>
   <div class="why-grid reveal">
-    <div class="why-item" data-num="01">
-      <div class="why-icon">◆</div>
-      <div class="why-title">Опыт более 7 лет</div>
-      <div class="why-text">С 2016 года более 2 000 семей нашли своих идеальных питомцев. Мы профессионально занимаемся разведением и отбором щенков.</div>
-    </div>
-    <div class="why-item" data-num="02">
-      <div class="why-icon">◆</div>
-      <div class="why-title">Официальные документы</div>
-      <div class="why-text">Каждый щенок получает метрику РКФ/СКОР, ветеринарный паспорт с отметками о прививках и чипировании.</div>
-    </div>
-    <div class="why-item" data-num="03">
-      <div class="why-icon">◆</div>
-      <div class="why-title">Безопасная доставка</div>
-      <div class="why-text">Организуем транспортировку в любую точку России и ближнего зарубежья — авиа, авто или курьером. Комфорт гарантирован.</div>
-    </div>
-    <div class="why-item" data-num="04">
-      <div class="why-icon">◆</div>
-      <div class="why-title">Гарантия здоровья</div>
-      <div class="why-text">Все щенки проходят обязательную проверку у ветеринара. Мы продаём только полностью здоровых питомцев.</div>
-    </div>
-    <div class="why-item" data-num="05">
-      <div class="why-icon">◆</div>
-      <div class="why-title">Уникальный выбор</div>
-      <div class="why-text">Более 200 щенков на любой вкус. Редкие окрасы, импортные родители, микро-размеры — найдём вашего идеального питомца.</div>
-    </div>
-    <div class="why-item" data-num="06">
-      <div class="why-icon">◆</div>
-      <div class="why-title">Поддержка после покупки</div>
-      <div class="why-text">Предоставляем консультации по уходу, воспитанию и адаптации. Видеознакомство с щенком до покупки — в любое время.</div>
-    </div>
+    <div class="wi" data-n="01"><div class="wi-ic">◆</div><div class="wi-t">Опыт более 7 лет</div><div class="wi-tx">С 2016 года более 2 000 семей нашли своих идеальных питомцев. Профессиональный отбор и разведение.</div></div>
+    <div class="wi" data-n="02"><div class="wi-ic">◆</div><div class="wi-t">Официальные документы</div><div class="wi-tx">Каждый щенок получает метрику РКФ/СКОР, ветеринарный паспорт с отметками о прививках и чипировании.</div></div>
+    <div class="wi" data-n="03"><div class="wi-ic">◆</div><div class="wi-t">Безопасная доставка</div><div class="wi-tx">Организуем транспортировку в любую точку России и зарубежья — авиа, авто или курьером.</div></div>
+    <div class="wi" data-n="04"><div class="wi-ic">◆</div><div class="wi-t">Гарантия здоровья</div><div class="wi-tx">Все щенки проходят обязательную проверку у ветеринара. Продаём только полностью здоровых питомцев.</div></div>
+    <div class="wi" data-n="05"><div class="wi-ic">◆</div><div class="wi-t">Редкие окрасы</div><div class="wi-tx">Более 200 щенков на любой вкус. Редкие окрасы, импортные родители, микро-размеры — найдём вашего.</div></div>
+    <div class="wi" data-n="06"><div class="wi-ic">◆</div><div class="wi-t">Поддержка после покупки</div><div class="wi-tx">Консультации по уходу и воспитанию. Видеознакомство со щенком до покупки в любое время.</div></div>
   </div>
 </section>
 
-<!-- ─── TESTIMONIALS ─── -->
 <section id="testimonials">
-  <div class="section-label">Отзывы клиентов</div>
-  <h2 class="section-title">Они уже нашли<br><em>своего</em></h2>
-  <div class="testi-grid reveal">
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-text">«Долго искала шпица и нашла Puppy Power. Связалась с Антоном, он отправил видео щенков. В тот же день мы забрали нашу малышку!»</p>
-      <div class="testi-author">Ирина Цибизова</div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-text">«Искали собаку редкого окраса. Всё рассказали, показали, помогли с выбором. Документы, чип — всё предоставили. Замечательно!»</p>
-      <div class="testi-author">Михаил П.</div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-text">«Остановились на Puppy Power — ни разу не пожалели. Помогли подобрать идеального шпица, оформили все документы. Щенок просто чудо!»</p>
-      <div class="testi-author">Анастасия Р.</div>
-    </div>
+  <div class="sl">Отзывы клиентов</div>
+  <h2 class="st">Они уже нашли<br><em>своего</em></h2>
+  <div class="tg reveal">
+    <div class="tcard"><div class="tst">★★★★★</div><p class="ttxt">«Долго искала шпица и нашла Puppy Power. Связалась с Антоном, он отправил видео щенков. В тот же день мы забрали нашу малышку!»</p><div class="tau">Ирина Цибизова</div></div>
+    <div class="tcard"><div class="tst">★★★★★</div><p class="ttxt">«Искали собаку редкого окраса. Всё рассказали, показали, помогли с выбором. Документы, чип — всё предоставили. Замечательно!»</p><div class="tau">Михаил П.</div></div>
+    <div class="tcard"><div class="tst">★★★★★</div><p class="ttxt">«Остановились на Puppy Power — ни разу не пожалели. Помогли подобрать идеального шпица, оформили все документы. Щенок просто чудо!»</p><div class="tau">Анастасия Р.</div></div>
   </div>
 </section>
 
-<!-- ─── DELIVERY ─── -->
 <section class="delivery" id="delivery">
-  <div class="section-label">Условия</div>
-  <h2 class="section-title">Доставка<br>&amp; <em>оплата</em></h2>
-  <div class="delivery-grid reveal">
-    <div class="delivery-block">
-      <h3>Способы доставки</h3>
-      <ul class="delivery-list">
-        <li>Авиадоставка — через багажный отсек или с курьером</li>
-        <li>Поездом — с сопровождающим</li>
-        <li>Самовывоз или курьер до двери</li>
-        <li>Доставляем по всей России и за рубеж</li>
-        <li>Все расходы по доставке — за счёт покупателя</li>
-      </ul>
-    </div>
-    <div class="delivery-block">
-      <h3>Оплата и бронирование</h3>
-      <ul class="delivery-list">
-        <li>Безналичный расчёт</li>
-        <li>Наличными при встрече или доставке</li>
-        <li>Предоплата обязательна для бронирования</li>
-        <li>Условия уточняются индивидуально</li>
-        <li>Заявки принимаются от 18 лет</li>
-      </ul>
-    </div>
+  <div class="sl">Условия</div>
+  <h2 class="st">Доставка &amp; <em>оплата</em></h2>
+  <div class="dg reveal">
+    <div class="db"><h3>Способы доставки</h3><ul class="dl"><li>Авиадоставка — через багажный отсек или с курьером</li><li>Поездом — с сопровождающим</li><li>Самовывоз или курьер до двери</li><li>Доставляем по всей России и за рубеж</li><li>Расходы по доставке — за счёт покупателя</li></ul></div>
+    <div class="db"><h3>Оплата и бронирование</h3><ul class="dl"><li>Безналичный расчёт</li><li>Наличными при встрече или доставке</li><li>Предоплата обязательна для бронирования</li><li>Условия уточняются индивидуально</li><li>Заявки принимаются от 18 лет</li></ul></div>
   </div>
 </section>
 
-<!-- ─── FAQ ─── -->
 <section id="faq">
-  <div class="section-label">FAQ</div>
-  <h2 class="section-title">Часто задаваемые<br><em>вопросы</em></h2>
+  <div class="sl">FAQ</div>
+  <h2 class="st">Часто задаваемые<br><em>вопросы</em></h2>
   <div class="faq-list reveal">
-    <div class="faq-item open">
-      <div class="faq-q" onclick="toggleFaq(this)">Какие породы щенков вы продаёте? <span>+</span></div>
-      <div class="faq-a">Мы специализируемся исключительно на щенках элитных пород: шпицы, той-пудели, мальтипу, йоркширские терьеры и бивер-терьеры.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Как организована доставка? <span>+</span></div>
-      <div class="faq-a">Доставка максимально безопасна и комфортна для щенков. Мы предлагаем авиадоставку, железнодорожную доставку и личную доставку курьером. Перед отправкой щенки проходят ветеринарный осмотр.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">В каком возрасте я могу забрать щенка? <span>+</span></div>
-      <div class="faq-a">В большинстве случаев щенки переезжают в новый дом в возрасте от 8 до 12 недель, когда они уже готовы к самостоятельной жизни.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Подходят ли щенки для квартиры? <span>+</span></div>
-      <div class="faq-a">Да, наши щенки идеально подходят для городской квартиры. Небольшой размер и дружелюбный характер делают их комфортными компаньонами в городских условиях.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Могу ли я получить консультацию после покупки? <span>+</span></div>
-      <div class="faq-a">Да, мы предоставляем консультации после покупки по уходу, воспитанию и адаптации щенка. Вы всегда можете обратиться к нам за советом.</div>
-    </div>
+    <div class="faq-item open"><div class="fq" onclick="toggleFaq(this)">Какие породы щенков вы продаёте? <span>+</span></div><div class="fa">Мы специализируемся на щенках элитных пород: шпицы, той-пудели, мальтипу, йоркширские терьеры и бивер-терьеры.</div></div>
+    <div class="faq-item"><div class="fq" onclick="toggleFaq(this)">Как организована доставка? <span>+</span></div><div class="fa">Доставка максимально безопасна для щенков. Мы предлагаем авиадоставку, железнодорожную доставку и личную доставку курьером. Перед отправкой щенки проходят ветеринарный осмотр.</div></div>
+    <div class="faq-item"><div class="fq" onclick="toggleFaq(this)">В каком возрасте я могу забрать щенка? <span>+</span></div><div class="fa">В большинстве случаев щенки переезжают в новый дом в возрасте от 8 до 12 недель.</div></div>
+    <div class="faq-item"><div class="fq" onclick="toggleFaq(this)">Подходят ли щенки для квартиры? <span>+</span></div><div class="fa">Да, наши щенки идеально подходят для городской квартиры. Небольшой размер и дружелюбный характер делают их отличными компаньонами.</div></div>
+    <div class="faq-item"><div class="fq" onclick="toggleFaq(this)">Могу ли я получить консультацию после покупки? <span>+</span></div><div class="fa">Да, мы предоставляем консультации по уходу, воспитанию и адаптации щенка. Всегда готовы помочь.</div></div>
   </div>
 </section>
 
-<!-- ─── CONTACT ─── -->
 <section class="contact" id="contact">
-  <div class="section-label">Контакты</div>
-  <h2 class="section-title">Найдём вашего<br><em>идеального</em> щенка</h2>
-  <p class="contact-sub">Оставьте заявку — наш специалист свяжется с вами для бесплатной консультации</p>
-  <div class="contact-channels">
-    <a class="contact-btn" href="https://t.me/+79361401900">Telegram</a>
-    <a class="contact-btn" href="https://wa.link/7ojgi4">WhatsApp</a>
-    <a class="contact-btn" href="tel:+79361401900">+7 936 140-19-00</a>
+  <div class="sl">Контакты</div>
+  <h2 class="st">Найдём вашего<br><em>идеального</em> щенка</h2>
+  <p class="csub">Оставьте заявку — наш специалист свяжется с вами для бесплатной консультации</p>
+  <div class="cch">
+    <button class="cbtn" onclick="openPopup()">Написать нам</button>
+    <a class="cbtn" href="https://t.me/+79361401900" target="_blank">Telegram</a>
+    <a class="cbtn" href="https://wa.link/7ojgi4" target="_blank">WhatsApp</a>
+    <a class="cbtn" href="tel:+79361401900">+7 936 140-19-00</a>
   </div>
 </section>
 
-<!-- ─── FOOTER ─── -->
 <footer>
-  <div>
-    <a class="logo" href="#">PUPPY<span> POWER</span></a>
-    <p>Клуб профессиональных заводчиков.<br>Работаем с 2016 года.</p>
-  </div>
-  <div>
-    <h4>Породы</h4>
-    <ul>
-      <li><a href="#">Померанский Шпиц</a></li>
-      <li><a href="#">Мальтипу</a></li>
-      <li><a href="#">Той-Пудель</a></li>
-      <li><a href="#">Йорк / Бивер</a></li>
-    </ul>
-  </div>
-  <div>
-    <h4>Информация</h4>
-    <ul>
-      <li><a href="#">О клубе</a></li>
-      <li><a href="#">Доставка и оплата</a></li>
-      <li><a href="#">Отзывы</a></li>
-      <li><a href="#">История пород</a></li>
-    </ul>
-  </div>
+  <div><a class="logo" href="#">PUPPY<span> POWER</span></a><p>Клуб профессиональных заводчиков.<br>Работаем с 2016 года.</p></div>
+  <div><h4>Породы</h4><ul><li><a href="#breeds">Померанский Шпиц</a></li><li><a href="#breeds">Мальтипу</a></li><li><a href="#breeds">Той-Пудель</a></li><li><a href="#breeds">Йорк / Бивер</a></li></ul></div>
+  <div><h4>Информация</h4><ul><li><a href="#why">О клубе</a></li><li><a href="#coats">Окрасы</a></li><li><a href="#delivery">Доставка и оплата</a></li><li><a href="#faq">Вопросы и ответы</a></li></ul></div>
 </footer>
-<div class="footer-bottom">
-  <span>© 2016–2025 Puppy Power. Все права защищены.</span>
-  <span>Только для лиц от 18 лет</span>
-</div>
+<div class="fb"><span>© 2016–2025 Puppy Power. Все права защищены.</span><span>Только для лиц от 18 лет</span></div>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  // FAQ toggle
-  function toggleFaq(el) {
-    const item = el.parentElement;
-    const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!wasOpen) item.classList.add('open');
-  }
+  function openPopup() { document.getElementById('popup').classList.add('active'); document.body.style.overflow='hidden'; }
+  function closePopup() { document.getElementById('popup').classList.remove('active'); document.body.style.overflow=''; }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closePopup(); });
+  function toggleFaq(el) { const item=el.parentElement; const wasOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open')); if(!wasOpen) item.classList.add('open'); }
+  const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // Логика слайдера и вкладок
+  document.addEventListener('DOMContentLoaded', () => {
+    // observer: true - это магия, которая чинит слайдеры внутри скрытых вкладок
+    const swiperOptions = {
+      slidesPerView: 1.1,
+      spaceBetween: 16,
+      observer: true, 
+      observeParents: true,
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      breakpoints: {
+        600: { slidesPerView: 2.2, spaceBetween: 20 },
+        900: { slidesPerView: 3, spaceBetween: 24 }
+      }
+    };
+
+    // Инициализируем все слайдеры на странице
+    document.querySelectorAll('.coats-swiper').forEach(el => new Swiper(el, swiperOptions));
+  });
+
+  function switchCoatTab(breedId) {
+    document.querySelectorAll('.coat-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`button[onclick="switchCoatTab('${breedId}')"]`).classList.add('active');
+    document.querySelectorAll('.coats-slider-wrapper').forEach(w => w.classList.remove('active'));
+    document.getElementById('slider-' + breedId).classList.add('active');
+  }
 </script>
 </body>
 </html>
