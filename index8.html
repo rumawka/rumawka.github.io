@@ -6,279 +6,393 @@
 <title>PUPPY POWER — Элитные щенки</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <style>
-  :root {
-    --emerald-deep:   #050F09; 
-    --emerald-dark:   #091A10; 
-    --emerald-mid:    #0E2618; 
-    --gold-main:      #CFA660; 
-    --gold-light:     #E8CA8C; 
-    --gold-muted:     rgba(207, 166, 96, 0.4);
-    --gold-border:    rgba(207, 166, 96, 0.15);
-    --text-cream:     #FDFBF7; 
-    --text-dim:       rgba(253, 251, 247, 0.65); 
-  }
+#allrecords a{color:#f5e9cc}
+:root{
+  --ed:#050F09;--eda:#091A10;--em:#0E2618;
+  --gm:#CFA660;--gl:#E8CA8C;--gmu:rgba(207,166,96,.4);--gb:rgba(207,166,96,.15);
+  --tc:#FDFBF7;--td:rgba(253,251,247,.65);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ed);color:var(--tc);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:.3}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--emerald-deep); color: var(--text-cream); font-family: 'Montserrat', sans-serif; font-weight: 300; overflow-x: hidden; }
-  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9000; opacity: 0.3; }
+h2.st{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4.5vw,60px);font-weight:300;color:var(--tc);letter-spacing:.03em;line-height:1.1}
+h2.st em{font-style:italic;color:var(--gm)}
+.sl{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gm);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.sl::before{content:'';display:block;width:28px;height:1px;background:var(--gm)}
+section{padding:100px 60px}
+.btn-p{background:var(--gm);color:var(--ed);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;padding:18px 44px;transition:background .3s,transform .3s;display:inline-block;cursor:pointer;border:none;text-decoration:none}
+.btn-p:hover{background:var(--gl);transform:translateY(-2px)}
+.btn-g{border:1px solid var(--gmu);color:var(--gm);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;padding:17px 40px;transition:border-color .3s,color .3s;display:inline-block;cursor:pointer;background:none;text-decoration:none}
+.btn-g:hover{border-color:var(--gm);color:var(--gl)}
+.orn{display:flex;align-items:center;justify-content:center;gap:20px;padding:36px 60px}
+.orn-l{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gb),transparent)}
+.orn-d{width:8px;height:8px;background:var(--gm);transform:rotate(45deg);opacity:.45}
 
-  h2.st { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4.5vw, 60px); font-weight: 300; color: var(--text-cream); letter-spacing: .03em; line-height: 1.1; }
-  h2.st em { font-style: italic; color: var(--gold-main); }
-  .sl { font-size: 9px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .sl::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold-main); }
-  section { padding: 100px 60px; }
+/* ── HEADER ── */
+header{top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;background:linear-gradient(180deg,rgba(5,15,9,.96) 0%,rgba(5,15,9,0) 100%);backdrop-filter:blur(4px)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;letter-spacing:.22em;color:var(--gm);text-decoration:none;text-transform:uppercase}
+.logo span{color:var(--tc);font-weight:300}
+nav{display:flex;gap:40px;align-items:center}
+nav a{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--td);text-decoration:none;font-weight:400;transition:color .3s}
+nav a:hover{color:var(--gm)}
+.nav-cta{border:1px solid var(--gm);padding:10px 24px;color:var(--gm)!important;transition:background .3s,color .3s!important}
+.nav-cta:hover{background:var(--gm);color:var(--ed)!important}
 
-  .btn-p { background: var(--gold-main); color: var(--emerald-deep); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; padding: 18px 44px; transition: background .3s, transform .3s; display: inline-block; cursor: pointer; border: none; text-decoration: none; }
-  .btn-p:hover { background: var(--gold-light); transform: translateY(-2px); }
-  .btn-g { border: 1px solid var(--gold-muted); color: var(--gold-main); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: .28em; text-transform: uppercase; padding: 17px 40px; transition: border-color .3s, color .3s; display: inline-block; cursor: pointer; background: none; text-decoration: none; }
-  .btn-g:hover { border-color: var(--gold-main); color: var(--gold-light); }
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 90px;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 80% at 60% 40%,var(--em) 0%,var(--ed) 70%)}
+/* Ring */
+.hero-ring{position:absolute;top:50%;left:58%;transform:translate(-50%,-50%);width:680px;height:680px;border:1px solid var(--gb);border-radius:50%;animation:rot 40s linear infinite;pointer-events:none;z-index:1}
+.hero-ring::after{content:'';position:absolute;inset:40px;border:1px solid rgba(207,166,96,.05);border-radius:50%}
+.hero-ring::before{content:'';position:absolute;inset:-50px;border:1px solid rgba(207,166,96,.04);border-radius:50%}
+@keyframes rot{to{transform:translate(-50%,-50%) rotate(360deg)}}
 
-  .orn { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 36px 60px; }
-  .orn-l { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-border), transparent); }
-  .orn-d { width: 8px; height: 8px; background: var(--gold-main); transform: rotate(45deg); opacity: 0.45; }
+/* Dog PNG inside ring */
+.hero-dog{
+  position:absolute;
+  /* Центр кольца: left 58%, top 50% — подстраиваем под PNG */
+  left:calc(58% - 220px); /* смещение влево на половину ширины */
+  top:50%;
+  transform:translateY(-54%);
+  width:440px; /* ширина PNG-изображения в px */
+  z-index:2;
+  pointer-events:none;
+  /* Убираем фон если PNG уже прозрачный */
+  filter:drop-shadow(0 0 40px rgba(14,38,24,.8));
+}
+/* Плейсхолдер пока нет PNG */
+.hero-dog-placeholder{
+  position:absolute;
+  left:calc(58% - 180px);
+  top:50%;
+  transform:translateY(-54%);
+  width:360px;height:460px;
+  z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  pointer-events:none;
+}
+.hero-dog-placeholder-inner{
+  width:260px;height:380px;
+  border:1px dashed rgba(207,166,96,.2);
+  border-radius:4px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+}
+.hero-dog-placeholder-inner span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(207,166,96,.3);text-align:center;padding:0 20px;line-height:2}
 
-  header { position: fixed; top: 0; left: 0; right: 0; z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; background: linear-gradient(180deg, rgba(5,15,9,0.96) 0%, rgba(5,15,9,0) 100%); backdrop-filter: blur(4px); }
-  .logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; letter-spacing: .22em; color: var(--gold-main); text-decoration: none; text-transform: uppercase; }
-  .logo span { color: var(--text-cream); font-weight: 300; }
-  nav { display: flex; gap: 40px; align-items: center; }
-  nav a { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; font-weight: 400; transition: color .3s; }
-  nav a:hover { color: var(--gold-main); }
-  .nav-cta { border: 1px solid var(--gold-main); padding: 10px 24px; color: var(--gold-main) !important; transition: background .3s, color .3s !important; }
-  .nav-cta:hover { background: var(--gold-main); color: var(--emerald-deep) !important; }
+.hero-content{position:relative;z-index:3}
+.hero-lbl{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gm);margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.hero-lbl::before{content:'';display:block;width:40px;height:1px;background:var(--gm)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,7vw,96px);font-weight:300;line-height:1.0;color:var(--tc);max-width:720px}
+.hero h1 em{font-style:italic;color:var(--gm)}
+.hero-sub{margin-top:28px;max-width:480px;font-size:12px;letter-spacing:.12em;line-height:2;color:var(--td);text-transform:uppercase}
+.hero-actions{margin-top:48px;display:flex;gap:20px;align-items:center}
 
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 60px 90px; position: relative; overflow: hidden; background: radial-gradient(ellipse 80% 80% at 60% 40%, var(--emerald-mid) 0%, var(--emerald-deep) 70%); }
-  .hero-ring { position: absolute; top: 50%; left: 58%; transform: translate(-50%,-50%); width: 680px; height: 680px; border: 1px solid var(--gold-border); border-radius: 50%; animation: rot 40s linear infinite; pointer-events: none; }
-  .hero-ring::after { content: ''; position: absolute; inset: 40px; border: 1px solid rgba(207, 166, 96, 0.05); border-radius: 50%; }
-  @keyframes rot { to { transform: translate(-50%,-50%) rotate(360deg); } }
-  .hero-lbl { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
-  .hero-lbl::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold-main); }
-  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 7vw, 96px); font-weight: 300; line-height: 1.0; color: var(--text-cream); max-width: 720px; }
-  .hero h1 em { font-style: italic; color: var(--gold-main); }
-  .hero-sub { margin-top: 28px; max-width: 480px; font-size: 12px; letter-spacing: .12em; line-height: 2; color: var(--text-dim); text-transform: uppercase; }
-  .hero-actions { margin-top: 48px; display: flex; gap: 20px; align-items: center; }
-  .hero-prices { position: absolute; right: 60px; bottom: 90px; display: flex; flex-direction: column; gap: 10px; text-align: right; }
-  .pi { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-muted); }
-  .pi strong { color: var(--gold-main); font-weight: 400; }
+/* Desktop prices */
+.hero-prices{position:absolute;right:60px;bottom:90px;display:flex;flex-direction:column;gap:0;background:rgba(5,15,9,.72);border:1px solid var(--gb);backdrop-filter:blur(10px);overflow:hidden;z-index:3}
+.pi{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--td);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:32px;border-bottom:1px solid var(--gb);transition:background .25s}
+.pi:last-child{border-bottom:none}
+.pi:hover{background:rgba(207,166,96,.06)}
+.pi strong{color:var(--gm);font-weight:500;font-size:11px;white-space:nowrap}
+.pi-label{color:var(--td)}
 
-  .trust { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border); }
-  .ti { padding: 48px 40px; border-right: 1px solid var(--gold-border); text-align: center; }
-  .ti:last-child { border-right: none; }
-  .ti .n { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--gold-main); line-height: 1; }
-  .ti p { margin-top: 10px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-muted); line-height: 1.8; }
+/* Mobile prices */
+.prices-mobile{display:none;background:var(--em);border-top:1px solid var(--gb);border-bottom:1px solid var(--gb)}
+.prices-mobile-inner{display:grid;grid-template-columns:repeat(2,1fr)}
+.pm-item{padding:20px 20px 18px;border-right:1px solid var(--gb);border-bottom:1px solid var(--gb);text-align:center}
+.pm-item:nth-child(2n){border-right:none}
+.pm-item:nth-child(3),.pm-item:nth-child(4){border-bottom:none}
+.pm-breed{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gmu);margin-bottom:6px}
+.pm-price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gm)}
+.pm-from{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--td);margin-top:2px}
 
-  .breeds { background: var(--emerald-dark); }
-  .breeds-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 60px; }
-  .bc { background: var(--emerald-deep); position: relative; overflow: hidden; cursor: pointer; transition: background .4s; text-decoration: none; display: block; min-height: 440px; }
-  .bc:hover { background: var(--emerald-mid); }
-  .bc-imgw { overflow: hidden; height: 280px; }
-  .bc-img { width: 100%; height: 280px; object-fit: cover; display: block; filter: brightness(.8) saturate(.85); transition: filter .5s, transform .5s; }
-  .bc:hover .bc-img { filter: brightness(.95) saturate(1); transform: scale(1.04); }
-  .bc-ov { position: absolute; top: 0; left: 0; right: 0; height: 280px; background: linear-gradient(180deg, transparent 40%, var(--emerald-deep) 100%); pointer-events: none; }
-  .bc-body { padding: 26px 34px 34px; position: relative; }
-  .bc::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold-main); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
-  .bc:hover::after { transform: scaleX(1); }
-  .bc-num { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300; color: rgba(207, 166, 96, 0.05); line-height: 1; position: absolute; top: 10px; right: 28px; }
-  .bc-tag { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 8px; }
-  .bc-name { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: var(--text-cream); letter-spacing: .04em; }
-  .bc-desc { margin-top: 8px; font-size: 11px; line-height: 1.9; color: var(--text-dim); max-width: 340px; }
-  .bc-price { margin-top: 14px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
-  .bc-price strong { color: var(--gold-main); font-weight: 400; }
-  .bc-arrow { margin-top: 18px; display: flex; align-items: center; gap: 12px; font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold-muted); transition: color .3s, gap .3s; }
-  .bc:hover .bc-arrow { color: var(--gold-main); gap: 20px; }
-  .bc-arrow::after { content: '→'; font-size: 14px; }
+/* TRUST */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--gb);border-bottom:1px solid var(--gb)}
+.ti{padding:48px 40px;border-right:1px solid var(--gb);text-align:center}
+.ti:last-child{border-right:none}
+.ti .n{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gm);line-height:1}
+.ti p{margin-top:10px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gmu);line-height:1.8}
 
-  /* =========================================
-     COATS SECTION (TABS & SWIPER)
-     ========================================= */
-  .coats { background: var(--emerald-deep); }
-  .coats-intro { margin-top: 18px; font-size: 12px; letter-spacing: .08em; line-height: 2; color: var(--text-dim); max-width: 560px; }
-  
-  /* Tabs */
-  .coats-tabs { display: flex; gap: 24px; margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--gold-border); padding-bottom: 16px; overflow-x: auto; scrollbar-width: none; }
-  .coats-tabs::-webkit-scrollbar { display: none; }
-  .coat-tab { background: none; border: none; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-muted); cursor: pointer; white-space: nowrap; padding: 8px 0; position: relative; transition: color 0.3s; }
-  .coat-tab:hover { color: var(--gold-light); }
-  .coat-tab.active { color: var(--gold-main); }
-  .coat-tab.active::after { content: ''; position: absolute; bottom: -17px; left: 0; right: 0; height: 2px; background: var(--gold-main); }
+/* ── BREEDS ──
+   Размер изображений для секции "Наши породы":
+   Рекомендуемый размер: 800×560 px (соотношение 10:7)
+   Минимум: 600×420 px
+   Формат: JPG или WebP, качество 85%+
+   Изображение будет обрезано по центру до высоты 280px
+*/
+.breeds{background:var(--eda)}
+.breeds-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:60px}
+.bc{background:var(--ed);position:relative;overflow:hidden;cursor:pointer;transition:background .4s;text-decoration:none;display:block;min-height:440px}
+.bc:hover{background:var(--em)}
+.bc-imgw{overflow:hidden;height:280px;background:var(--em);position:relative}
+/* Плейсхолдер для фото породы */
+.bc-imgw::before{
+  content:attr(data-hint);
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(207,166,96,.2);
+  text-align:center;padding:20px;
+  pointer-events:none;
+  z-index:0;
+  white-space:pre-line;
+}
+.bc-img{width:100%;height:280px;object-fit:cover;display:block;filter:brightness(.8) saturate(.85);transition:filter .5s,transform .5s;position:relative;z-index:1}
+.bc:hover .bc-img{filter:brightness(.95) saturate(1);transform:scale(1.04)}
+.bc-ov{position:absolute;top:0;left:0;right:0;height:280px;background:linear-gradient(180deg,transparent 40%,var(--ed) 100%);pointer-events:none;z-index:2}
+.bc-body{padding:26px 34px 34px;position:relative}
+.bc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gm);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.bc:hover::after{transform:scaleX(1)}
+.bc-num{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:rgba(207,166,96,.05);line-height:1;position:absolute;top:10px;right:28px}
+.bc-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gm);margin-bottom:8px}
+.bc-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--tc);letter-spacing:.04em}
+.bc-desc{margin-top:8px;font-size:11px;line-height:1.9;color:var(--td);max-width:340px}
+.bc-price{margin-top:14px;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.bc-price strong{color:var(--gm);font-weight:400}
+.bc-arrow{margin-top:18px;display:flex;align-items:center;gap:12px;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gmu);transition:color .3s,gap .3s}
+.bc:hover .bc-arrow{color:var(--gm);gap:20px}
+.bc-arrow::after{content:'→';font-size:14px}
 
-  /* Sliders Container */
-  .coats-slider-wrapper { display: none; width: 100%; animation: fade-in 0.4s ease; }
-  .coats-slider-wrapper.active { display: block; }
-  @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   COATS SECTION — slider + cards
+   Размер изображений для окрасов:
+   Рекомендуемый: 600×400 px (3:2)
+   Минимум: 400×260 px
+   Формат: JPG или WebP
+   Изображение заполняет блок 100% ширины × 200px высоты
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.coats{background:var(--ed)}
+.coats-intro{margin-top:18px;font-size:12px;letter-spacing:.08em;line-height:2;color:var(--td);max-width:560px}
 
-  .coats-swiper { width: 100%; padding-bottom: 70px; margin-top: 20px; }
-  .coats-swiper .swiper-slide { height: auto; } /* Для одинаковой высоты карточек */
-  
-  /* Cards */
-  .cc { position: relative; overflow: hidden; cursor: pointer; transition: transform .35s; display: flex; flex-direction: column; height: 100%; min-height: 360px; }
-  .cc:hover { transform: translateY(-6px); z-index: 2; }
-  
-  /* Image Area */
-  .cc-sw { height: 220px; position: relative; overflow: hidden; background: var(--emerald-mid); flex-shrink: 0; }
-  .cc-pat { position: absolute; inset: 0; transition: filter .4s; z-index: 1; }
-  
-  /* Стили для реальных фото (прячем иконку битого фото, если src пустой) */
-  .cc-sw img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; transition: transform .6s ease; }
-  .cc-sw img[src=""] { display: none; }
-  .cc:hover .cc-sw img { transform: scale(1.08); }
-  .cc:hover .cc-pat { filter: brightness(1.08); }
+/* Tabs */
+.coat-tabs{display:flex;gap:0;margin-top:44px;border:1px solid var(--gb);overflow:hidden;width:fit-content}
+.coat-tab{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--td);background:none;border:none;padding:14px 28px;cursor:pointer;position:relative;transition:color .3s,background .3s;border-right:1px solid var(--gb);white-space:nowrap}
+.coat-tab:last-child{border-right:none}
+.coat-tab::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gm);transform:scaleX(0);transition:transform .35s}
+.coat-tab.active{color:var(--gm);background:rgba(207,166,96,.06)}
+.coat-tab.active::after{transform:scaleX(1)}
+.coat-tab:hover:not(.active){color:var(--gl);background:rgba(207,166,96,.03)}
 
-  /* Gradients for placeholders */
-  .c-orange { background: linear-gradient(135deg, #c45220 0%, #e8824a 35%, #f5b070 65%, #b04818 100%); }
-  .c-white { background: linear-gradient(135deg, #e8e4db 0%, #fdfaf5 45%, #e0dbd0 100%); }
-  .c-cream { background: linear-gradient(135deg, #ddc898 0%, #f0ddb8 45%, #faf1de 65%, #ccb280 100%); }
-  .c-choc { background: linear-gradient(135deg, #2e1508 0%, #5a2c10 35%, #7a3e18 65%, #3a1c08 100%); }
-  .c-marb { background: linear-gradient(135deg, #f8f8f8 0%, #c8c8c8 20%, #e8e8e8 35%, #aaa 50%, #f0f0f0 65%, #bbb 80%, #f5f5f5 100%); }
-  .c-apri { background: linear-gradient(135deg, #d88c5e 0%, #eeaa7a 35%, #facea0 65%, #c47848 100%); }
-  .c-bltn { background: linear-gradient(135deg, #3c4e60 0%, #6a7f96 35%, #a89060 60%, #4e6070 100%); }
-  .c-biew { background: linear-gradient(135deg, #111122 0%, #111122 30%, #f0f0f0 30%, #f0f0f0 65%, #c8a060 65%, #c8a060 100%); }
-  .c-black { background: linear-gradient(135deg, #111 0%, #282828 40%, #363636 65%, #0a0a0a 100%); }
-  .c-redb { background: linear-gradient(135deg,#5e2100 0%,#8a3500 40%,#a84b14 70%,#4a1a00 100%); }
-  .c-silv { background: linear-gradient(135deg,#8c9296 0%,#b5b9bc 40%,#d8dbdd 70%,#696d72 100%); }
-  .c-goldd { background: linear-gradient(135deg,#d4af37 0%,#f3e5ab 40%,#ffdf00 70%,#aa8529 100%); }
-  
-  .cc-frame { position: absolute; inset: 0; border: 1px solid var(--gold-border); pointer-events: none; z-index: 3; }
-  .cc-tl, .cc-tr, .cc-bl, .cc-br { position: absolute; width: 18px; height: 18px; z-index: 3; }
-  .cc-tl { top: 9px; left: 9px; border-top: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
-  .cc-tr { top: 9px; right: 9px; border-top: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
-  .cc-bl { bottom: 9px; left: 9px; border-bottom: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
-  .cc-br { bottom: 9px; right: 9px; border-bottom: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
-  
-  .cc-badge { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(5, 15, 9, 0.82); backdrop-filter: blur(6px); border: 1px solid var(--gold-muted); padding: 5px 16px; font-size: 8px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold-main); white-space: nowrap; z-index: 3; }
-  
-  .cc-info { background: var(--emerald-dark); padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; border-top: 1px solid rgba(207, 166, 96, 0.08); }
-  .cc-breed { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 5px; }
-  .cc-name { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 300; color: var(--text-cream); line-height: 1.2; flex: 1; }
-  .cc-rar { margin-top: 14px; display: flex; align-items: center; gap: 8px; }
-  .cc-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .dot-r { background: var(--gold-main); box-shadow: 0 0 6px var(--gold-muted); }
-  .dot-c { background: var(--gold-muted); }
-  .cc-rar span { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); }
+/* Panels */
+.coat-panels{position:relative;margin-top:32px}
+.coat-panel{display:none;animation:fadeIn .4s ease}
+.coat-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-  /* Навигация слайдера */
-  .swiper-button-next, .swiper-button-prev { color: var(--gold-main); top: auto; bottom: 0; width: 44px; height: 44px; border: 1px solid var(--gold-muted); border-radius: 50%; background: var(--emerald-dark); transition: all 0.3s; margin: 0; }
-  .swiper-button-next::after, .swiper-button-prev::after { font-size: 14px; }
-  .swiper-button-next:hover, .swiper-button-prev:hover { background: var(--gold-main); color: var(--emerald-deep); border-color: var(--gold-main); }
-  .swiper-button-prev { left: calc(50% - 50px); }
-  .swiper-button-next { right: calc(50% - 50px); }
+/* Panel header with price */
+.coat-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:16px}
+.coat-panel-price{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2vw,26px);font-weight:300;color:var(--td);letter-spacing:.05em}
+.coat-panel-price em{color:var(--gm);font-style:normal}
 
-  /* =========================================
-     OTHER SECTIONS
-     ========================================= */
-  .why { background: var(--emerald-dark); }
-  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 60px; background: var(--gold-border); }
-  .wi { background: var(--emerald-dark); padding: 48px 40px; position: relative; }
-  .wi::before { content: attr(data-n); font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 300; color: rgba(207, 166, 96, 0.05); position: absolute; top: 20px; right: 28px; line-height: 1; }
-  .wi-ic { font-size: 16px; margin-bottom: 18px; color: var(--gold-main); }
-  .wi-t { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--gold-light); margin-bottom: 12px; }
-  .wi-tx { font-size: 12px; line-height: 2; color: var(--text-dim); }
+/* ── COAT SLIDER ── */
+.coat-slider-wrap{
+  position:relative;
+  overflow:hidden;
+}
+/* Track containing all 5 cards side by side */
+.coat-track{
+  display:flex;
+  gap:2px;
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+}
+/* Each coat card — fixed width so we can slide */
+.coat-slide{
+  flex:0 0 calc(33.333% - 2px);
+  min-width:calc(33.333% - 2px);
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  transition:transform .3s;
+}
+.coat-slide:hover{transform:translateY(-5px);z-index:2}
 
-  .tg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px; }
-  .tcard { background: var(--emerald-dark); padding: 44px 36px; border-top: 2px solid transparent; transition: border-color .4s; }
-  .tcard:hover { border-top-color: var(--gold-main); }
-  .tst { color: var(--gold-main); font-size: 12px; letter-spacing: 4px; margin-bottom: 20px; }
-  .ttxt { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; line-height: 1.7; color: var(--text-cream); margin-bottom: 22px; opacity: 0.9;}
-  .tau { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold-main); display: flex; align-items: center; gap: 12px; }
-  .tau::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold-main); }
+/* Swatch */
+.cc-sw{height:220px;position:relative;overflow:hidden;background:var(--em)}
+.cc-sw img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s,filter .6s;filter:brightness(.88)}
+.coat-slide:hover .cc-sw img{transform:scale(1.07);filter:brightness(1.0)}
+/* Fallback gradient (shown when no img or img fails) */
+.cc-sw .cc-pat{position:absolute;inset:0;transition:filter .4s}
+.coat-slide:hover .cc-pat{filter:brightness(1.1)}
+/* Gradients */
+.c-orange{background:linear-gradient(135deg,#c45220,#e8824a 35%,#f5b070 65%,#b04818)}
+.c-white{background:linear-gradient(135deg,#e8e4db,#fdfaf5 45%,#e0dbd0)}
+.c-cream{background:linear-gradient(135deg,#ddc898,#f0ddb8 45%,#faf1de 65%,#ccb280)}
+.c-choc{background:linear-gradient(135deg,#2e1508,#5a2c10 35%,#7a3e18 65%,#3a1c08)}
+.c-marb{background:linear-gradient(135deg,#f8f8f8,#c8c8c8 20%,#e8e8e8 35%,#aaa 50%,#f0f0f0 65%,#bbb 80%,#f5f5f5)}
+.c-apri{background:linear-gradient(135deg,#d88c5e,#eeaa7a 35%,#facea0 65%,#c47848)}
+.c-bltn{background:linear-gradient(135deg,#3c4e60,#6a7f96 35%,#a89060 60%,#4e6070)}
+.c-biew{background:linear-gradient(135deg,#111122 0%,#111122 30%,#f0f0f0 30%,#f0f0f0 65%,#c8a060 65%,#c8a060)}
+.c-black{background:linear-gradient(135deg,#111,#282828 40%,#363636 65%,#0a0a0a)}
+.c-brnz{background:linear-gradient(135deg,#7a5c2a,#a07840 35%,#c8a060 65%,#6a4c1a)}
+.c-silver{background:linear-gradient(135deg,#8a8a8a,#b8b8b8 35%,#d8d8d8 65%,#707070)}
+.c-blue{background:linear-gradient(135deg,#2a3a4a,#3a5268 35%,#4e6a84 65%,#1e2e3c)}
+.c-red{background:linear-gradient(135deg,#8b1a00,#c02808 35%,#e84020 65%,#6a1000)}
+.c-parti{background:linear-gradient(135deg,#fff 0%,#fff 45%,#1a1a1a 45%,#1a1a1a)}
+.c-gold{background:linear-gradient(135deg,#b8860b,#d4a020 35%,#f0c040 65%,#8b6508)}
+.c-blueblk{background:linear-gradient(135deg,#0d1820,#1a2e3e 35%,#2a4256 65%,#0a1018)}
 
-  .delivery { background: var(--emerald-dark); }
-  .dg { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; }
-  .db h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--text-cream); margin-bottom: 24px; }
-  .dl { list-style: none; }
-  .dl li { font-size: 12px; line-height: 2; color: var(--text-dim); display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--gold-border); }
-  .dl li::before { content: '◆'; color: var(--gold-main); font-size: 6px; flex-shrink: 0; }
+/* Gold corners & frame */
+.cc-frame{position:absolute;inset:0;border:1px solid var(--gb);pointer-events:none}
+.cc-tl,.cc-tr,.cc-bl,.cc-br{position:absolute;width:16px;height:16px}
+.cc-tl{top:8px;left:8px;border-top:1px solid var(--gm);border-left:1px solid var(--gm)}
+.cc-tr{top:8px;right:8px;border-top:1px solid var(--gm);border-right:1px solid var(--gm)}
+.cc-bl{bottom:8px;left:8px;border-bottom:1px solid var(--gm);border-left:1px solid var(--gm)}
+.cc-br{bottom:8px;right:8px;border-bottom:1px solid var(--gm);border-right:1px solid var(--gm)}
+.cc-badge{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(5,15,9,.88);backdrop-filter:blur(6px);border:1px solid var(--gmu);padding:4px 14px;font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--gm);white-space:nowrap}
 
-  .faq-list { margin-top: 60px; }
-  .faq-item { border-bottom: 1px solid var(--gold-border); }
-  .fq { padding: 28px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: var(--text-cream); transition: color .3s; }
-  .fq:hover { color: var(--gold-main); }
-  .fq span { color: var(--gold-main); font-size: 18px; flex-shrink: 0; margin-left: 20px; }
-  .fa { font-size: 13px; line-height: 2; color: var(--text-dim); max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; }
-  .faq-item.open .fa { max-height: 300px; padding-bottom: 28px; }
-  .faq-item.open .fq { color: var(--gold-main); }
+/* Card info */
+.cc-info{background:var(--eda);padding:18px 20px 22px;flex:1;display:flex;flex-direction:column;justify-content:space-between;border-top:1px solid rgba(207,166,96,.08)}
+.cc-breed{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gmu);margin-bottom:4px}
+.cc-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;color:var(--tc);line-height:1.2}
+.cc-rar{margin-top:10px;display:flex;align-items:center;gap:8px}
+.cc-dot{width:6px;height:6px;border-radius:50%}
+.dot-r{background:var(--gm);box-shadow:0 0 6px var(--gmu)}
+.dot-c{background:var(--gmu)}
+.cc-rar span{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--td)}
 
-  .contact { background: var(--emerald-mid); text-align: center; }
-  .contact .sl { justify-content: center; }
-  .contact .sl::before { display: none; }
-  .csub { margin: 18px auto 0; max-width: 440px; font-size: 12px; letter-spacing: .1em; line-height: 2; color: var(--text-dim); }
-  .cch { display: flex; justify-content: center; gap: 16px; margin-top: 44px; flex-wrap: wrap; }
-  .cbtn { display: inline-flex; align-items: center; border: 1px solid var(--gold-muted); padding: 15px 32px; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-light); text-decoration: none; transition: border-color .3s, color .3s, background .3s; cursor: pointer; background: none; }
-  .cbtn:hover { background: var(--gold-main); color: var(--emerald-deep); border-color: var(--gold-main); }
+/* Slider nav */
+.coat-nav{display:flex;align-items:center;justify-content:space-between;margin-top:28px}
+.coat-dots{display:flex;gap:8px;align-items:center}
+.coat-dot{width:6px;height:6px;border-radius:50%;background:var(--gmu);cursor:pointer;transition:background .3s,transform .3s;border:none;padding:0}
+.coat-dot.active{background:var(--gm);transform:scale(1.4)}
+.coat-arrows{display:flex;gap:10px}
+.coat-arrow-btn{width:44px;height:44px;border:1px solid var(--gb);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gmu);font-size:16px;transition:border-color .3s,color .3s,background .3s}
+.coat-arrow-btn:hover{border-color:var(--gm);color:var(--gm);background:rgba(207,166,96,.05)}
+.coat-arrow-btn:disabled{opacity:.25;cursor:default}
 
-  footer { background: var(--emerald-deep); border-top: 1px solid var(--gold-border); padding: 60px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
-  footer .logo { font-size: 18px; display: block; margin-bottom: 16px; }
-  footer p { font-size: 11px; color: var(--text-dim); line-height: 2; }
-  footer h4 { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 20px; }
-  footer ul { list-style: none; }
-  footer ul li a { font-size: 12px; color: var(--text-dim); text-decoration: none; display: block; margin-bottom: 10px; transition: color .3s; }
-  footer ul li a:hover { color: var(--gold-main); }
-  .fb { padding: 24px 60px; border-top: 1px solid var(--gold-border); display: flex; justify-content: space-between; font-size: 10px; color: var(--text-dim); letter-spacing: .12em; }
+/* WHY */
+.why{background:var(--eda)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:60px;background:var(--gb)}
+.wi{background:var(--eda);padding:48px 40px;position:relative}
+.wi::before{content:attr(data-n);font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;color:rgba(207,166,96,.05);position:absolute;top:20px;right:28px;line-height:1}
+.wi-ic{font-size:16px;margin-bottom:18px;color:var(--gm)}
+.wi-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gl);margin-bottom:12px}
+.wi-tx{font-size:12px;line-height:2;color:var(--td)}
 
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
+/* TESTIMONIALS */
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
+.tcard{background:var(--eda);padding:44px 36px;border-top:2px solid transparent;transition:border-color .4s}
+.tcard:hover{border-top-color:var(--gm)}
+.tst{color:var(--gm);font-size:12px;letter-spacing:4px;margin-bottom:20px}
+.ttxt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;line-height:1.7;color:var(--tc);margin-bottom:22px;opacity:.9}
+.tau{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gm);display:flex;align-items:center;gap:12px}
+.tau::before{content:'';display:block;width:24px;height:1px;background:var(--gm)}
 
-  .popup-ov { position: fixed; inset: 0; z-index: 9999; background: rgba(5, 15, 9, 0.9); backdrop-filter: blur(14px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .4s; }
-  .popup-ov.active { opacity: 1; pointer-events: all; }
-  .popup { background: var(--emerald-dark); border: 1px solid var(--gold-muted); width: 100%; max-width: 540px; position: relative; padding: 56px 52px 50px; transform: translateY(28px); transition: transform .4s; }
-  .popup-ov.active .popup { transform: none; }
-  .pc { position: absolute; width: 22px; height: 22px; }
-  .pc.tl { top: 13px; left: 13px; border-top: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
-  .pc.tr { top: 13px; right: 13px; border-top: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
-  .pc.bl { bottom: 13px; left: 13px; border-bottom: 1px solid var(--gold-main); border-left: 1px solid var(--gold-main); }
-  .pc.br { bottom: 13px; right: 13px; border-bottom: 1px solid var(--gold-main); border-right: 1px solid var(--gold-main); }
-  .pclose { position: absolute; top: 18px; right: 18px; background: none; border: none; cursor: pointer; color: var(--gold-muted); font-size: 18px; transition: color .3s; padding: 6px; line-height: 1; }
-  .pclose:hover { color: var(--gold-main); }
-  .plbl { font-size: 9px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold-main); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-  .plbl::before { content: ''; display: block; width: 20px; height: 1px; background: var(--gold-main); }
-  .popup h3 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--text-cream); margin-bottom: 8px; }
-  .popup h3 em { font-style: italic; color: var(--gold-main); }
-  .psub { font-size: 11px; letter-spacing: .08em; line-height: 2; color: var(--text-dim); margin-bottom: 34px; }
-  .pdiv { height: 1px; background: var(--gold-border); margin-bottom: 30px; }
-  .pmsgs { display: flex; flex-direction: column; gap: 10px; }
-  .pmsg { display: flex; align-items: center; gap: 18px; border: 1px solid var(--gold-border); padding: 17px 22px; text-decoration: none; transition: border-color .3s, background .3s; cursor: pointer; background: none; }
-  .pmsg:hover { border-color: var(--gold-main); background: rgba(207, 166, 96, 0.04); }
-  .micon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ic-tg { background: rgba(42,139,214,.14); }
-  .ic-wa { background: rgba(37,211,102,.1); }
-  .ic-ph { background: var(--gold-border); }
-  .minfo { flex: 1; }
-  .mname { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-light); font-weight: 400; }
-  .mdesc { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
-  .marr { color: var(--gold-muted); font-size: 16px; transition: color .3s, transform .3s; }
-  .pmsg:hover .marr { color: var(--gold-main); transform: translateX(4px); }
-  .pnote { margin-top: 22px; font-size: 10px; letter-spacing: .1em; text-align: center; color: var(--text-dim); line-height: 1.8; }
+/* DELIVERY */
+.delivery{background:var(--eda)}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px}
+.db h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--tc);margin-bottom:24px}
+.dl{list-style:none}
+.dl li{font-size:12px;line-height:2;color:var(--td);display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--gb)}
+.dl li::before{content:'◆';color:var(--gm);font-size:6px;flex-shrink:0}
 
-  @media (max-width: 900px) {
-    header { padding: 20px 24px; }
-    nav { display: none; }
-    /* Исправленный HERO для мобильных из предыдущего шага */
-    .hero { min-height: 85vh; justify-content: center; padding: 120px 24px 60px; }
-    .hero h1 { font-size: 42px; line-height: 1.1; }
-    .hero-sub { margin-top: 20px; font-size: 11px; }
-    .hero-ring { width: 400px; height: 400px; left: 50%; top: 40%; }
-    .hero-prices { display: none; }
-    section { padding: 70px 24px; }
-    .trust { grid-template-columns: repeat(2, 1fr); }
-    .breeds-grid { grid-template-columns: 1fr; }
-    .why-grid { grid-template-columns: 1fr; }
-    .tg { grid-template-columns: 1fr; }
-    .dg { grid-template-columns: 1fr; gap: 40px; }
-    footer { grid-template-columns: 1fr; padding: 40px 24px; }
-    .fb { padding: 16px 24px; flex-direction: column; gap: 8px; }
-    .popup { padding: 44px 24px 36px; margin: 16px; max-width: calc(100% - 32px); }
-    .orn { padding: 28px 24px; }
-  }
+/* FAQ */
+.faq-list{margin-top:60px}
+.faq-item{border-bottom:1px solid var(--gb)}
+.fq{padding:28px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--tc);transition:color .3s}
+.fq:hover{color:var(--gm)}
+.fq span{color:var(--gm);font-size:18px;flex-shrink:0;margin-left:20px}
+.fa{font-size:13px;line-height:2;color:var(--td);max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.faq-item.open .fa{max-height:300px;padding-bottom:28px}
+.faq-item.open .fq{color:var(--gm)}
+
+/* CONTACT */
+.contact{background:var(--em);text-align:center}
+.contact .sl{justify-content:center}
+.contact .sl::before{display:none}
+.csub{margin:18px auto 0;max-width:440px;font-size:12px;letter-spacing:.1em;line-height:2;color:var(--td)}
+.cch{display:flex;justify-content:center;gap:16px;margin-top:44px;flex-wrap:wrap}
+.cbtn{display:inline-flex;align-items:center;border:1px solid var(--gmu);padding:15px 32px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gl);text-decoration:none;transition:border-color .3s,color .3s,background .3s;cursor:pointer;background:none}
+.cbtn:hover{background:var(--gm);color:var(--ed);border-color:var(--gm)}
+
+/* FOOTER */
+footer{background:var(--ed);border-top:1px solid var(--gb);padding:60px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
+footer .logo{font-size:18px;display:block;margin-bottom:16px}
+footer p{font-size:11px;color:var(--td);line-height:2}
+footer h4{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gm);margin-bottom:20px}
+footer ul{list-style:none}
+footer ul li a{font-size:12px;color:var(--td);text-decoration:none;display:block;margin-bottom:10px;transition:color .3s}
+footer ul li a:hover{color:var(--gm)}
+.fb{padding:24px 60px;border-top:1px solid var(--gb);display:flex;justify-content:space-between;font-size:10px;color:var(--td);letter-spacing:.12em}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* POPUP */
+.popup-ov{position:fixed;inset:0;z-index:9999;background:rgba(5,15,9,.9);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
+.popup-ov.active{opacity:1;pointer-events:all}
+.popup{background:var(--eda);border:1px solid var(--gmu);width:100%;max-width:540px;position:relative;padding:56px 52px 50px;transform:translateY(28px);transition:transform .4s}
+.popup-ov.active .popup{transform:none}
+.pc{position:absolute;width:22px;height:22px}
+.pc.tl{top:13px;left:13px;border-top:1px solid var(--gm);border-left:1px solid var(--gm)}
+.pc.tr{top:13px;right:13px;border-top:1px solid var(--gm);border-right:1px solid var(--gm)}
+.pc.bl{bottom:13px;left:13px;border-bottom:1px solid var(--gm);border-left:1px solid var(--gm)}
+.pc.br{bottom:13px;right:13px;border-bottom:1px solid var(--gm);border-right:1px solid var(--gm)}
+.pclose{position:absolute;top:18px;right:18px;background:none;border:none;cursor:pointer;color:var(--gmu);font-size:18px;transition:color .3s;padding:6px;line-height:1}
+.pclose:hover{color:var(--gm)}
+.plbl{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gm);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.plbl::before{content:'';display:block;width:20px;height:1px;background:var(--gm)}
+.popup h3{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--tc);margin-bottom:8px}
+.popup h3 em{font-style:italic;color:var(--gm)}
+.psub{font-size:11px;letter-spacing:.08em;line-height:2;color:var(--td);margin-bottom:34px}
+.pdiv{height:1px;background:var(--gb);margin-bottom:30px}
+.pmsgs{display:flex;flex-direction:column;gap:10px}
+.pmsg{display:flex;align-items:center;gap:18px;border:1px solid var(--gb);padding:17px 22px;text-decoration:none;transition:border-color .3s,background .3s;cursor:pointer;background:none}
+.pmsg:hover{border-color:var(--gm);background:rgba(207,166,96,.04)}
+.micon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic-tg{background:rgba(42,139,214,.14)}.ic-wa{background:rgba(37,211,102,.1)}.ic-ph{background:var(--gb)}
+.minfo{flex:1}
+.mname{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gl);font-weight:400}
+.mdesc{font-size:10px;color:var(--td);margin-top:2px}
+.marr{color:var(--gmu);font-size:16px;transition:color .3s,transform .3s}
+.pmsg:hover .marr{color:var(--gm);transform:translateX(4px)}
+.pnote{margin-top:22px;font-size:10px;letter-spacing:.1em;text-align:center;color:var(--td);line-height:1.8}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  header{padding:20px 24px}
+  nav{display:none}
+  .hero{min-height:85vh;justify-content:flex-end;padding:0 24px 60px}
+  .hero h1{font-size:38px;line-height:1.1}
+  .hero-sub{margin-top:16px;font-size:10px}
+  .hero-ring{width:320px;height:320px;left:50%;top:30%}
+  .hero-dog-placeholder{left:50%;transform:translate(-50%,-54%);width:240px}
+  .hero-dog-placeholder-inner{width:180px;height:260px}
+  .hero-dog{left:50%;transform:translate(-50%,-54%);width:260px}
+  .hero-prices{display:none}
+  .prices-mobile{display:block}
+  section{padding:60px 20px}
+  .trust{grid-template-columns:repeat(2,1fr)}
+  .breeds-grid{grid-template-columns:1fr}
+  .coat-tabs{flex-wrap:wrap;width:100%;border:none;gap:2px}
+  .coat-tab{flex:1;min-width:calc(33.333% - 2px);text-align:center;font-size:8px;padding:10px 8px;border:1px solid var(--gb)}
+  .coat-slide{flex:0 0 calc(50% - 1px);min-width:calc(50% - 1px)}
+  .why-grid{grid-template-columns:1fr}
+  .tg{grid-template-columns:1fr}
+  .dg{grid-template-columns:1fr;gap:40px}
+  footer{grid-template-columns:1fr;padding:40px 20px}
+  .fb{padding:16px 20px;flex-direction:column;gap:8px}
+  .popup{padding:40px 20px 32px;margin:12px;max-width:calc(100% - 24px)}
+  .orn{padding:24px 20px}
+  .coat-panel-header{flex-direction:column;gap:6px}
+}
+@media(max-width:480px){
+  .coat-slide{flex:0 0 100%;min-width:100%}
+  .coat-tab{min-width:calc(50% - 2px)}
+}
 </style>
 </head>
 <body>
 
+<!-- POPUP -->
 <div class="popup-ov" id="popup" onclick="if(event.target===this)closePopup()">
-  <div class="popup" role="dialog" aria-modal="true" aria-label="Связаться с нами">
+  <div class="popup" role="dialog" aria-modal="true">
     <div class="pc tl"></div><div class="pc tr"></div><div class="pc bl"></div><div class="pc br"></div>
-    <button class="pclose" onclick="closePopup()" aria-label="Закрыть">✕</button>
+    <button class="pclose" onclick="closePopup()">✕</button>
     <div class="plbl">Связаться с нами</div>
     <h3>Подберём <em>вашего</em><br>щенка</h3>
     <p class="psub">Выберите удобный способ связи — ответим в течение нескольких минут</p>
@@ -304,6 +418,7 @@
   </div>
 </div>
 
+<!-- HEADER -->
 <header>
   <a class="logo" href="#">PUPPY<span> POWER</span></a>
   <nav>
@@ -315,141 +430,426 @@
   </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-ring"></div>
-  <div class="hero-lbl">Элитный клуб заводчиков · с 2016 года</div>
-  <h1>Щенки с <em>характером,</em><br>происхождением<br>и душой</h1>
-  <p class="hero-sub">Шпицы · Мальтипу · Той-пудели · Йорки · Биверы<br>Официальные документы · Доставка по всему миру</p>
-  <div class="hero-actions">
-    <button class="btn-p" onclick="openPopup()">Подобрать щенка</button>
-    <a href="#breeds" class="btn-g">Смотреть породы</a>
+
+  <!--
+    ═══════════════════════════════════════════
+    ГЛАВНАЯ СОБАКА В КОЛЬЦЕ — PNG с прозрачным фоном
+    
+    Размер PNG: 500–600px ширина, ~700–800px высота
+    Формат: PNG-24 с прозрачным фоном (альфа-канал)
+    Собака: в полный рост, стоит, смотрит немного вправо
+    
+    Как подключить:
+    1. Загрузите PNG на сервер / CDN
+    2. Замените src="#" ниже на реальный URL
+    3. Удалите .hero-dog-placeholder и его HTML
+    ═══════════════════════════════════════════
+  -->
+  <!-- <img class="hero-dog" src="YOUR_DOG_PNG_URL" alt="Мальтипу"> -->
+
+  <!-- Плейсхолдер (удалите когда добавите PNG) -->
+  <div class="hero-dog-placeholder">
+    <div class="hero-dog-placeholder-inner">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" opacity=".2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="#CFA660"/></svg>
+      <span>PNG мальтипу·500–600 px ширина·прозрачный фон</span>
+    </div>
   </div>
+
+  <div class="hero-content">
+    <div class="hero-lbl">Элитный клуб заводчиков · с 2016 года</div>
+    <h1>Щенки с <em>характером,</em><br>происхождением<br>и душой</h1>
+    <p class="hero-sub">Шпицы · Мальтипу · Той-пудели · Йорки · Биверы<br>Официальные документы · Доставка по всему миру</p>
+    <div class="hero-actions">
+      <button class="btn-p" onclick="openPopup()">Подобрать щенка</button>
+      <a href="#breeds" class="btn-g">Смотреть породы</a>
+    </div>
+  </div>
+
   <div class="hero-prices">
-    <div class="pi">Шпицы — от <strong>50 000 ₽</strong></div>
-    <div class="pi">Йорки / Биверы — от <strong>70 000 ₽</strong></div>
-    <div class="pi">Той-пудели — от <strong>120 000 ₽</strong></div>
-    <div class="pi">Мальтипу — от <strong>120 000 ₽</strong></div>
+    <div class="pi"><span class="pi-label">Шпицы</span><strong>от 50 000 ₽</strong></div>
+    <div class="pi"><span class="pi-label">Йорки / Биверы</span><strong>от 70 000 ₽</strong></div>
+    <div class="pi"><span class="pi-label">Той-пудели</span><strong>от 120 000 ₽</strong></div>
+    <div class="pi"><span class="pi-label">Мальтипу</span><strong>от 120 000 ₽</strong></div>
   </div>
 </section>
 
+<!-- MOBILE PRICES -->
+<div class="prices-mobile">
+  <div class="prices-mobile-inner">
+    <div class="pm-item"><div class="pm-breed">Шпицы</div><div class="pm-price">50 000 ₽</div><div class="pm-from">от</div></div>
+    <div class="pm-item"><div class="pm-breed">Йорки / Биверы</div><div class="pm-price">70 000 ₽</div><div class="pm-from">от</div></div>
+    <div class="pm-item"><div class="pm-breed">Той-пудели</div><div class="pm-price">120 000 ₽</div><div class="pm-from">от</div></div>
+    <div class="pm-item"><div class="pm-breed">Мальтипу</div><div class="pm-price">120 000 ₽</div><div class="pm-from">от</div></div>
+  </div>
+</div>
+
+<!-- TRUST -->
 <div class="trust reveal">
   <div class="ti"><div class="n">7+</div><p>Лет<br>опыта</p></div>
-  <div class="ti"><div class="n">2000+</div><p>Счастливых<br>семей</p></div>
+  <div class="ti"><div class="n">1500+</div><p>Счастливых<br>семей</p></div>
   <div class="ti"><div class="n">200+</div><p>Щенков<br>в наличии</p></div>
   <div class="ti"><div class="n">5★</div><p>Яндекс.Карты<br>рейтинг</p></div>
 </div>
 
+<!-- BREEDS
+  ════════════════════════════════════════
+  РАЗМЕРЫ ФОТО ДЛЯ БЛОКА «НАШИ ПОРОДЫ»:
+  • Ширина:  800 px (минимум 600 px)
+  • Высота:  560 px (минимум 420 px)
+  • Обрезка: по центру до 280px высоты
+  • Формат:  JPG или WebP, качество 85%+
+  • Замените src ниже на ваши URL
+  ════════════════════════════════════════
+-->
 <section class="breeds" id="breeds">
   <div class="sl">Коллекция пород</div>
   <h2 class="st">Наши <em>породы</em></h2>
   <div class="breeds-grid reveal">
+
     <div class="bc" onclick="openPopup()">
-      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1600804531680-18b756c8b1b0?w=800&q=80" alt="Померанский шпиц" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <!-- ФОТО: Шпиц. Рек. 800×560 px, JPG/WebP -->
+      <div class="bc-imgw" data-hint="Фото шпица&#10;800 × 560 px · JPG/WebP">
+        <img class="bc-img" src="" alt="Померанский шпиц" onerror="this.style.display='none'">
+      </div>
       <div class="bc-ov"></div>
       <div class="bc-body">
-        <div class="bc-num">01</div><div class="bc-tag">Порода</div><div class="bc-name">Померанский Шпиц</div><div class="bc-desc">Пушистый, харизматичный, преданный. Идеальный городской компаньон.</div><div class="bc-price">от <strong>50 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+        <div class="bc-num">01</div>
+        <div class="bc-tag">Порода</div>
+        <div class="bc-name">Померанский Шпиц</div>
+        <div class="bc-desc">Пушистый, харизматичный, преданный. Идеальный городской компаньон с роскошной шерстью и ярким характером.</div>
+        <div class="bc-price">от <strong>50 000 ₽</strong></div>
+        <div class="bc-arrow">Узнать подробнее</div>
       </div>
     </div>
+
     <div class="bc" onclick="openPopup()">
-      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80" alt="Мальтипу" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <!-- ФОТО: Мальтипу. Рек. 800×560 px, JPG/WebP -->
+      <div class="bc-imgw" data-hint="Фото мальтипу&#10;800 × 560 px · JPG/WebP">
+        <img class="bc-img" src="" alt="Мальтипу" onerror="this.style.display='none'">
+      </div>
       <div class="bc-ov"></div>
       <div class="bc-body">
-        <div class="bc-num">02</div><div class="bc-tag">Порода</div><div class="bc-name">Мальтипу</div><div class="bc-desc">Гипоаллергенный, умный, ласковый. Уникальное сочетание мальтезе и пуделя.</div><div class="bc-price">от <strong>120 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+        <div class="bc-num">02</div>
+        <div class="bc-tag">Порода</div>
+        <div class="bc-name">Мальтипу</div>
+        <div class="bc-desc">Гипоаллергенный, умный, ласковый. Уникальное сочетание мальтезе и той-пуделя — редкий характер и редкие окрасы.</div>
+        <div class="bc-price">от <strong>120 000 ₽</strong></div>
+        <div class="bc-arrow">Узнать подробнее</div>
       </div>
     </div>
+
     <div class="bc" onclick="openPopup()">
-      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&q=80" alt="Той-пудель" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <!-- ФОТО: Той-пудель. Рек. 800×560 px, JPG/WebP -->
+      <div class="bc-imgw" data-hint="Фото той-пуделя&#10;800 × 560 px · JPG/WebP">
+        <img class="bc-img" src="" alt="Той-пудель" onerror="this.style.display='none'">
+      </div>
       <div class="bc-ov"></div>
       <div class="bc-body">
-        <div class="bc-num">03</div><div class="bc-tag">Порода</div><div class="bc-name">Той-Пудель</div><div class="bc-desc">Интеллектуальный, обучаемый, нежный. Без линьки и с бесконечной преданностью.</div><div class="bc-price">от <strong>120 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+        <div class="bc-num">03</div>
+        <div class="bc-tag">Порода</div>
+        <div class="bc-name">Той-Пудель</div>
+        <div class="bc-desc">Интеллектуальный, обучаемый, нежный. Одна из самых умных пород — без линьки и с бесконечной преданностью.</div>
+        <div class="bc-price">от <strong>120 000 ₽</strong></div>
+        <div class="bc-arrow">Узнать подробнее</div>
       </div>
     </div>
+
     <div class="bc" onclick="openPopup()">
-      <div class="bc-imgw"><img class="bc-img" src="https://images.unsplash.com/photo-1591160690555-5debfba289f0?w=800&q=80" alt="Йорк и Бивер" loading="lazy" onerror="this.parentElement.style.background='var(--emerald-mid)';this.style.display='none'"></div>
+      <!-- ФОТО: Йорк. Рек. 800×560 px, JPG/WebP -->
+      <div class="bc-imgw" data-hint="Фото йорка или бивера&#10;800 × 560 px · JPG/WebP">
+        <img class="bc-img" src="" alt="Йорк и Бивер" onerror="this.style.display='none'">
+      </div>
       <div class="bc-ov"></div>
       <div class="bc-body">
-        <div class="bc-num">04</div><div class="bc-tag">Порода</div><div class="bc-name">Йорк & Бивер</div><div class="bc-desc">Энергичный, бесстрашный, элегантный. Шелковистая шерсть и характер льва.</div><div class="bc-price">от <strong>70 000 ₽</strong></div><div class="bc-arrow">Узнать подробнее</div>
+        <div class="bc-num">04</div>
+        <div class="bc-tag">Порода</div>
+        <div class="bc-name">Йоркширский Терьер &amp; Бивер</div>
+        <div class="bc-desc">Энергичный, бесстрашный, элегантный. Шелковистая шерсть и характер льва в компактном теле.</div>
+        <div class="bc-price">от <strong>70 000 ₽</strong></div>
+        <div class="bc-arrow">Узнать подробнее</div>
       </div>
     </div>
+
   </div>
 </section>
 
 <div class="orn"><div class="orn-l"></div><div class="orn-d"></div><div class="orn-l"></div></div>
 
+<!-- COATS
+  ════════════════════════════════════════
+  РАЗМЕРЫ ФОТО ДЛЯ БЛОКА «ОКРАСЫ»:
+  • Ширина:  600 px (минимум 400 px)
+  • Высота:  400 px (минимум 260 px)
+  • Соотношение сторон: 3:2
+  • Отображается: 100% ширины × 220px высоты
+  • Формат: JPG или WebP, качество 85%+
+  • У каждой породы 5 окрасов = 5 фото
+  ════════════════════════════════════════
+-->
 <section class="coats" id="coats">
-  <div class="sl">Коллекция окрасов</div>
-  <h2 class="st">Редкие <em>окрасы</em></h2>
-  <p class="coats-intro">Выберите породу, чтобы посмотреть доступную палитру. От классики до эксклюзивных мраморных узоров.</p>
+  <div class="sl">Редкие окрасы</div>
+  <h2 class="st">Наши <em>окрасы</em></h2>
+  <p class="coats-intro">Каждый щенок уникален. Выберите породу — покажем все доступные окрасы. Нажмите на карточку, чтобы узнать наличие.</p>
 
-  <div class="coats-tabs reveal">
-    <button class="coat-tab active" onclick="switchCoatTab('spitz')">Померанский шпиц</button>
-    <button class="coat-tab" onclick="switchCoatTab('maltipoo')">Мальтипу</button>
-    <button class="coat-tab" onclick="switchCoatTab('poodle')">Той-пудель</button>
-    <button class="coat-tab" onclick="switchCoatTab('york')">Йорк & Бивер</button>
+  <div class="coat-tabs" role="tablist">
+    <button class="coat-tab active" onclick="switchBreed(0,this)" role="tab">Шпиц</button>
+    <button class="coat-tab" onclick="switchBreed(1,this)" role="tab">Мальтипу</button>
+    <button class="coat-tab" onclick="switchBreed(2,this)" role="tab">Той-пудель</button>
+    <button class="coat-tab" onclick="switchBreed(3,this)" role="tab">Йорк</button>
+    <button class="coat-tab" onclick="switchBreed(4,this)" role="tab">Бивер</button>
   </div>
 
-  <div class="coats-sliders reveal">
-    <div class="coats-slider-wrapper active" id="slider-spitz">
-      <div class="swiper coats-swiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-orange"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Рыжий · Огненный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-white"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Белоснежный</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-black"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Чёрный · Антрацит</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Редкий</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-cream"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Кремовый · Ваниль</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-marb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Померанский шпиц</div><div class="cc-name">Мраморный (Мерль)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ультра-редкий</span></div></div></div></div>
+  <div class="coat-panels reveal">
+
+    <!-- ═══ ШПИЦ ═══ -->
+    <div class="coat-panel active" id="panel-0">
+      <div class="coat-panel-header">
+        <div></div>
+        <div class="coat-panel-price">Цены от <em>50 000 ₽</em></div>
+      </div>
+      <div class="coat-slider-wrap">
+        <div class="coat-track" id="track-0">
+
+          <!-- Слайд 1 -->
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw">
+              <!-- ФОТО окраса: 600×400 px. Замените src на ваш URL -->
+              <img src="" alt="Рыжий шпиц" onerror="this.style.display='none'">
+              <div class="cc-pat c-orange"></div>
+              <div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div>
+              <div class="cc-badge">Редкий</div>
+            </div>
+            <div class="cc-info">
+              <div><div class="cc-breed">Шпиц</div><div class="cc-name">Рыжий · Огненный</div></div>
+              <div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div>
+            </div>
+          </div>
+
+          <!-- Слайд 2 -->
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw">
+              <img src="" alt="Белый шпиц" onerror="this.style.display='none'">
+              <div class="cc-pat c-white"></div>
+              <div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div>
+              <div class="cc-badge">Классика</div>
+            </div>
+            <div class="cc-info">
+              <div><div class="cc-breed">Шпиц</div><div class="cc-name">Белоснежный</div></div>
+              <div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div>
+            </div>
+          </div>
+
+          <!-- Слайд 3 -->
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw">
+              <img src="" alt="Чёрный шпиц" onerror="this.style.display='none'">
+              <div class="cc-pat c-black"></div>
+              <div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div>
+              <div class="cc-badge">Редкий</div>
+            </div>
+            <div class="cc-info">
+              <div><div class="cc-breed">Шпиц</div><div class="cc-name">Чёрный · Антрацитовый</div></div>
+              <div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограниченно</span></div>
+            </div>
+          </div>
+
+          <!-- Слайд 4 -->
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw">
+              <img src="" alt="Кремовый шпиц" onerror="this.style.display='none'">
+              <div class="cc-pat c-cream"></div>
+              <div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div>
+              <div class="cc-badge">Популярный</div>
+            </div>
+            <div class="cc-info">
+              <div><div class="cc-breed">Шпиц</div><div class="cc-name">Кремовый · Медовый</div></div>
+              <div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div>
+            </div>
+          </div>
+
+          <!-- Слайд 5 -->
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw">
+              <img src="" alt="Коричневый шпиц" onerror="this.style.display='none'">
+              <div class="cc-pat c-brnz"></div>
+              <div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div>
+              <div class="cc-badge">Редкий</div>
+            </div>
+            <div class="cc-info">
+              <div><div class="cc-breed">Шпиц</div><div class="cc-name">Коричневый · Шоколадный</div></div>
+              <div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div>
+            </div>
+          </div>
+
         </div>
-        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+      </div>
+      <div class="coat-nav">
+        <div class="coat-dots" id="dots-0"></div>
+        <div class="coat-arrows">
+          <button class="coat-arrow-btn" id="prev-0" onclick="slideCoat(0,-1)">←</button>
+          <button class="coat-arrow-btn" id="next-0" onclick="slideCoat(0,1)">→</button>
+        </div>
       </div>
     </div>
 
-    <div class="coats-slider-wrapper" id="slider-maltipoo">
-      <div class="swiper coats-swiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-apri"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Карамель · Абрикос</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-cream"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Кремовый</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-redb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Ред Браун</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-black"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Чёрный фантом</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Редкий</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-marb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Ультра-редкий</div></div><div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Мраморный (Мерль)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Под заказ</span></div></div></div></div>
-        </div>
-        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+    <!-- ═══ МАЛЬТИПУ ═══ -->
+    <div class="coat-panel" id="panel-1">
+      <div class="coat-panel-header">
+        <div></div>
+        <div class="coat-panel-price">Цены от <em>120 000 ₽</em></div>
       </div>
+      <div class="coat-slider-wrap">
+        <div class="coat-track" id="track-1">
+
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-marb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Мраморный · Разные глаза</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ультра-редкий</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-cream"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Кремовый · Ванильный</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-white"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Белоснежный</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-apri"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Абрикосовый · Персиковый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-choc"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Мальтипу</div><div class="cc-name">Шоколадный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограниченно</span></div></div>
+          </div>
+
+        </div>
+      </div>
+      <div class="coat-nav"><div class="coat-dots" id="dots-1"></div><div class="coat-arrows"><button class="coat-arrow-btn" id="prev-1" onclick="slideCoat(1,-1)">←</button><button class="coat-arrow-btn" id="next-1" onclick="slideCoat(1,1)">→</button></div></div>
     </div>
 
-    <div class="coats-slider-wrapper" id="slider-poodle">
-      <div class="swiper coats-swiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-redb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Ред Браун</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-choc"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Шоколадный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограничено</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-apri"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Абрикосовый (Тедди)</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-black"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Иссиня-чёрный</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-silv"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Серебристый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Под заказ</span></div></div></div></div>
-        </div>
-        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+    <!-- ═══ ТОЙ-ПУДЕЛЬ ═══ -->
+    <div class="coat-panel" id="panel-2">
+      <div class="coat-panel-header">
+        <div></div>
+        <div class="coat-panel-price">Цены от <em>120 000 ₽</em></div>
       </div>
+      <div class="coat-slider-wrap">
+        <div class="coat-track" id="track-2">
+
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-choc"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Шоколадный · Тёмный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-apri"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Популярный</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Абрикосовый · Тедди</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-cream"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Кремовый · Светлый</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-blue"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Голубой · Серебристый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ультра-редкий</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-red"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Той-пудель</div><div class="cc-name">Красный · Рыжий</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div>
+          </div>
+
+        </div>
+      </div>
+      <div class="coat-nav"><div class="coat-dots" id="dots-2"></div><div class="coat-arrows"><button class="coat-arrow-btn" id="prev-2" onclick="slideCoat(2,-1)">←</button><button class="coat-arrow-btn" id="next-2" onclick="slideCoat(2,1)">→</button></div></div>
     </div>
 
-    <div class="coats-slider-wrapper" id="slider-york">
-      <div class="swiper coats-swiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-bltn"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Сине-подпалый (Стандарт)</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-biew"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Бивер Терьер</div><div class="cc-name">Чёрно-бело-золотой</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Редкий стандарт</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-choc"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Шоколадный (Choco)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-goldd"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Голдаст (Golddust)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограничено</span></div></div></div></div>
-          <div class="swiper-slide"><div class="cc" onclick="openPopup()"><div class="cc-sw"><img src="" alt=""><div class="cc-pat c-marb"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Ультра-редкий</div></div><div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Мерль (Мрамор)</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Под заказ</span></div></div></div></div>
-        </div>
-        <div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
+    <!-- ═══ ЙОРК ═══ -->
+    <div class="coat-panel" id="panel-3">
+      <div class="coat-panel-header">
+        <div></div>
+        <div class="coat-panel-price">Цены от <em>70 000 ₽</em></div>
       </div>
+      <div class="coat-slider-wrap">
+        <div class="coat-track" id="track-3">
+
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-bltn"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Синий · Подпалый</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-gold"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Золотистый · Шёлковый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-parti"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Парти · Двухцветный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограниченно</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-black"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Чёрный · Подпалый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограниченно</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-silver"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Йоркширский терьер</div><div class="cc-name">Стальной · Серебристый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ультра-редкий</span></div></div>
+          </div>
+
+        </div>
+      </div>
+      <div class="coat-nav"><div class="coat-dots" id="dots-3"></div><div class="coat-arrows"><button class="coat-arrow-btn" id="prev-3" onclick="slideCoat(3,-1)">←</button><button class="coat-arrow-btn" id="next-3" onclick="slideCoat(3,1)">→</button></div></div>
     </div>
+
+    <!-- ═══ БИВЕР ═══ -->
+    <div class="coat-panel" id="panel-4">
+      <div class="coat-panel-header">
+        <div></div>
+        <div class="coat-panel-price">Цены от <em>70 000 ₽</em></div>
+      </div>
+      <div class="coat-slider-wrap">
+        <div class="coat-track" id="track-4">
+
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-biew"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Бивер Терьер</div><div class="cc-name">Чёрно-бело-золотой</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Редкий стандарт</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-white"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Классика</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Бивер Терьер</div><div class="cc-name">Белый с отметинами</div></div><div class="cc-rar"><div class="cc-dot dot-c"></div><span>В наличии</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-blueblk"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Эксклюзив</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Бивер Терьер</div><div class="cc-name">Голубовато-белый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ультра-редкий</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-parti"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Бивер Терьер</div><div class="cc-name">Парти · Трёхцветный</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Высокий спрос</span></div></div>
+          </div>
+          <div class="coat-slide" onclick="openPopup()">
+            <div class="cc-sw"><img src="" alt="" onerror="this.style.display='none'"><div class="cc-pat c-gold"></div><div class="cc-frame"></div><div class="cc-tl"></div><div class="cc-tr"></div><div class="cc-bl"></div><div class="cc-br"></div><div class="cc-badge">Редкий</div></div>
+            <div class="cc-info"><div><div class="cc-breed">Бивер Терьер</div><div class="cc-name">Золотисто-белый</div></div><div class="cc-rar"><div class="cc-dot dot-r"></div><span>Ограниченно</span></div></div>
+          </div>
+
+        </div>
+      </div>
+      <div class="coat-nav"><div class="coat-dots" id="dots-4"></div><div class="coat-arrows"><button class="coat-arrow-btn" id="prev-4" onclick="slideCoat(4,-1)">←</button><button class="coat-arrow-btn" id="next-4" onclick="slideCoat(4,1)">→</button></div></div>
+    </div>
+
+  </div><!-- /coat-panels -->
+
+  <div style="margin-top:52px;text-align:center">
+    <button class="btn-p" onclick="openPopup()">Узнать о наличии окрасов</button>
   </div>
 </section>
 
 <div class="orn"><div class="orn-l"></div><div class="orn-d"></div><div class="orn-l"></div></div>
 
+<!-- WHY -->
 <section class="why" id="why">
   <div class="sl">Наши преимущества</div>
   <h2 class="st">Почему выбирают<br><em>Puppy Power</em></h2>
   <div class="why-grid reveal">
-    <div class="wi" data-n="01"><div class="wi-ic">◆</div><div class="wi-t">Опыт более 7 лет</div><div class="wi-tx">С 2016 года более 2 000 семей нашли своих идеальных питомцев. Профессиональный отбор и разведение.</div></div>
+    <div class="wi" data-n="01"><div class="wi-ic">◆</div><div class="wi-t">Опыт более 7 лет</div><div class="wi-tx">С 2016 года более 1 500 семей нашли своих идеальных питомцев. Профессиональный отбор и разведение.</div></div>
     <div class="wi" data-n="02"><div class="wi-ic">◆</div><div class="wi-t">Официальные документы</div><div class="wi-tx">Каждый щенок получает метрику РКФ/СКОР, ветеринарный паспорт с отметками о прививках и чипировании.</div></div>
     <div class="wi" data-n="03"><div class="wi-ic">◆</div><div class="wi-t">Безопасная доставка</div><div class="wi-tx">Организуем транспортировку в любую точку России и зарубежья — авиа, авто или курьером.</div></div>
     <div class="wi" data-n="04"><div class="wi-ic">◆</div><div class="wi-t">Гарантия здоровья</div><div class="wi-tx">Все щенки проходят обязательную проверку у ветеринара. Продаём только полностью здоровых питомцев.</div></div>
@@ -458,6 +858,7 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="sl">Отзывы клиентов</div>
   <h2 class="st">Они уже нашли<br><em>своего</em></h2>
@@ -468,6 +869,7 @@
   </div>
 </section>
 
+<!-- DELIVERY -->
 <section class="delivery" id="delivery">
   <div class="sl">Условия</div>
   <h2 class="st">Доставка &amp; <em>оплата</em></h2>
@@ -477,6 +879,7 @@
   </div>
 </section>
 
+<!-- FAQ -->
 <section id="faq">
   <div class="sl">FAQ</div>
   <h2 class="st">Часто задаваемые<br><em>вопросы</em></h2>
@@ -489,6 +892,7 @@
   </div>
 </section>
 
+<!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="sl">Контакты</div>
   <h2 class="st">Найдём вашего<br><em>идеального</em> щенка</h2>
@@ -501,47 +905,109 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div><a class="logo" href="#">PUPPY<span> POWER</span></a><p>Клуб профессиональных заводчиков.<br>Работаем с 2016 года.</p></div>
   <div><h4>Породы</h4><ul><li><a href="#breeds">Померанский Шпиц</a></li><li><a href="#breeds">Мальтипу</a></li><li><a href="#breeds">Той-Пудель</a></li><li><a href="#breeds">Йорк / Бивер</a></li></ul></div>
   <div><h4>Информация</h4><ul><li><a href="#why">О клубе</a></li><li><a href="#coats">Окрасы</a></li><li><a href="#delivery">Доставка и оплата</a></li><li><a href="#faq">Вопросы и ответы</a></li></ul></div>
 </footer>
-<div class="fb"><span>© 2016–2025 Puppy Power. Все права защищены.</span><span>Только для лиц от 18 лет</span></div>
+<div class="fb"><span>© 2016–2026 Puppy Power. Все права защищены.</span><span>Только для лиц от 18 лет</span></div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  function openPopup() { document.getElementById('popup').classList.add('active'); document.body.style.overflow='hidden'; }
-  function closePopup() { document.getElementById('popup').classList.remove('active'); document.body.style.overflow=''; }
-  document.addEventListener('keydown', e => { if(e.key==='Escape') closePopup(); });
-  function toggleFaq(el) { const item=el.parentElement; const wasOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open')); if(!wasOpen) item.classList.add('open'); }
-  const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.08});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+/* ── POPUP ── */
+function openPopup(){document.getElementById('popup').classList.add('active');document.body.style.overflow='hidden'}
+function closePopup(){document.getElementById('popup').classList.remove('active');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup()});
 
-  // Логика слайдера и вкладок
-  document.addEventListener('DOMContentLoaded', () => {
-    // observer: true - это магия, которая чинит слайдеры внутри скрытых вкладок
-    const swiperOptions = {
-      slidesPerView: 1.1,
-      spaceBetween: 16,
-      observer: true, 
-      observeParents: true,
-      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-      breakpoints: {
-        600: { slidesPerView: 2.2, spaceBetween: 20 },
-        900: { slidesPerView: 3, spaceBetween: 24 }
-      }
-    };
+/* ── BREED TABS ── */
+function switchBreed(idx,btn){
+  document.querySelectorAll('.coat-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.coat-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+idx).classList.add('active');
+  btn.classList.add('active');
+}
 
-    // Инициализируем все слайдеры на странице
-    document.querySelectorAll('.coats-swiper').forEach(el => new Swiper(el, swiperOptions));
-  });
+/* ── COAT SLIDER ── */
+// State: current position per panel (how many cards scrolled)
+var sliderPos = [0,0,0,0,0];
 
-  function switchCoatTab(breedId) {
-    document.querySelectorAll('.coat-tab').forEach(t => t.classList.remove('active'));
-    document.querySelector(`button[onclick="switchCoatTab('${breedId}')"]`).classList.add('active');
-    document.querySelectorAll('.coats-slider-wrapper').forEach(w => w.classList.remove('active'));
-    document.getElementById('slider-' + breedId).classList.add('active');
+function getVisibleCount(panelIdx){
+  var w = window.innerWidth;
+  if(w<=480) return 1;
+  if(w<=900) return 2;
+  return 3;
+}
+
+function getTotalSlides(panelIdx){
+  var track = document.getElementById('track-'+panelIdx);
+  if(!track) return 0;
+  return track.children.length;
+}
+
+function updateSlider(panelIdx){
+  var vis   = getVisibleCount(panelIdx);
+  var total = getTotalSlides(panelIdx);
+  var maxPos = Math.max(0, total - vis);
+  var pos   = Math.max(0, Math.min(sliderPos[panelIdx], maxPos));
+  sliderPos[panelIdx] = pos;
+
+  var track = document.getElementById('track-'+panelIdx);
+  // Each slide width = 100%/vis; gap=2px
+  // We shift by pos * (100/vis)% approximately
+  var slideW = track.parentElement.offsetWidth;
+  var cardW  = (slideW - 2*(vis-1)) / vis;
+  var shift  = pos * (cardW + 2);
+  track.style.transform = 'translateX(-'+shift+'px)';
+
+  // Dots
+  var dotsEl = document.getElementById('dots-'+panelIdx);
+  if(dotsEl){
+    dotsEl.innerHTML='';
+    var numDots = maxPos+1;
+    for(var i=0;i<numDots;i++){
+      (function(i){
+        var d=document.createElement('button');
+        d.className='coat-dot'+(i===pos?' active':'');
+        d.setAttribute('aria-label','Слайд '+(i+1));
+        d.onclick=function(){sliderPos[panelIdx]=i;updateSlider(panelIdx)};
+        dotsEl.appendChild(d);
+      })(i);
+    }
   }
+
+  // Arrow buttons
+  var prev = document.getElementById('prev-'+panelIdx);
+  var next = document.getElementById('next-'+panelIdx);
+  if(prev) prev.disabled = pos<=0;
+  if(next) next.disabled = pos>=maxPos;
+}
+
+function slideCoat(panelIdx, dir){
+  sliderPos[panelIdx] += dir;
+  updateSlider(panelIdx);
+}
+
+// Init all sliders
+function initSliders(){
+  for(var i=0;i<5;i++){
+    sliderPos[i]=0;
+    updateSlider(i);
+  }
+}
+initSliders();
+window.addEventListener('resize', initSliders);
+
+/* ── FAQ ── */
+function toggleFaq(el){
+  var item=el.parentElement;
+  var was=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!was) item.classList.add('open');
+}
+
+/* ── REVEAL ── */
+var obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
