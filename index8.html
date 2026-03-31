@@ -51,16 +51,15 @@ nav a:hover{color:var(--gm)}
 
 /* Dog PNG inside ring */
 .hero-dog{
-  position:absolute;
-  /* Центр кольца: left 58%, top 50% — подстраиваем под PNG */
-  left:calc(58% - 220px); /* смещение влево на половину ширины */
-  top:50%;
-  transform:translateY(-54%);
-  width:440px; /* ширина PNG-изображения в px */
-  z-index:2;
-  pointer-events:none;
-  /* Убираем фон если PNG уже прозрачный */
-  filter:drop-shadow(0 0 40px rgba(14,38,24,.8));
+  position: absolute;
+    left: calc(54% - 220px);
+    top: 58%;
+    transform: translateY(-53%);
+    width: 750px;
+    opacity: 90%;
+    z-index: 2;
+    pointer-events: none;
+    filter: drop-shadow(0 0 40px rgba(14, 38, 24, .8));
 }
 /* Плейсхолдер пока нет PNG */
 .hero-dog-placeholder{
@@ -434,20 +433,6 @@ footer ul li a:hover{color:var(--gm)}
 <section class="hero">
   <div class="hero-ring"></div>
 
-  <!--
-    ═══════════════════════════════════════════
-    ГЛАВНАЯ СОБАКА В КОЛЬЦЕ — PNG с прозрачным фоном
-    
-    Размер PNG: 500–600px ширина, ~700–800px высота
-    Формат: PNG-24 с прозрачным фоном (альфа-канал)
-    Собака: в полный рост, стоит, смотрит немного вправо
-    
-    Как подключить:
-    1. Загрузите PNG на сервер / CDN
-    2. Замените src="#" ниже на реальный URL
-    3. Удалите .hero-dog-placeholder и его HTML
-    ═══════════════════════════════════════════
-  -->
 <img class="hero-dog" src="https://i.ibb.co/fVVkqZtP/maltipooring.png" alt="Мальтипу">
 
   <div class="hero-content">
