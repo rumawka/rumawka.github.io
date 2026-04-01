@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GetTransfer — Лучшие цены на трансферы по всему миру</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111318;
+    --card: #161b24;
+    --border: rgba(255,255,255,0.08);
+    --gold: #f5c842;
+    --gold2: #e8b820;
+    --white: #f5f5f5;
+    --muted: #8a94a6;
+    --accent: #1a9fff;
+    --green: #22c55e;
+    --radius: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+  }
+  .header-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--white); }
+  nav { display: flex; gap: 2rem; align-items: center; }
+  nav a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--white); }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    border: none; padding: 10px 22px; border-radius: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; transition: all 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245,200,66,0.12) 0%, transparent 65%),
+                linear-gradient(180deg, #0a0a0a 0%, #0d1117 100%);
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1280px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+  .hero-text h1 em {
+    font-style: normal; color: var(--gold);
+  }
+  .hero-text p {
+    color: var(--muted); font-size: 1.1rem;
+    line-height: 1.7; margin-bottom: 2rem; max-width: 480px;
+  }
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 2rem;
+  }
+  .stat-item { text-align: left; }
+  .stat-num {
+    font-size: 1.8rem; font-weight: 800;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+  /* BOOKING FORM */
+  .booking-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .booking-card::before {
+    content: '';
+    position: absolute; top: -1px; left: 24px; right: 24px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 2px;
+  }
+  .booking-tabs {
+    display: flex; gap: 4px; margin-bottom: 24px;
+    background: rgba(255,255,255,0.05); border-radius: 10px; padding: 4px;
+  }
+  .tab-btn {
+    flex: 1; padding: 8px 16px; border: none;
+    border-radius: 8px; font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    background: transparent; color: var(--muted);
+  }
+  .tab-btn.active {
+    background: var(--gold); color: var(--black);
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-size: 0.78rem; font-weight: 600;
+    color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .input-wrap { position: relative; }
+  .input-wrap .icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px; opacity: 0.4;
+  }
+  .form-input {
+    width: 100%; padding: 13px 14px 13px 42px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 12px; color: var(--white);
+    font-family: 'Manrope', sans-serif; font-size: 0.95rem;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+  }
+  .form-input:focus {
+    border-color: rgba(245,200,66,0.5);
+    background: rgba(245,200,66,0.04);
+  }
+  .form-input::placeholder { color: var(--muted); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .submit-btn {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--black); border: none; border-radius: 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1rem; font-weight: 800;
+    cursor: pointer; transition: all 0.2s;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,200,66,0.3); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* SUCCESS MESSAGE */
+  .success-msg {
+    display: none; text-align: center; padding: 20px;
+  }
+  .success-msg .checkmark {
+    font-size: 3rem; margin-bottom: 12px;
+  }
+  .success-msg h3 { color: var(--green); font-size: 1.2rem; margin-bottom: 8px; }
+  .success-msg p { color: var(--muted); font-size: 0.9rem; }
+
+  /* FEATURES */
+  .features {
+    padding: 100px 5%;
+    background: var(--dark);
+  }
+  .section-header {
+    text-align: center; max-width: 600px; margin: 0 auto 60px;
+  }
+  .section-label {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px; display: block;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.2;
+  }
+  .features-grid {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card:hover {
+    border-color: rgba(245,200,66,0.3);
+    transform: translateY(-4px);
+  }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(245,200,66,0.05));
+    border: 1px solid rgba(245,200,66,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 16px;
+  }
+  .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .feature-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  /* VEHICLE CLASSES */
+  .vehicles { padding: 100px 5%; background: var(--black); }
+  .vehicles-grid {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .vehicle-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px 20px;
+    text-align: center; cursor: pointer;
+    transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .vehicle-card:hover, .vehicle-card.active {
+    border-color: var(--gold);
+    background: rgba(245,200,66,0.06);
+  }
+  .vehicle-emoji { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+  .vehicle-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .vehicle-card p { font-size: 0.8rem; color: var(--muted); }
+  .vehicle-price {
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--gold); margin-top: 10px;
+  }
+
+  /* REVIEWS */
+  .reviews { padding: 100px 5%; background: var(--dark); }
+  .reviews-grid {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .review-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px;
+  }
+  .review-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 12px; }
+  .review-text {
+    font-size: 0.875rem; color: var(--muted); line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .review-author { display: flex; align-items: center; gap: 10px; }
+  .review-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.8rem; color: var(--black);
+  }
+  .review-name { font-size: 0.85rem; font-weight: 600; }
+  .review-date { font-size: 0.75rem; color: var(--muted); }
+
+  /* HOW IT WORKS */
+  .how { padding: 100px 5%; background: var(--black); }
+  .steps {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute; top: 32px; left: 15%; right: 15%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold), transparent);
+    opacity: 0.3;
+  }
+  .step { text-align: center; }
+  .step-num {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--black); font-weight: 800; font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    position: relative; z-index: 1;
+  }
+  .step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+  .step p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    background: #060608;
+    border-top: 1px solid var(--border);
+    padding: 60px 5% 30px;
+  }
+  .footer-inner { max-width: 1280px; margin: 0 auto; }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-brand p { color: var(--muted); font-size: 0.875rem; line-height: 1.7; margin-top: 12px; }
+  .footer-col h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 16px; }
+  .footer-col a {
+    display: block; color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid var(--border); padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: 0.8rem; color: var(--muted); }
+
+  /* MOBILE NAV TOGGLE */
+  .menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 36px; max-width: 480px; width: 90%;
+    position: relative;
+  }
+  .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 8px; }
+  .modal p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: rgba(255,255,255,0.1); border: none;
+    border-radius: 50%; width: 32px; height: 32px;
+    color: var(--white); cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 30px; right: 30px; z-index: 300;
+    background: var(--green); color: #000;
+    padding: 14px 24px; border-radius: 12px;
+    font-weight: 700; font-size: 0.9rem;
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .vehicles-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .menu-toggle { display: block; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-text { text-align: center; }
+    .hero-text p { max-width: 100%; }
+    .hero-stats { justify-content: center; }
+    .reviews-grid, .features-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .steps::before { display: none; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-text { animation: fadeUp 0.8s ease forwards; }
+  .booking-card { animation: fadeUp 0.8s 0.2s ease both; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);
+    color: var(--green); border-radius: 20px;
+    font-size: 0.78rem; font-weight: 600; padding: 5px 12px;
+    margin-bottom: 16px;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">Get<span>Transfer</span></a>
+    <nav>
+      <a href="#how">Как это работает</a>
+      <a href="#vehicles">Классы авто</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a href="#booking" class="btn-primary">Заказать трансфер</a>
+    <button class="menu-toggle" aria-label="Меню">
+      <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 12h18M3 6h18M3 18h18"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="badge"><span class="badge-dot"></span> Работаем 24/7</div>
+      <h1>Лучшие цены на трансферы <em>по всему миру</em></h1>
+      <p>Бронируйте частные трансферы, сравнивайте предложения водителей и выбирайте лучший вариант. Аэропорт, отель, любой маршрут.</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">10М+</div>
+          <div class="stat-label">Довольных клиентов</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">180+</div>
+          <div class="stat-label">Стран</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Средняя оценка</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKING FORM -->
+    <div class="booking-card" id="booking">
+      <div class="booking-tabs">
+        <button class="tab-btn active" onclick="setTab(this)">🚗 Маршрут</button>
+        <button class="tab-btn" onclick="setTab(this)">⏱ Почасово</button>
+        <button class="tab-btn" onclick="setTab(this)">📦 Доставка</button>
+      </div>
+
+      <form id="bookingForm">
+        <div class="form-group">
+          <label>Откуда</label>
+          <div class="input-wrap">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            <input class="form-input" type="text" id="from" name="from" placeholder="Аэропорт, адрес, отель..." required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Куда</label>
+          <div class="input-wrap">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            <input class="form-input" type="text" id="to" name="to" placeholder="Аэропорт, адрес, отель..." required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Дата</label>
+            <div class="input-wrap">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <input class="form-input" type="date" id="date" name="date" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Время</label>
+            <div class="input-wrap">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <input class="form-input" type="time" id="time" name="time" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Пассажиры</label>
+            <div class="input-wrap">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              <input class="form-input" type="number" id="passengers" name="passengers" placeholder="1-8" min="1" max="20" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Класс авто</label>
+            <div class="input-wrap">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              <select class="form-input" id="carClass" name="carClass" style="padding-left:42px">
+                <option value="">Выберите класс</option>
+                <option value="economy">Эконом</option>
+                <option value="comfort">Комфорт</option>
+                <option value="business">Бизнес</option>
+                <option value="vip">VIP / Люкс</option>
+                <option value="minivan">Минивэн</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Ваш телефон</label>
+          <div class="input-wrap">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.22h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <input class="form-input" type="tel" id="phone" name="phone" placeholder="+7 (999) 000-00-00" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Имя</label>
+          <div class="input-wrap">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input class="form-input" type="text" id="name" name="name" placeholder="Ваше имя" required>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          🚀 Получить предложения
+        </button>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <div class="checkmark">✅</div>
+        <h3>Заявка отправлена!</h3>
+        <p>Мы свяжемся с вами в ближайшее время. Ожидайте звонок или сообщение.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-header">
+    <span class="section-label">Как это работает</span>
+    <h2>Трансфер в 4 простых шага</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Заполните форму</h4>
+      <p>Укажите маршрут, дату, время и количество пассажиров</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>Получите предложения</h4>
+      <p>Водители пришлют свои предложения с ценами и отзывами</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Выберите лучшее</h4>
+      <p>Сравните цену, класс авто и рейтинг водителя</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Езжайте с комфортом</h4>
+      <p>Водитель встретит вас вовремя с табличкой</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-header">
+    <span class="section-label">Преимущества</span>
+    <h2>Почему выбирают нас</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Лучшие цены</h3>
+      <p>Конкурентные цены благодаря тендерной системе. Водители сами предлагают стоимость поездки.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✅</div>
+      <h3>Полный возврат</h3>
+      <p>Бесплатная отмена за 24 часа до поездки. Ваши деньги в безопасности.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⏰</div>
+      <h3>Ожидание 60 мин</h3>
+      <p>При задержке рейса водитель ждёт вас до 60 минут бесплатно.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚗</div>
+      <h3>200 000+ авто</h3>
+      <p>Огромный выбор транспорта: от эконома до VIP-лимузинов и вертолётов.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <h3>180+ стран</h3>
+      <p>Трансферы доступны в любой точке мира. Бронируйте заранее.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⭐</div>
+      <h3>Проверенные водители</h3>
+      <p>Все водители проходят верификацию. Читайте реальные отзывы перед выбором.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VEHICLES -->
+<section class="vehicles" id="vehicles">
+  <div class="section-header">
+    <span class="section-label">Классы авто</span>
+    <h2>Выберите подходящий класс</h2>
+  </div>
+  <div class="vehicles-grid">
+    <div class="vehicle-card active" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">🚗</span>
+      <h3>Эконом</h3>
+      <p>Седан, до 3 чел.</p>
+      <div class="vehicle-price">от $15</div>
+    </div>
+    <div class="vehicle-card" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">🚙</span>
+      <h3>Комфорт</h3>
+      <p>Просторный, до 4 чел.</p>
+      <div class="vehicle-price">от $25</div>
+    </div>
+    <div class="vehicle-card" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">💼</span>
+      <h3>Бизнес</h3>
+      <p>Mercedes/BMW, до 3 чел.</p>
+      <div class="vehicle-price">от $55</div>
+    </div>
+    <div class="vehicle-card" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">👑</span>
+      <h3>VIP / Люкс</h3>
+      <p>Представительский, 1-3 чел.</p>
+      <div class="vehicle-price">от $120</div>
+    </div>
+    <div class="vehicle-card" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">🚐</span>
+      <h3>Минивэн</h3>
+      <p>До 7 пассажиров</p>
+      <div class="vehicle-price">от $40</div>
+    </div>
+    <div class="vehicle-card" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">🚌</span>
+      <h3>Микроавтобус</h3>
+      <p>До 16 пассажиров</p>
+      <div class="vehicle-price">от $80</div>
+    </div>
+    <div class="vehicle-card" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">🚌</span>
+      <h3>Автобус</h3>
+      <p>До 50 пассажиров</p>
+      <div class="vehicle-price">от $200</div>
+    </div>
+    <div class="vehicle-card" onclick="selectVehicle(this)">
+      <span class="vehicle-emoji">🚁</span>
+      <h3>Вертолёт</h3>
+      <p>Премиум перелёт</p>
+      <div class="vehicle-price">от $800</div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="section-header">
+    <span class="section-label">Отзывы</span>
+    <h2>Миллионы довольных клиентов</h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Отличный сервис! Водитель встретил в аэропорту с табличкой, помог с багажом. Машина чистая, кондиционер работал идеально. Рекомендую!</p>
+      <div class="review-author">
+        <div class="review-avatar">АМ</div>
+        <div>
+          <div class="review-name">Алексей М.</div>
+          <div class="review-date">Москва → Шереметьево</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Очень удобно! Заказала трансфер для большой группы, минивэн приехал вовремя. Цена оказалась ниже, чем у местных такси. Буду пользоваться снова.</p>
+      <div class="review-author">
+        <div class="review-avatar">НС</div>
+        <div>
+          <div class="review-name">Наталья С.</div>
+          <div class="review-date">Сочи → Адлер</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Рейс задержали на 2 часа, но водитель дождался без доплат. Профессионализм на высшем уровне. Спасибо большое!</p>
+      <div class="review-author">
+        <div class="review-avatar">ДК</div>
+        <div>
+          <div class="review-name">Дмитрий К.</div>
+          <div class="review-date">Стамбул, аэропорт</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">Использовал сервис в Дубае. Бизнес-класс, Mercedes S. Водитель вежливый, знает город. Чуть-чуть опоздал, но предупредил заранее.</p>
+      <div class="review-author">
+        <div class="review-avatar">РА</div>
+        <div>
+          <div class="review-name">Рустам А.</div>
+          <div class="review-date">Дубай, ОАЭ</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Бронировала трансфер из аэропорта Барселоны. Всё прошло идеально, водитель встретил, предложил воду. Очень приятный опыт!</p>
+      <div class="review-author">
+        <div class="review-avatar">ЕВ</div>
+        <div>
+          <div class="review-name">Елена В.</div>
+          <div class="review-date">Барселона, Испания</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Отличная платформа! Получил 3 предложения за 10 минут. Выбрал лучшее по соотношению цена/качество. Поездка прошла отлично.</p>
+      <div class="review-author">
+        <div class="review-avatar">ИП</div>
+        <div>
+          <div class="review-name">Игорь П.</div>
+          <div class="review-date">Анталья, Турция</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo">Get<span>Transfer</span></a>
+        <p>Частные трансферы по всему миру. Лучшие цены, проверенные водители, комфортные поездки.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Сервис</h4>
+        <a href="#booking">Заказать трансфер</a>
+        <a href="#vehicles">Классы авто</a>
+        <a href="#how">Как это работает</a>
+        <a href="#">Для водителей</a>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <a href="#">О нас</a>
+        <a href="#">Блог</a>
+        <a href="#">Партнёрам</a>
+        <a href="#">Отзывы</a>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <a href="#">FAQ</a>
+        <a href="#">Связаться с нами</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Условия использования</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 GetTransfer. Все права защищены.</p>
+      <p>🌍 180+ стран • 24/7 поддержка</p>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Заявка отправлена в Telegram!</div>
+
+<script>
+  // Set min date to today
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+  dateInput.value = today;
+
+  // Tabs
+  function setTab(btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Vehicle selection
+  function selectVehicle(card) {
+    document.querySelectorAll('.vehicle-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  }
+
+  // TELEGRAM BOT CONFIG
+  const TELEGRAM_TOKEN = '8772133903:AAHPXEKuXFrzSBQWt8L60Nk1uO6Iqe4IEbw';
+  const TELEGRAM_CHAT_ID = '699505010';
+
+  async function sendToTelegram(data) {
+    const msg = `
+🚗 *НОВАЯ ЗАЯВКА НА ТРАНСФЕР*
+
+📍 *Откуда:* ${data.from}
+🏁 *Куда:* ${data.to}
+📅 *Дата:* ${data.date}
+⏰ *Время:* ${data.time}
+👥 *Пассажиры:* ${data.passengers}
+🚙 *Класс авто:* ${data.carClass || 'Не указан'}
+👤 *Имя:* ${data.name}
+📞 *Телефон:* ${data.phone}
+🕐 *Заявка получена:* ${new Date().toLocaleString('ru-RU')}
+    `.trim();
+
+    const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: msg,
+        parse_mode: 'Markdown'
+      })
+    });
+    return response.json();
+  }
+
+  // FORM SUBMIT
+  document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Отправляем...';
+
+    const formData = {
+      from: document.getElementById('from').value,
+      to: document.getElementById('to').value,
+      date: document.getElementById('date').value,
+      time: document.getElementById('time').value,
+      passengers: document.getElementById('passengers').value,
+      carClass: document.getElementById('carClass').value,
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+    };
+
+    try {
+      await sendToTelegram(formData);
+      // Show success
+      document.getElementById('bookingForm').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      showToast();
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = '🚀 Получить предложения';
+      alert('Ошибка отправки. Попробуйте ещё раз.');
+    }
+  });
+
+  function showToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
