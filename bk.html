@@ -488,7 +488,7 @@
 
         <div class="field">
           <label for="inp-date">Дата и время</label>
-          <input id="inp-date" type="text" value="02.04.2026 19:06:11" />
+          <input id="inp-date" type="text" value="Автоматически" readonly />
         </div>
       </div>
 
@@ -580,33 +580,48 @@
   </div>
 
 <script>
+ // Функция для получения текущей даты и времени в формате ДД.ММ.ГГГГ ЧЧ:ММ:СС
+  function getCurrentDateTime() {
+    const now = new Date();
+    
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+  }
+
   function sanitizeValue(value, fallback) {
     const trimmed = String(value || '').trim();
-    return trimmed === '' ? fallback : trimmed;
+    return (trimmed === '' || trimmed === 'Автоматически') ? fallback : trimmed;
   }
 
   function generateReceipt() {
+    // Получаем текущее время прямо в момент клика
+    const currentDT = getCurrentDateTime();
+    
     const number = sanitizeValue(document.getElementById('inp-num').value, '154');
     const sum = sanitizeValue(document.getElementById('inp-sum').value, '17');
-    const date = sanitizeValue(document.getElementById('inp-date').value, '02.04.2026 19:06:11');
 
+    // Записываем данные в чек
     document.getElementById('out-num').textContent = number;
     document.getElementById('out-qr').textContent = number;
     document.getElementById('out-sum').textContent = sum;
-    document.getElementById('out-date').textContent = date;
+    document.getElementById('out-date').textContent = currentDT; // Используем сгенерированное время
 
+    // Переключаем экраны
     document.getElementById('editor-screen').style.display = 'none';
     document.getElementById('receipt-screen').style.display = 'block';
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0);
   }
 
   function backToEditor() {
     document.getElementById('receipt-screen').style.display = 'none';
     document.getElementById('editor-screen').style.display = 'block';
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
     window.scrollTo(0, 0);
   }
 </script>
