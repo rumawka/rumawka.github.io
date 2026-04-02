@@ -6,15 +6,15 @@
 <title>BAKAI - Чек</title>
 <style>
   :root {
-    --bg: #f4f4f5;
-    --card: #ffffff;
-    --text: #0d2645;
-    --muted: #8e9aa8;
-    --line: #e5e7eb;
-    --blue: #0a84ff;
-    --light-blue: #eaf2ff;
-    --green: #22c55e;
-    --green-ring: #b8f3cb;
+    --bg: #f3f3f4;
+    --card: #fcfcfd;
+    --text: #0a2347;
+    --muted: #8c98a8;
+    --line: #e2e5e9;
+    --blue: #1480f7;
+    --share-bg: #e7edf6;
+    --green: #22c95f;
+    --green-ring: #c3f0ce;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
@@ -31,28 +31,31 @@
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
-  }
-
-  body {
     overflow-x: hidden;
   }
 
-  button, input {
+  body, button, input {
     font: inherit;
   }
 
   .screen {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100svh;
     background: var(--bg);
   }
 
   .phone-shell {
     width: 100%;
     max-width: 430px;
+    min-height: 100svh;
     margin: 0 auto;
-    min-height: 100vh;
-    position: relative;
+  }
+
+  .receipt-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    overflow: hidden;
   }
 
   .top-bar {
@@ -60,58 +63,64 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: calc(var(--safe-top) + 20px);
-    padding-bottom: 18px;
-    min-height: 104px;
+    padding-top: calc(var(--safe-top) + 14px);
+    padding-bottom: 14px;
+    min-height: 86px;
+    flex-shrink: 0;
   }
 
   .back-btn {
     position: absolute;
-    left: 18px;
-    top: calc(var(--safe-top) + 18px);
-    width: 50px;
-    height: 50px;
-    border-radius: 999px;
+    left: 20px;
+    top: calc(var(--safe-top) + 10px);
+    width: 44px;
+    height: 44px;
     border: none;
-    background: #f1f2f4;
+    border-radius: 999px;
+    background: #edf0f2;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #1d2734;
+    color: #162334;
     cursor: pointer;
   }
 
   .back-btn svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 
   .logo {
-    width: 142px;
+    width: 132px;
     height: auto;
-    margin-top: 2px;
+    display: block;
   }
 
-  .content {
-    padding: 2px 16px calc(126px + var(--safe-bottom));
+  .receipt-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 16px 16px;
+    min-height: 0;
   }
 
   .receipt-card {
     position: relative;
     background: var(--card);
-    border-radius: 30px;
+    border-radius: 28px;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   .receipt-top {
     text-align: center;
-    padding: 34px 24px 18px;
+    padding: 22px 24px 8px;
   }
 
   .status-circle {
-    width: 74px;
-    height: 74px;
-    margin: 0 auto 16px;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 10px;
     border-radius: 999px;
     background: var(--green);
     box-shadow: inset 0 0 0 5px var(--green-ring);
@@ -121,20 +130,20 @@
   }
 
   .status-circle svg {
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
     stroke: #fff;
-    stroke-width: 2.6;
+    stroke-width: 2.7;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .status-text {
-    font-size: 24px;
+    font-size: 18px;
     line-height: 1.15;
     font-weight: 500;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     color: var(--text);
   }
 
@@ -142,191 +151,183 @@
     display: inline-flex;
     align-items: baseline;
     justify-content: center;
-    gap: 6px;
+    gap: 5px;
     margin-bottom: 10px;
   }
 
   .amount {
-    font-size: 62px;
+    font-size: 40px;
     line-height: 0.95;
     font-weight: 700;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.035em;
     color: var(--text);
   }
 
   .currency,
   .fee-currency {
-    display: inline-block;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
 
   .currency {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 1;
-    font-weight: 500;
-    color: #6f7a87;
+    font-weight: 400;
+    color: #677385;
   }
 
   .fee-row {
-    font-size: 21px;
+    font-size: 15px;
     line-height: 1.2;
     color: var(--muted);
-  }
-
-  .fee-label {
-    margin-right: 4px;
+    margin-bottom: 6px;
   }
 
   .tear-row {
     position: relative;
-    height: 50px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .tear-line {
-    width: calc(100% - 56px);
-    border-top: 2px dashed #e4e7eb;
+    width: calc(100% - 60px);
+    border-top: 1.5px dashed #e0e3e8;
   }
 
   .tear-cut {
     position: absolute;
     top: 50%;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: var(--bg);
     border-radius: 999px;
     transform: translateY(-50%);
   }
 
-  .tear-cut.left {
-    left: -18px;
-  }
-
-  .tear-cut.right {
-    right: -18px;
-  }
+  .tear-cut.left { left: -16px; }
+  .tear-cut.right { right: -16px; }
 
   .receipt-bottom {
     text-align: center;
-    padding: 4px 24px 28px;
+    padding: 8px 24px 22px;
   }
 
   .trx-number {
-    font-size: 26px;
-    line-height: 1.15;
+    font-size: 22px;
+    line-height: 1.12;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text);
   }
 
   .trx-source {
-    font-size: 24px;
-    line-height: 1.18;
+    font-size: 18px;
+    line-height: 1.15;
     font-weight: 500;
+    margin-bottom: 8px;
     color: var(--text);
-    margin-bottom: 12px;
   }
 
   .trx-date {
-    font-size: 20px;
+    font-size: 14px;
     line-height: 1.2;
-    color: #7f8a98;
     font-weight: 400;
+    color: #8b96a5;
   }
 
   .details-wrap {
     display: flex;
     justify-content: center;
-    padding: 14px 0 18px;
+    padding: 14px 0 14px;
+    flex-shrink: 0;
   }
 
   .details-btn {
+    min-height: 42px;
+    padding: 0 22px;
     border: none;
+    border-radius: 999px;
     background: #f7f7f8;
     color: #263547;
-    border-radius: 999px;
-    min-height: 46px;
-    padding: 0 26px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 17px;
+    gap: 6px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
   }
 
   .details-btn svg {
-    width: 16px;
-    height: 16px;
-    color: #9aa4af;
+    width: 13px;
+    height: 13px;
+    color: #a2aab4;
+  }
+
+  .banner-wrap {
+    flex-shrink: 0;
   }
 
   .banner {
-    width: 100%;
     display: block;
+    width: 100%;
     border-radius: 18px;
-    overflow: hidden;
   }
 
   .bottom-bar {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
+    flex-shrink: 0;
+    padding: 16px 16px calc(18px + var(--safe-bottom));
   }
 
   .bottom-bar-inner {
-    max-width: 430px;
-    margin: 0 auto;
-    padding: 0 16px calc(18px + var(--safe-bottom));
     display: flex;
-    gap: 14px;
+    gap: 12px;
     align-items: center;
-    pointer-events: auto;
   }
 
   .home-btn {
     flex: 1;
-    min-height: 60px;
+    min-height: 56px;
     border: none;
-    border-radius: 20px;
-    background: linear-gradient(180deg, #1781f8 0%, #0b76ec 100%);
+    border-radius: 18px;
+    background: linear-gradient(180deg, #1a86fa 0%, #1279ef 100%);
     color: #fff;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
+    box-shadow: 0 6px 18px rgba(23, 125, 244, 0.18);
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(11, 118, 236, 0.18);
   }
 
   .share-btn {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border: none;
-    border-radius: 20px;
-    background: #e8f0fb;
-    display: flex;
+    border-radius: 18px;
+    background: var(--share-bg);
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
   }
 
   .share-btn svg {
-    width: 24px;
-    height: 24px;
-    stroke: #167df7;
+    width: 22px;
+    height: 22px;
+    stroke: var(--blue);
     stroke-width: 2.15;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
+  .edit-shell {
+    min-height: 100svh;
+  }
+
   .edit-panel {
     margin: 0 16px;
-    background: #ffffff;
+    background: #fff;
     border-radius: 24px;
     padding: 18px;
     box-shadow: 0 8px 26px rgba(16, 24, 40, 0.04);
@@ -349,19 +350,17 @@
     margin-bottom: 14px;
   }
 
-  .field:last-of-type {
-    margin-bottom: 0;
-  }
+  .field:last-of-type { margin-bottom: 0; }
 
   .field label {
     display: block;
+    margin-bottom: 8px;
     font-size: 12px;
     line-height: 1.2;
     font-weight: 600;
-    color: #7c8794;
-    margin-bottom: 8px;
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    color: #7c8794;
   }
 
   .field input {
@@ -405,32 +404,39 @@
     color: #7a8794;
   }
 
-  @media (max-width: 390px) {
-    .amount {
-      font-size: 56px;
+  @media (max-height: 760px) {
+    .top-bar {
+      padding-top: calc(var(--safe-top) + 10px);
+      min-height: 74px;
     }
 
-    .trx-source,
-    .trx-number {
-      font-size: 22px;
+    .back-btn {
+      top: calc(var(--safe-top) + 8px);
+      width: 42px;
+      height: 42px;
     }
 
-    .trx-date {
-      font-size: 18px;
-    }
+    .logo { width: 124px; }
+    .receipt-top { padding-top: 18px; }
+    .status-circle { width: 60px; height: 60px; margin-bottom: 8px; }
+    .status-text { margin-bottom: 8px; }
+    .amount { font-size: 38px; }
+    .tear-row { height: 32px; }
+    .receipt-bottom { padding-bottom: 18px; }
+    .details-wrap { padding-top: 12px; padding-bottom: 12px; }
+    .bottom-bar { padding-top: 12px; }
   }
 </style>
 </head>
 <body>
   <div id="editor-screen" class="screen">
-    <div class="phone-shell">
+    <div class="phone-shell edit-shell">
       <div class="top-bar">
         <button class="back-btn" type="button" aria-label="Назад">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
           </svg>
         </button>
-
         <svg class="logo" viewBox="0 0 250 80" aria-label="BAKAI">
           <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
           <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
@@ -446,7 +452,7 @@
 
       <div class="edit-panel">
         <div class="editor-title">Редактор чека</div>
-        <div class="editor-subtitle">Оставил editor-screen, но сам экран чека переделал ближе к референсу.</div>
+        <div class="editor-subtitle">Оставил editor-screen. Экран чека подправлен под референс и больше не должен налезать на баннер.</div>
 
         <div class="field">
           <label for="inp-num">Номер транзакции</label>
@@ -468,21 +474,18 @@
         <button class="generate-btn" type="button" onclick="generateReceipt()">Сформировать чек</button>
       </div>
 
-      <div class="preview-note">
-        Кнопка ниже открывает готовый экран. Можно менять сумму, номер и дату вручную.
-      </div>
+      <div class="preview-note">Сумма, номер и дата меняются вручную. Сам чек открывается отдельным экраном.</div>
     </div>
   </div>
 
   <div id="receipt-screen" class="screen" style="display:none;">
-    <div class="phone-shell">
+    <div class="phone-shell receipt-shell">
       <div class="top-bar">
         <button class="back-btn" type="button" onclick="backToEditor()" aria-label="Назад">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
           </svg>
         </button>
-
         <svg class="logo" viewBox="0 0 250 80" aria-label="BAKAI">
           <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
           <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
@@ -496,20 +499,18 @@
         </svg>
       </div>
 
-      <div class="content">
+      <div class="receipt-content">
         <section class="receipt-card" aria-label="Чек транзакции">
           <div class="receipt-top">
             <div class="status-circle">
-              <svg viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
             </div>
             <div class="status-text">Success!</div>
             <div class="amount-row">
               <span id="out-sum" class="amount">17</span>
               <span class="currency">с</span>
             </div>
-            <div class="fee-row"><span class="fee-label">Fee</span>0 <span class="fee-currency">с</span></div>
+            <div class="fee-row">Fee 0 <span class="fee-currency">с</span></div>
           </div>
 
           <div class="tear-row" aria-hidden="true">
@@ -534,7 +535,9 @@
           </button>
         </div>
 
-        <img class="banner" src="https://cdn.bakai.kg/uploads/widgets/%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0_288_eng.webp" alt="BAKAI Fund" />
+        <div class="banner-wrap">
+          <img class="banner" src="https://cdn.bakai.kg/uploads/widgets/%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0_288_eng.webp" alt="BAKAI Fund" />
+        </div>
       </div>
 
       <div class="bottom-bar">
@@ -570,13 +573,17 @@
 
     document.getElementById('editor-screen').style.display = 'none';
     document.getElementById('receipt-screen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    window.scrollTo(0, 0);
   }
 
   function backToEditor() {
     document.getElementById('receipt-screen').style.display = 'none';
     document.getElementById('editor-screen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, 0);
   }
 </script>
 </body>
