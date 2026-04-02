@@ -1,328 +1,582 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>BAKAI — Receipt</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>BAKAI - Чек</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #f4f4f5;
+    --card: #ffffff;
+    --text: #0d2645;
+    --muted: #8e9aa8;
+    --line: #e5e7eb;
+    --blue: #0a84ff;
+    --light-blue: #eaf2ff;
+    --green: #22c55e;
+    --green-ring: #b8f3cb;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-    background: #f8f9fb;
+    overflow-x: hidden;
+  }
+
+  button, input {
+    font: inherit;
+  }
+
+  .screen {
+    width: 100%;
     min-height: 100vh;
-    color: #1a1c1e;
+    background: var(--bg);
   }
 
-  /* ─── ОБЩИЕ СТИЛИ ШАПКИ ─── */
-  .top-bar {
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .phone-shell {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
     position: relative;
-    background: #f8f9fb;
   }
 
-  .back-arrow {
-    position: absolute;
-    left: 16px;
-    width: 24px;
-    height: 24px;
+  .top-bar {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: calc(var(--safe-top) + 20px);
+    padding-bottom: 18px;
+    min-height: 104px;
+  }
+
+  .back-btn {
+    position: absolute;
+    left: 18px;
+    top: calc(var(--safe-top) + 18px);
+    width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    border: none;
+    background: #f1f2f4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #1d2734;
     cursor: pointer;
   }
 
-  .bakai-logo-svg {
-    height: 28px;
-    width: auto;
+  .back-btn svg {
+    width: 22px;
+    height: 22px;
   }
 
-  /* ─── ЭКРАН РЕДАКТОРА ─── */
-  #editor-screen {
-    max-width: 430px;
-    margin: 0 auto;
-    padding-bottom: 40px;
+  .logo {
+    width: 142px;
+    height: auto;
+    margin-top: 2px;
   }
 
-  /* ─── ЭКРАН ЧЕКА (ГЛАВНЫЙ) ─── */
-  #receipt-screen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #f8f9fb;
-    z-index: 100;
-    overflow-y: auto;
+  .content {
+    padding: 2px 16px calc(126px + var(--safe-bottom));
   }
 
-  #receipt-screen.active { display: block; }
-
-  .receipt-container {
-    max-width: 430px;
-    margin: 0 auto;
-    padding: 8px 16px 120px;
-  }
-
-  /* Белая карточка чека */
   .receipt-card {
-    background: white;
-    border-radius: 24px;
-    padding: 32px 20px 24px;
-    text-align: center;
     position: relative;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    margin-bottom: 20px;
+    background: var(--card);
+    border-radius: 30px;
+    overflow: hidden;
   }
 
-  /* Пунктирная линия с вырезами по бокам */
-  .receipt-card::before, .receipt-card::after {
-    content: '';
-    position: absolute;
-    top: 55%;
-    width: 20px;
-    height: 20px;
-    background: #f8f9fb;
-    border-radius: 50%;
-  }
-  .receipt-card::before { left: -10px; }
-  .receipt-card::after { right: -10px; }
-
-  .divider {
-    position: absolute;
-    top: 57.5%;
-    left: 24px;
-    right: 24px;
-    border-top: 1px dashed #e5e7eb;
+  .receipt-top {
+    text-align: center;
+    padding: 34px 24px 18px;
   }
 
-  /* Контент внутри чека */
-  .status-icon {
-    width: 68px;
-    height: 68px;
-    background: #4cd964;
-    border-radius: 50%;
+  .status-circle {
+    width: 74px;
+    height: 74px;
+    margin: 0 auto 16px;
+    border-radius: 999px;
+    background: var(--green);
+    box-shadow: inset 0 0 0 5px var(--green-ring);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 16px;
   }
 
-  .status-icon svg { width: 34px; height: 34px; stroke: white; stroke-width: 3; fill: none; }
+  .status-circle svg {
+    width: 34px;
+    height: 34px;
+    stroke: #fff;
+    stroke-width: 2.6;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 
-  .status-text { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+  .status-text {
+    font-size: 24px;
+    line-height: 1.15;
+    font-weight: 500;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
 
-  .amount-main { font-size: 42px; font-weight: 700; color: #002855; margin-bottom: 4px; }
-  .som-symbol { 
-    font-size: 24px; 
-    font-weight: 400; 
-    color: #4b5563; 
-    text-decoration: underline; 
-    margin-left: 4px;
+  .amount-row {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .amount {
+    font-size: 62px;
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .currency,
+  .fee-currency {
     display: inline-block;
-    transform: translateY(-2px);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
-  .fee-text { font-size: 15px; color: #9ca3af; margin-bottom: 40px; }
+  .currency {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 500;
+    color: #6f7a87;
+  }
 
-  .info-section { margin-top: 60px; }
-  .transaction-id { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-  .qr-info { font-size: 15px; color: #1a1c1e; margin-bottom: 4px; font-weight: 500;}
-  .timestamp { font-size: 14px; color: #9ca3af; }
+  .fee-row {
+    font-size: 21px;
+    line-height: 1.2;
+    color: var(--muted);
+  }
 
-  .details-trigger {
-    background: white;
-    border: 1px solid #f3f4f6;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 15px;
-    color: #1a1c1e;
-    margin: 20px auto;
+  .fee-label {
+    margin-right: 4px;
+  }
+
+  .tear-row {
+    position: relative;
+    height: 50px;
     display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tear-line {
+    width: calc(100% - 56px);
+    border-top: 2px dashed #e4e7eb;
+  }
+
+  .tear-cut {
+    position: absolute;
+    top: 50%;
+    width: 36px;
+    height: 36px;
+    background: var(--bg);
+    border-radius: 999px;
+    transform: translateY(-50%);
+  }
+
+  .tear-cut.left {
+    left: -18px;
+  }
+
+  .tear-cut.right {
+    right: -18px;
+  }
+
+  .receipt-bottom {
+    text-align: center;
+    padding: 4px 24px 28px;
+  }
+
+  .trx-number {
+    font-size: 26px;
+    line-height: 1.15;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .trx-source {
+    font-size: 24px;
+    line-height: 1.18;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .trx-date {
+    font-size: 20px;
+    line-height: 1.2;
+    color: #7f8a98;
+    font-weight: 400;
+  }
+
+  .details-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 14px 0 18px;
+  }
+
+  .details-btn {
+    border: none;
+    background: #f7f7f8;
+    color: #263547;
+    border-radius: 999px;
+    min-height: 46px;
+    padding: 0 26px;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-  }
-
-  /* Баннер */
-  .fund-banner {
-    width: 100%;
-    border-radius: 16px;
-    display: block;
-    margin-bottom: 20px;
-  }
-
-  /* Кнопки внизу */
-  .footer-actions {
-    display: flex;
-    gap: 12px;
-    position: fixed;
-    bottom: 20px;
-    left: 16px;
-    right: 16px;
-    max-width: 398px;
-    margin: 0 auto;
-  }
-
-  .btn-home {
-    flex: 1;
-    background: #007aff;
-    color: white;
-    border: none;
-    border-radius: 16px;
-    padding: 18px;
     font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .details-btn svg {
+    width: 16px;
+    height: 16px;
+    color: #9aa4af;
+  }
+
+  .banner {
+    width: 100%;
+    display: block;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .bottom-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  .bottom-bar-inner {
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 0 16px calc(18px + var(--safe-bottom));
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    pointer-events: auto;
+  }
+
+  .home-btn {
+    flex: 1;
+    min-height: 60px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #1781f8 0%, #0b76ec 100%);
+    color: #fff;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 8px 24px rgba(11, 118, 236, 0.18);
   }
 
-  .btn-share {
-    width: 58px;
-    height: 58px;
-    background: #eef4ff;
-    border-radius: 16px;
+  .share-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 20px;
+    background: #e8f0fb;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
     cursor: pointer;
   }
 
-  /* Стили редактора */
-  .edit-panel {
-    background: white;
-    margin: 16px;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  .share-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: #167df7;
+    stroke-width: 2.15;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .input-group { margin-bottom: 15px; }
-  .input-group label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; }
-  .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; }
-  .btn-generate {
-    background: #002855;
-    color: white;
-    width: calc(100% - 32px);
+
+  .edit-panel {
     margin: 0 16px;
-    padding: 16px;
-    border-radius: 15px;
-    border: none;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 8px 26px rgba(16, 24, 40, 0.04);
+  }
+
+  .editor-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .editor-subtitle {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #7a8794;
+    margin-bottom: 18px;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    line-height: 1.2;
     font-weight: 600;
-    font-size: 16px;
+    color: #7c8794;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .field input {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 16px;
+    border: 1px solid #e7eaf0;
+    border-radius: 16px;
+    background: #fbfcfd;
+    color: var(--text);
+    font-size: 18px;
+    outline: none;
+  }
+
+  .field input:focus {
+    border-color: #8dbdff;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.08);
+  }
+
+  .editor-actions {
+    padding: 16px;
+  }
+
+  .generate-btn {
+    width: 100%;
+    min-height: 58px;
+    border: none;
+    border-radius: 20px;
+    background: #0d2645;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .preview-note {
+    padding: 0 16px 24px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #7a8794;
+  }
+
+  @media (max-width: 390px) {
+    .amount {
+      font-size: 56px;
+    }
+
+    .trx-source,
+    .trx-number {
+      font-size: 22px;
+    }
+
+    .trx-date {
+      font-size: 18px;
+    }
   }
 </style>
 </head>
 <body>
+  <div id="editor-screen" class="screen">
+    <div class="phone-shell">
+      <div class="top-bar">
+        <button class="back-btn" type="button" aria-label="Назад">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
 
-<div id="editor-screen">
-  <div class="top-bar">
-    <div class="back-arrow">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-    </div>
-    <svg class="bakai-logo-svg" viewBox="0 0 250 80" xmlns="http://www.w3.org/2000/svg">
-      <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
-      <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
-      <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
-      <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
-      <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
-      <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
-      <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
-      <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
-      <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
-    </svg>
-  </div>
-
-  <div class="edit-panel">
-    <div class="input-group">
-      <label>Номер транзакции</label>
-      <input type="number" id="inp-num" value="154">
-    </div>
-    <div class="input-group">
-      <label>Сумма</label>
-      <input type="number" id="inp-amount" value="17">
-    </div>
-  </div>
-
-  <button class="btn-generate" onclick="showReceipt()">Показать чек</button>
-</div>
-
-<div id="receipt-screen">
-  <div class="top-bar">
-    <div class="back-arrow" onclick="closeReceipt()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-    </div>
-    <svg class="bakai-logo-svg" viewBox="0 0 250 80" xmlns="http://www.w3.org/2000/svg">
-      <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
-      <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
-      <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
-      <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
-      <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
-      <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
-      <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
-      <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
-      <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
-    </svg>
-  </div>
-
-  <div class="receipt-container">
-    <div class="receipt-card">
-      <div class="status-icon">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-      </div>
-      <div class="status-text">Success!</div>
-      <div class="amount-main"><span id="res-amount">17</span><span class="som-symbol">с</span></div>
-      <div class="fee-text">Fee 0 <span style="text-decoration: underline;">с</span></div>
-      
-      <div class="divider"></div>
-
-      <div class="info-section">
-        <div class="transaction-id" id="res-num">154</div>
-        <div class="qr-info">By QR code <span id="res-qr">154</span></div>
-        <div class="timestamp" id="res-date">02.04.2026 19:06:11</div>
-      </div>
-    </div>
-
-    <button class="details-trigger">
-      Transaction details
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </button>
-
-    <img class="fund-banner" src="https://cdn.bakai.kg/uploads/widgets/%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0_288_eng.webp" alt="BAKAI Fund">
-
-    <div class="footer-actions">
-      <button class="btn-home" onclick="closeReceipt()">Back home</button>
-      <button class="btn-share">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-          <polyline points="16 6 12 2 8 6"></polyline>
-          <line x1="12" y1="2" x2="12" y2="15"></line>
+        <svg class="logo" viewBox="0 0 250 80" aria-label="BAKAI">
+          <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
+          <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
+          <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
+          <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
+          <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
+          <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
+          <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
+          <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
+          <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
         </svg>
-      </button>
+      </div>
+
+      <div class="edit-panel">
+        <div class="editor-title">Редактор чека</div>
+        <div class="editor-subtitle">Оставил editor-screen, но сам экран чека переделал ближе к референсу.</div>
+
+        <div class="field">
+          <label for="inp-num">Номер транзакции</label>
+          <input id="inp-num" type="text" inputmode="numeric" value="154" />
+        </div>
+
+        <div class="field">
+          <label for="inp-sum">Сумма</label>
+          <input id="inp-sum" type="text" inputmode="decimal" value="17" />
+        </div>
+
+        <div class="field">
+          <label for="inp-date">Дата и время</label>
+          <input id="inp-date" type="text" value="02.04.2026 19:06:11" />
+        </div>
+      </div>
+
+      <div class="editor-actions">
+        <button class="generate-btn" type="button" onclick="generateReceipt()">Сформировать чек</button>
+      </div>
+
+      <div class="preview-note">
+        Кнопка ниже открывает готовый экран. Можно менять сумму, номер и дату вручную.
+      </div>
     </div>
   </div>
-</div>
+
+  <div id="receipt-screen" class="screen" style="display:none;">
+    <div class="phone-shell">
+      <div class="top-bar">
+        <button class="back-btn" type="button" onclick="backToEditor()" aria-label="Назад">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+
+        <svg class="logo" viewBox="0 0 250 80" aria-label="BAKAI">
+          <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
+          <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
+          <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
+          <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
+          <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
+          <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
+          <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
+          <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
+          <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
+        </svg>
+      </div>
+
+      <div class="content">
+        <section class="receipt-card" aria-label="Чек транзакции">
+          <div class="receipt-top">
+            <div class="status-circle">
+              <svg viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </div>
+            <div class="status-text">Success!</div>
+            <div class="amount-row">
+              <span id="out-sum" class="amount">17</span>
+              <span class="currency">с</span>
+            </div>
+            <div class="fee-row"><span class="fee-label">Fee</span>0 <span class="fee-currency">с</span></div>
+          </div>
+
+          <div class="tear-row" aria-hidden="true">
+            <span class="tear-cut left"></span>
+            <span class="tear-line"></span>
+            <span class="tear-cut right"></span>
+          </div>
+
+          <div class="receipt-bottom">
+            <div id="out-num" class="trx-number">154</div>
+            <div class="trx-source">By QR code <span id="out-qr">154</span></div>
+            <div id="out-date" class="trx-date">02.04.2026 19:06:11</div>
+          </div>
+        </section>
+
+        <div class="details-wrap">
+          <button class="details-btn" type="button">
+            Transaction details
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"></path>
+            </svg>
+          </button>
+        </div>
+
+        <img class="banner" src="https://cdn.bakai.kg/uploads/widgets/%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0_288_eng.webp" alt="BAKAI Fund" />
+      </div>
+
+      <div class="bottom-bar">
+        <div class="bottom-bar-inner">
+          <button class="home-btn" type="button" onclick="backToEditor()">Back home</button>
+          <button class="share-btn" type="button" aria-label="Поделиться">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 16V3"></path>
+              <path d="M8 7l4-4 4 4"></path>
+              <path d="M4 13v6a1.8 1.8 0 0 0 1.8 1.8h12.4A1.8 1.8 0 0 0 20 19v-6"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script>
-  function showReceipt() {
-    const num = document.getElementById('inp-num').value;
-    const amount = document.getElementById('inp-amount').value;
-    
-    document.getElementById('res-num').innerText = num;
-    document.getElementById('res-qr').innerText = num;
-    document.getElementById('res-amount').innerText = amount;
-    
-    // Установка текущей даты
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU');
-    document.getElementById('res-date').innerText = dateStr;
-
-    document.getElementById('receipt-screen').classList.add('active');
+  function sanitizeValue(value, fallback) {
+    const trimmed = String(value || '').trim();
+    return trimmed === '' ? fallback : trimmed;
   }
 
-  function closeReceipt() {
-    document.getElementById('receipt-screen').classList.remove('active');
+  function generateReceipt() {
+    const number = sanitizeValue(document.getElementById('inp-num').value, '154');
+    const sum = sanitizeValue(document.getElementById('inp-sum').value, '17');
+    const date = sanitizeValue(document.getElementById('inp-date').value, '02.04.2026 19:06:11');
+
+    document.getElementById('out-num').textContent = number;
+    document.getElementById('out-qr').textContent = number;
+    document.getElementById('out-sum').textContent = sum;
+    document.getElementById('out-date').textContent = date;
+
+    document.getElementById('editor-screen').style.display = 'none';
+    document.getElementById('receipt-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }
+
+  function backToEditor() {
+    document.getElementById('receipt-screen').style.display = 'none';
+    document.getElementById('editor-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   }
 </script>
 </body>
