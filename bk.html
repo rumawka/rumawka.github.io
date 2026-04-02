@@ -3,20 +3,25 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="BAKAI" />
 <title>BAKAI - Чек</title>
 <style>
   :root {
-    --bg: #f3f3f4;
-    --card: #fcfcfd;
-    --text: #0a2347;
-    --muted: #8c98a8;
-    --line: #e2e5e9;
-    --blue: #1480f7;
-    --share-bg: #e7edf6;
-    --green: #22c95f;
-    --green-ring: #c3f0ce;
+    --bg: #f4f4f4;
+    --card: #fcfcfc;
+    --text: #0b254d;
+    --muted: #8c97a6;
+    --line: #dee2e7;
+    --blue: #1983f8;
+    --share-bg: #e8eef7;
+    --green: #24ca5f;
+    --green-ring: #c3efcc;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
   }
 
   * {
@@ -28,9 +33,9 @@
     margin: 0;
     padding: 0;
     min-height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     overflow-x: hidden;
   }
 
@@ -49,13 +54,8 @@
     max-width: 430px;
     min-height: 100svh;
     margin: 0 auto;
-  }
-
-  .receipt-shell {
-    display: flex;
-    flex-direction: column;
-    min-height: 100svh;
-    overflow: hidden;
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
   }
 
   .top-bar {
@@ -63,44 +63,50 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: calc(var(--safe-top) + 14px);
-    padding-bottom: 14px;
-    min-height: 86px;
+    padding-top: calc(var(--safe-top) + 6px);
+    padding-bottom: 2px;
+    min-height: 68px;
     flex-shrink: 0;
   }
 
   .back-btn {
     position: absolute;
-    left: 20px;
-    top: calc(var(--safe-top) + 10px);
-    width: 44px;
-    height: 44px;
+    left: 11px;
+    top: calc(var(--safe-top) + 4px);
+    width: 40px;
+    height: 40px;
     border: none;
     border-radius: 999px;
-    background: #edf0f2;
+    background: #eef1f2;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #162334;
+    color: #1a2738;
     cursor: pointer;
   }
 
   .back-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
   }
 
   .logo {
-    width: 132px;
+    width: 118px;
     height: auto;
     display: block;
+  }
+
+  .receipt-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
   }
 
   .receipt-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 6px 16px 16px;
+    padding: 4px 10px 0;
     min-height: 0;
   }
 
@@ -114,16 +120,16 @@
 
   .receipt-top {
     text-align: center;
-    padding: 22px 24px 8px;
+    padding: 22px 24px 4px;
   }
 
   .status-circle {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 10px;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 9px;
     border-radius: 999px;
     background: var(--green);
-    box-shadow: inset 0 0 0 5px var(--green-ring);
+    box-shadow: inset 0 0 0 4px var(--green-ring);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,15 +139,15 @@
     width: 28px;
     height: 28px;
     stroke: #fff;
-    stroke-width: 2.7;
+    stroke-width: 2.8;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .status-text {
-    font-size: 18px;
-    line-height: 1.15;
+    font-size: 17px;
+    line-height: 1.12;
     font-weight: 500;
     margin-bottom: 10px;
     color: var(--text);
@@ -151,80 +157,82 @@
     display: inline-flex;
     align-items: baseline;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
     margin-bottom: 10px;
   }
 
   .amount {
-    font-size: 40px;
+    font-size: 39px;
     line-height: 0.95;
     font-weight: 700;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.04em;
     color: var(--text);
   }
 
   .currency,
   .fee-currency {
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
   }
 
   .currency {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1;
     font-weight: 400;
-    color: #677385;
+    color: #6b7787;
+    position: relative;
+    top: 1px;
   }
 
   .fee-row {
-    font-size: 15px;
-    line-height: 1.2;
+    font-size: 14px;
+    line-height: 1.15;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .tear-row {
     position: relative;
-    height: 36px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .tear-line {
-    width: calc(100% - 60px);
-    border-top: 1.5px dashed #e0e3e8;
+    width: calc(100% - 54px);
+    border-top: 1.5px dashed var(--line);
   }
 
   .tear-cut {
     position: absolute;
     top: 50%;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: var(--bg);
     border-radius: 999px;
     transform: translateY(-50%);
   }
 
-  .tear-cut.left { left: -16px; }
-  .tear-cut.right { right: -16px; }
+  .tear-cut.left { left: -14px; }
+  .tear-cut.right { right: -14px; }
 
   .receipt-bottom {
     text-align: center;
-    padding: 8px 24px 22px;
+    padding: 8px 24px 18px;
   }
 
   .trx-number {
-    font-size: 22px;
-    line-height: 1.12;
+    font-size: 21px;
+    line-height: 1.08;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     color: var(--text);
   }
 
   .trx-source {
-    font-size: 18px;
-    line-height: 1.15;
+    font-size: 17px;
+    line-height: 1.12;
     font-weight: 500;
     margin-bottom: 8px;
     color: var(--text);
@@ -232,9 +240,9 @@
 
   .trx-date {
     font-size: 14px;
-    line-height: 1.2;
+    line-height: 1.15;
     font-weight: 400;
-    color: #8b96a5;
+    color: #8d98a6;
   }
 
   .details-wrap {
@@ -245,12 +253,12 @@
   }
 
   .details-btn {
-    min-height: 42px;
+    min-height: 40px;
     padding: 0 22px;
     border: none;
     border-radius: 999px;
-    background: #f7f7f8;
-    color: #263547;
+    background: #f8f8f8;
+    color: #243346;
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -275,9 +283,14 @@
     border-radius: 18px;
   }
 
+  .receipt-spacer {
+    flex: 1;
+    min-height: 260px;
+  }
+
   .bottom-bar {
     flex-shrink: 0;
-    padding: 16px 16px calc(18px + var(--safe-bottom));
+    padding: 0 10px calc(16px + var(--safe-bottom));
   }
 
   .bottom-bar-inner {
@@ -288,20 +301,20 @@
 
   .home-btn {
     flex: 1;
-    min-height: 56px;
+    min-height: 54px;
     border: none;
     border-radius: 18px;
-    background: linear-gradient(180deg, #1a86fa 0%, #1279ef 100%);
+    background: linear-gradient(180deg, #1a88fb 0%, #147ef4 100%);
     color: #fff;
     font-size: 17px;
     font-weight: 600;
-    box-shadow: 0 6px 18px rgba(23, 125, 244, 0.18);
+    box-shadow: 0 8px 20px rgba(24, 126, 244, 0.15);
     cursor: pointer;
   }
 
   .share-btn {
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
     border: none;
     border-radius: 18px;
     background: var(--share-bg);
@@ -326,7 +339,7 @@
   }
 
   .edit-panel {
-    margin: 0 16px;
+    margin: 6px 12px 0;
     background: #fff;
     border-radius: 24px;
     padding: 18px;
@@ -382,7 +395,7 @@
   }
 
   .editor-actions {
-    padding: 16px;
+    padding: 16px 12px;
   }
 
   .generate-btn {
@@ -398,7 +411,7 @@
   }
 
   .preview-note {
-    padding: 0 16px 24px;
+    padding: 0 12px 24px;
     font-size: 14px;
     line-height: 1.45;
     color: #7a8794;
@@ -406,25 +419,24 @@
 
   @media (max-height: 760px) {
     .top-bar {
-      padding-top: calc(var(--safe-top) + 10px);
-      min-height: 74px;
+      padding-top: calc(var(--safe-top) + 4px);
+      min-height: 62px;
     }
 
     .back-btn {
-      top: calc(var(--safe-top) + 8px);
-      width: 42px;
-      height: 42px;
+      top: calc(var(--safe-top) + 3px);
+      width: 38px;
+      height: 38px;
     }
 
-    .logo { width: 124px; }
+    .logo { width: 114px; }
+    .receipt-content { padding-top: 2px; }
     .receipt-top { padding-top: 18px; }
-    .status-circle { width: 60px; height: 60px; margin-bottom: 8px; }
-    .status-text { margin-bottom: 8px; }
-    .amount { font-size: 38px; }
-    .tear-row { height: 32px; }
-    .receipt-bottom { padding-bottom: 18px; }
-    .details-wrap { padding-top: 12px; padding-bottom: 12px; }
-    .bottom-bar { padding-top: 12px; }
+    .status-circle { width: 58px; height: 58px; margin-bottom: 8px; }
+    .amount { font-size: 37px; }
+    .tear-row { height: 24px; }
+    .receipt-bottom { padding-bottom: 16px; }
+    .receipt-spacer { min-height: 200px; }
   }
 </style>
 </head>
@@ -433,7 +445,7 @@
     <div class="phone-shell edit-shell">
       <div class="top-bar">
         <button class="back-btn" type="button" aria-label="Назад">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
           </svg>
         </button>
@@ -452,7 +464,7 @@
 
       <div class="edit-panel">
         <div class="editor-title">Редактор чека</div>
-        <div class="editor-subtitle">Оставил editor-screen. Экран чека подправлен под референс и больше не должен налезать на баннер.</div>
+        <div class="editor-subtitle">Оставил editor-screen. Экран чека поджат и сдвинут ближе к первому референсу.</div>
 
         <div class="field">
           <label for="inp-num">Номер транзакции</label>
@@ -474,7 +486,7 @@
         <button class="generate-btn" type="button" onclick="generateReceipt()">Сформировать чек</button>
       </div>
 
-      <div class="preview-note">Сумма, номер и дата меняются вручную. Сам чек открывается отдельным экраном.</div>
+      <div class="preview-note">Для полноэкранного вида на iPhone страницу лучше запускать с домашнего экрана.</div>
     </div>
   </div>
 
@@ -482,7 +494,7 @@
     <div class="phone-shell receipt-shell">
       <div class="top-bar">
         <button class="back-btn" type="button" onclick="backToEditor()" aria-label="Назад">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
           </svg>
         </button>
@@ -538,6 +550,8 @@
         <div class="banner-wrap">
           <img class="banner" src="https://cdn.bakai.kg/uploads/widgets/%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0_288_eng.webp" alt="BAKAI Fund" />
         </div>
+
+        <div class="receipt-spacer"></div>
       </div>
 
       <div class="bottom-bar">
