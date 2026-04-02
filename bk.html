@@ -3,634 +3,327 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>BAKAI — Чек</title>
+<title>BAKAI — Receipt</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-    background: #f2f2f7;
+    background: #f8f9fb;
     min-height: 100vh;
-    overflow-x: hidden;
+    color: #1a1c1e;
   }
 
-  /* ─── EDITOR SCREEN ─── */
-  #editor-screen {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    max-width: 430px;
-    margin: 0 auto;
-    padding-bottom: 32px;
-  }
-
+  /* ─── ОБЩИЕ СТИЛИ ШАПКИ ─── */
   .top-bar {
-    background: #f2f2f7;
-    padding: 16px 20px 10px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    background: #f8f9fb;
   }
 
-  /* BAKAI Logo SVG */
-  .bakai-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .logo-text {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-  }
-
-  .logo-bak { color: #1565c0; }
-  .logo-ai  { color: #d81b60; }
-
-  .receipt-preview {
-    background: white;
-    border-radius: 20px;
-    margin: 12px 16px;
-    padding: 28px 24px 24px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-    position: relative;
-  }
-
-  .receipt-preview::after {
-    content: '';
+  .back-arrow {
     position: absolute;
-    left: 24px; right: 24px;
-    bottom: 68px;
-    border-top: 1.5px dashed #e0e0e0;
-  }
-
-  .success-circle {
-    width: 62px; height: 62px;
-    background: #22c55e;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 12px;
-  }
-
-  .success-circle svg { width: 28px; height: 28px; stroke: white; stroke-width: 3; fill: none; }
-
-  .success-label {
-    text-align: center;
-    font-size: 17px;
-    font-weight: 600;
-    color: #111;
-    margin-bottom: 6px;
-  }
-
-  .amount-row {
-    text-align: center;
-    font-size: 38px;
-    font-weight: 700;
-    color: #111;
-    margin-bottom: 4px;
-    line-height: 1;
-  }
-
-  .amount-row .cur {
-    font-size: 22px;
-    font-weight: 500;
-    color: #888;
-    font-style: italic;
-  }
-
-  .fee-row {
-    text-align: center;
-    font-size: 13px;
-    color: #bbb;
-    margin-bottom: 28px;
-  }
-
-  .receipt-body {
-    text-align: center;
-    padding-top: 20px;
-  }
-
-  .ref-num {
-    font-size: 24px;
-    font-weight: 700;
-    color: #111;
-    margin-bottom: 4px;
-  }
-
-  .qr-label {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 4px;
-  }
-
-  .datetime-label {
-    font-size: 13px;
-    color: #aaa;
-  }
-
-  .details-btn {
+    left: 16px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    background: #f0f0f5;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 22px;
-    margin: 18px auto 0;
-    font-size: 14px;
-    color: #333;
     cursor: pointer;
-    width: fit-content;
-    font-family: inherit;
   }
 
-  /* BAKAI Fund Banner */
-  .fund-banner {
-    margin: 0 16px;
-    border-radius: 16px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1a3a8c 0%, #1565c0 60%, #1e88e5 100%);
-    display: flex;
-    align-items: stretch;
-    min-height: 90px;
+  .bakai-logo-svg {
+    height: 28px;
+    width: auto;
   }
 
-  .fund-text-area {
-    padding: 18px 0 18px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1;
-  }
-
-  .fund-title {
-    font-size: 20px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 3px;
-  }
-
-  .fund-sub {
-    font-size: 12px;
-    color: rgba(255,255,255,0.75);
-  }
-
-  .fund-pig-area {
-    width: 130px;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  /* Crystal piggy bank SVG */
-  .fund-pig-area svg {
-    width: 110px;
-    height: 90px;
-  }
-
-  /* Editor panel */
-  .editor-card {
-    background: white;
-    border-radius: 18px;
-    margin: 16px 16px 0;
-    padding: 18px 20px;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  }
-
-  .editor-header {
-    font-size: 13px;
-    font-weight: 600;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 0.5px solid #f0f0f0;
-  }
-
-  .field-group {
-    margin-bottom: 14px;
-  }
-
-  .field-group label {
-    display: block;
-    font-size: 12px;
-    color: #999;
-    font-weight: 500;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-
-  .field-group input {
-    width: 100%;
-    border: 1.5px solid #e8e8e8;
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #111;
-    outline: none;
-    font-family: inherit;
-    background: #fafafa;
-    transition: border-color 0.2s, background 0.2s;
-  }
-
-  .field-group input:focus {
-    border-color: #1565c0;
-    background: white;
-  }
-
-  .field-hint {
-    font-size: 11px;
-    color: #ccc;
-    margin-top: 5px;
-  }
-
-  /* Generate button */
-  .generate-btn {
-    display: block;
-    width: calc(100% - 32px);
-    margin: 16px auto 0;
-    background: #1565c0;
-    color: white;
-    border: none;
-    border-radius: 16px;
-    padding: 18px;
-    font-size: 17px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    letter-spacing: 0.2px;
-    transition: background 0.15s, transform 0.1s;
-  }
-
-  .generate-btn:active {
-    transform: scale(0.98);
-    background: #0d47a1;
-  }
-
-  .generate-hint {
-    text-align: center;
-    font-size: 12px;
-    color: #bbb;
-    margin-top: 10px;
-  }
-
-  /* ─── RECEIPT FULLSCREEN ─── */
-  #receipt-screen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #f2f2f7;
-    z-index: 100;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  #receipt-screen.active {
-    display: block;
-  }
-
-  .receipt-full {
+  /* ─── ЭКРАН РЕДАКТОРА ─── */
+  #editor-screen {
     max-width: 430px;
     margin: 0 auto;
     padding-bottom: 40px;
   }
 
-  .receipt-full .top-bar {
-    position: relative;
-    padding: 16px 20px 10px;
+  /* ─── ЭКРАН ЧЕКА (ГЛАВНЫЙ) ─── */
+  #receipt-screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #f8f9fb;
+    z-index: 100;
+    overflow-y: auto;
   }
 
-  .close-btn {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px; height: 36px;
-    border-radius: 50%;
+  #receipt-screen.active { display: block; }
+
+  .receipt-container {
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 8px 16px 120px;
+  }
+
+  /* Белая карточка чека */
+  .receipt-card {
     background: white;
-    border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.12);
-    font-size: 18px;
-    color: #333;
-    text-decoration: none;
-    font-family: inherit;
-  }
-
-  .receipt-big-card {
-    background: white;
-    border-radius: 20px;
-    margin: 12px 16px;
-    padding: 32px 24px 24px;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.09);
+    border-radius: 24px;
+    padding: 32px 20px 24px;
+    text-align: center;
     position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    margin-bottom: 20px;
   }
 
-  .receipt-big-card::after {
+  /* Пунктирная линия с вырезами по бокам */
+  .receipt-card::before, .receipt-card::after {
     content: '';
     position: absolute;
-    left: 24px; right: 24px;
-    bottom: 68px;
-    border-top: 1.5px dashed #e0e0e0;
+    top: 55%;
+    width: 20px;
+    height: 20px;
+    background: #f8f9fb;
+    border-radius: 50%;
+  }
+  .receipt-card::before { left: -10px; }
+  .receipt-card::after { right: -10px; }
+
+  .divider {
+    position: absolute;
+    top: 57.5%;
+    left: 24px;
+    right: 24px;
+    border-top: 1px dashed #e5e7eb;
   }
 
-  .bottom-actions {
+  /* Контент внутри чека */
+  .status-icon {
+    width: 68px;
+    height: 68px;
+    background: #4cd964;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+
+  .status-icon svg { width: 34px; height: 34px; stroke: white; stroke-width: 3; fill: none; }
+
+  .status-text { font-size: 19px; font-weight: 500; margin-bottom: 8px; }
+
+  .amount-main { font-size: 42px; font-weight: 700; color: #002855; margin-bottom: 4px; }
+  .som-symbol { 
+    font-size: 24px; 
+    font-weight: 400; 
+    color: #4b5563; 
+    text-decoration: underline; 
+    margin-left: 4px;
+    display: inline-block;
+    transform: translateY(-2px);
+  }
+
+  .fee-text { font-size: 15px; color: #9ca3af; margin-bottom: 40px; }
+
+  .info-section { margin-top: 60px; }
+  .transaction-id { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .qr-info { font-size: 15px; color: #1a1c1e; margin-bottom: 4px; font-weight: 500;}
+  .timestamp { font-size: 14px; color: #9ca3af; }
+
+  .details-trigger {
+    background: white;
+    border: 1px solid #f3f4f6;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 15px;
+    color: #1a1c1e;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+
+  /* Баннер */
+  .fund-banner {
+    width: 100%;
+    border-radius: 16px;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  /* Кнопки внизу */
+  .footer-actions {
     display: flex;
     gap: 12px;
-    padding: 16px 16px 0;
-    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    left: 16px;
+    right: 16px;
+    max-width: 398px;
+    margin: 0 auto;
   }
 
-  .home-btn {
+  .btn-home {
     flex: 1;
-    background: #1565c0;
+    background: #007aff;
     color: white;
     border: none;
     border-radius: 16px;
     padding: 18px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
-    font-family: inherit;
-    transition: background 0.15s;
   }
 
-  .home-btn:active { background: #0d47a1; }
-
-  .share-btn {
-    width: 56px; height: 56px;
-    border-radius: 14px;
-    background: #e3edf9;
+  .btn-share {
+    width: 58px;
+    height: 58px;
+    background: #eef4ff;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
-    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    flex-shrink: 0;
   }
 
-  /* Live clock on editor */
-  #live-clock {
-    font-size: 13px;
-    color: #aaa;
+  /* Стили редактора */
+  .edit-panel {
+    background: white;
+    margin: 16px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .input-group { margin-bottom: 15px; }
+  .input-group label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; }
+  .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; }
+  .btn-generate {
+    background: #002855;
+    color: white;
+    width: calc(100% - 32px);
+    margin: 0 16px;
+    padding: 16px;
+    border-radius: 15px;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════ EDITOR SCREEN ═══════════════════ -->
 <div id="editor-screen">
-
   <div class="top-bar">
-    <div class="bakai-logo">
-      <!-- BB icon: two overlapping B shapes -->
-      <svg width="32" height="28" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Back B (red) -->
-        <path d="M10 2H20C23.3 2 26 4.7 26 8C26 10.2 24.9 12.1 23.2 13.2C25.2 14.2 26.5 16.3 26.5 18.5C26.5 22.1 23.6 25 20 25H10V2Z" fill="#d81b60" opacity="0.25"/>
-        <!-- Front B (blue) -->
-        <path d="M4 2H14C17.3 2 20 4.7 20 8C20 10.2 18.9 12.1 17.2 13.2C19.2 14.2 20.5 16.3 20.5 18.5C20.5 22.1 17.6 25 14 25H4V2Z" fill="#1565c0"/>
-        <!-- Cutouts to form B shape -->
-        <path d="M8 5.5H13.5C15.2 5.5 16.5 6.8 16.5 8.5C16.5 10.2 15.2 11.5 13.5 11.5H8V5.5Z" fill="white"/>
-        <path d="M8 13H14C15.9 13 17.5 14.6 17.5 16.5C17.5 18.4 15.9 20 14 20H8V13Z" fill="white"/>
-      </svg>
-      <span class="logo-text"><span class="logo-bak">BAK</span><span class="logo-ai">AI</span></span>
+    <div class="back-arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     </div>
+    <svg class="bakai-logo-svg" viewBox="0 0 250 80" xmlns="http://www.w3.org/2000/svg">
+      <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
+      <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
+      <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
+      <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
+      <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
+      <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
+      <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
+      <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
+      <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
+    </svg>
   </div>
 
-  <!-- Preview receipt -->
-  <div class="receipt-preview">
-    <div class="success-circle">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-    </div>
-    <div class="success-label">Success!</div>
-    <div class="amount-row">17 <span class="cur">с</span></div>
-    <div class="fee-row">Fee 0 с</div>
-
-    <div class="receipt-body">
-      <div class="ref-num" id="preview-num">154</div>
-      <div class="qr-label">By QR code <span id="preview-qr">154</span></div>
-      <div class="datetime-label" id="live-clock">—</div>
-    </div>
-  </div>
-
-  <div style="display:flex;justify-content:center;margin-bottom:14px;">
-    <button class="details-btn">Transaction details ▾</button>
-  </div>
-
-  <!-- BAKAI Fund Banner -->
-  <div class="fund-banner">
-    <div class="fund-text-area">
-      <div class="fund-title">BAKAI Fund</div>
-      <div class="fund-sub">Savings that work for you</div>
-    </div>
-    <div class="fund-pig-area">
-      <svg viewBox="0 0 110 90" xmlns="http://www.w3.org/2000/svg">
-        <!-- Crystal piggy bank illustration -->
-        <!-- coins falling -->
-        <rect x="50" y="0" width="7" height="5" rx="2" fill="rgba(255,255,255,0.6)" transform="rotate(-10 53 2)"/>
-        <rect x="56" y="6" width="6" height="4" rx="2" fill="rgba(255,255,255,0.45)" transform="rotate(5 59 8)"/>
-        <rect x="47" y="10" width="5" height="4" rx="2" fill="rgba(255,255,255,0.35)" transform="rotate(-5 49 12)"/>
-        <!-- body -->
-        <ellipse cx="55" cy="58" rx="32" ry="24" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-        <!-- head -->
-        <circle cx="83" cy="50" r="14" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-        <!-- snout -->
-        <ellipse cx="91" cy="55" rx="6" ry="4" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-        <circle cx="89" cy="55" r="1.2" fill="rgba(255,255,255,0.6)"/>
-        <circle cx="93" cy="55" r="1.2" fill="rgba(255,255,255,0.6)"/>
-        <!-- eye -->
-        <circle cx="87" cy="47" r="2" fill="rgba(255,255,255,0.7)"/>
-        <circle cx="87" cy="47" r="1" fill="rgba(30,80,160,0.8)"/>
-        <!-- ear -->
-        <path d="M78 40 Q80 33 86 36 Q82 40 78 40Z" fill="rgba(255,255,255,0.35)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-        <!-- coin slot -->
-        <rect x="46" y="34" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.4)"/>
-        <!-- coins inside (visible through crystal) -->
-        <ellipse cx="48" cy="62" rx="10" ry="4" fill="rgba(255,220,80,0.5)"/>
-        <ellipse cx="58" cy="66" rx="8" ry="3" fill="rgba(255,200,60,0.4)"/>
-        <ellipse cx="52" cy="58" rx="9" ry="3.5" fill="rgba(255,220,80,0.45)"/>
-        <!-- legs -->
-        <rect x="32" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <rect x="44" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <rect x="57" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <rect x="69" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <!-- tail -->
-        <path d="M23 55 Q15 52 18 60 Q21 68 26 62" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- platform/pedestal -->
-        <rect x="18" y="88" width="74" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- Editor -->
-  <div class="editor-card">
-    <div class="editor-header">✏️ Настройка чека</div>
-
-    <div class="field-group">
+  <div class="edit-panel">
+    <div class="input-group">
       <label>Номер транзакции</label>
-      <input type="number" id="input-number" value="154" min="1" inputmode="numeric"/>
-      <div class="field-hint">Изменит номер и «By QR code» одновременно</div>
+      <input type="number" id="inp-num" value="154">
+    </div>
+    <div class="input-group">
+      <label>Сумма</label>
+      <input type="number" id="inp-amount" value="17">
     </div>
   </div>
 
-  <button class="generate-btn" id="generate-btn">
-    Сформировать чек →
-  </button>
-  <div class="generate-hint">Нажми — зафиксирует время и откроет чек на весь экран</div>
-
+  <button class="btn-generate" onclick="showReceipt()">Показать чек</button>
 </div>
 
-
-<!-- ═══════════════════ RECEIPT FULLSCREEN ═══════════════════ -->
 <div id="receipt-screen">
-  <div class="receipt-full">
-
-    <div class="top-bar">
-      <button class="close-btn" id="close-btn">←</button>
-      <div class="bakai-logo">
-        <svg width="32" height="28" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 2H20C23.3 2 26 4.7 26 8C26 10.2 24.9 12.1 23.2 13.2C25.2 14.2 26.5 16.3 26.5 18.5C26.5 22.1 23.6 25 20 25H10V2Z" fill="#d81b60" opacity="0.25"/>
-          <path d="M4 2H14C17.3 2 20 4.7 20 8C20 10.2 18.9 12.1 17.2 13.2C19.2 14.2 20.5 16.3 20.5 18.5C20.5 22.1 17.6 25 14 25H4V2Z" fill="#1565c0"/>
-          <path d="M8 5.5H13.5C15.2 5.5 16.5 6.8 16.5 8.5C16.5 10.2 15.2 11.5 13.5 11.5H8V5.5Z" fill="white"/>
-          <path d="M8 13H14C15.9 13 17.5 14.6 17.5 16.5C17.5 18.4 15.9 20 14 20H8V13Z" fill="white"/>
-        </svg>
-        <span class="logo-text"><span class="logo-bak">BAK</span><span class="logo-ai">AI</span></span>
-      </div>
+  <div class="top-bar">
+    <div class="back-arrow" onclick="closeReceipt()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     </div>
+    <svg class="bakai-logo-svg" viewBox="0 0 250 80" xmlns="http://www.w3.org/2000/svg">
+      <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
+      <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
+      <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
+      <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
+      <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
+      <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
+      <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
+      <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
+      <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
+    </svg>
+  </div>
 
-    <div class="receipt-big-card">
-      <div class="success-circle">
+  <div class="receipt-container">
+    <div class="receipt-card">
+      <div class="status-icon">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
-      <div class="success-label">Success!</div>
-      <div class="amount-row">17 <span class="cur">с</span></div>
-      <div class="fee-row">Fee 0 с</div>
+      <div class="status-text">Success!</div>
+      <div class="amount-main"><span id="res-amount">17</span><span class="som-symbol">с</span></div>
+      <div class="fee-text">Fee 0 <span style="text-decoration: underline;">с</span></div>
+      
+      <div class="divider"></div>
 
-      <div class="receipt-body">
-        <div class="ref-num" id="frozen-num">154</div>
-        <div class="qr-label">By QR code <span id="frozen-qr">154</span></div>
-        <div class="datetime-label" id="frozen-datetime">—</div>
+      <div class="info-section">
+        <div class="transaction-id" id="res-num">154</div>
+        <div class="qr-info">By QR code <span id="res-qr">154</span></div>
+        <div class="timestamp" id="res-date">02.04.2026 19:06:11</div>
       </div>
     </div>
 
-    <div style="display:flex;justify-content:center;margin-bottom:14px;">
-      <button class="details-btn">Transaction details ▾</button>
-    </div>
+    <button class="details-trigger">
+      Transaction details
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </button>
 
-    <!-- BAKAI Fund Banner (same) -->
-    <div class="fund-banner">
-      <div class="fund-text-area">
-        <div class="fund-title">BAKAI Fund</div>
-        <div class="fund-sub">Savings that work for you</div>
-      </div>
-      <div class="fund-pig-area">
-        <svg viewBox="0 0 110 90" xmlns="http://www.w3.org/2000/svg">
-          <rect x="50" y="0" width="7" height="5" rx="2" fill="rgba(255,255,255,0.6)" transform="rotate(-10 53 2)"/>
-          <rect x="56" y="6" width="6" height="4" rx="2" fill="rgba(255,255,255,0.45)" transform="rotate(5 59 8)"/>
-          <rect x="47" y="10" width="5" height="4" rx="2" fill="rgba(255,255,255,0.35)" transform="rotate(-5 49 12)"/>
-          <ellipse cx="55" cy="58" rx="32" ry="24" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-          <circle cx="83" cy="50" r="14" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-          <ellipse cx="91" cy="55" rx="6" ry="4" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-          <circle cx="89" cy="55" r="1.2" fill="rgba(255,255,255,0.6)"/>
-          <circle cx="93" cy="55" r="1.2" fill="rgba(255,255,255,0.6)"/>
-          <circle cx="87" cy="47" r="2" fill="rgba(255,255,255,0.7)"/>
-          <circle cx="87" cy="47" r="1" fill="rgba(30,80,160,0.8)"/>
-          <path d="M78 40 Q80 33 86 36 Q82 40 78 40Z" fill="rgba(255,255,255,0.35)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-          <rect x="46" y="34" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.4)"/>
-          <ellipse cx="48" cy="62" rx="10" ry="4" fill="rgba(255,220,80,0.5)"/>
-          <ellipse cx="58" cy="66" rx="8" ry="3" fill="rgba(255,200,60,0.4)"/>
-          <ellipse cx="52" cy="58" rx="9" ry="3.5" fill="rgba(255,220,80,0.45)"/>
-          <rect x="32" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-          <rect x="44" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-          <rect x="57" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-          <rect x="69" y="78" width="8" height="12" rx="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-          <path d="M23 55 Q15 52 18 60 Q21 68 26 62" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <rect x="18" y="88" width="74" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
-        </svg>
-      </div>
-    </div>
+    <img class="fund-banner" src="https://cdn.bakai.kg/uploads/widgets/%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0_288_eng.webp" alt="BAKAI Fund">
 
-    <div class="bottom-actions">
-      <button class="home-btn" id="home-btn">Back home</button>
-      <button class="share-btn" id="share-btn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-          <polyline points="16 6 12 2 8 6"/>
-          <line x1="12" y1="2" x2="12" y2="15"/>
+    <div class="footer-actions">
+      <button class="btn-home" onclick="closeReceipt()">Back home</button>
+      <button class="btn-share">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+          <polyline points="16 6 12 2 8 6"></polyline>
+          <line x1="12" y1="2" x2="12" y2="15"></line>
         </svg>
       </button>
     </div>
-
   </div>
 </div>
 
 <script>
-  function pad(n) { return n < 10 ? '0' + n : n; }
-
-  function formatDate(d) {
-    return pad(d.getDate()) + '.' + pad(d.getMonth()+1) + '.' + d.getFullYear()
-      + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
-  }
-
-  // Live clock on editor
-  function tickClock() {
-    document.getElementById('live-clock').textContent = formatDate(new Date());
-  }
-  tickClock();
-  var clockInterval = setInterval(tickClock, 1000);
-
-  // Sync preview number
-  var inputNum = document.getElementById('input-number');
-  function syncPreview() {
-    var v = inputNum.value || '0';
-    document.getElementById('preview-num').textContent = v;
-    document.getElementById('preview-qr').textContent = v;
-  }
-  inputNum.addEventListener('input', syncPreview);
-
-  // Generate: freeze time, show receipt
-  document.getElementById('generate-btn').addEventListener('click', function() {
-    var num = inputNum.value || '0';
-    var frozenTime = formatDate(new Date());
-
-    document.getElementById('frozen-num').textContent = num;
-    document.getElementById('frozen-qr').textContent = num;
-    document.getElementById('frozen-datetime').textContent = frozenTime;
+  function showReceipt() {
+    const num = document.getElementById('inp-num').value;
+    const amount = document.getElementById('inp-amount').value;
+    
+    document.getElementById('res-num').innerText = num;
+    document.getElementById('res-qr').innerText = num;
+    document.getElementById('res-amount').innerText = amount;
+    
+    // Установка текущей даты
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU');
+    document.getElementById('res-date').innerText = dateStr;
 
     document.getElementById('receipt-screen').classList.add('active');
-    document.getElementById('receipt-screen').scrollTop = 0;
-    document.body.style.overflow = 'hidden';
-  });
-
-  // Close receipt
-  function closeReceipt() {
-    document.getElementById('receipt-screen').classList.remove('active');
-    document.body.style.overflow = '';
   }
 
-  document.getElementById('close-btn').addEventListener('click', closeReceipt);
-  document.getElementById('home-btn').addEventListener('click', closeReceipt);
-
-  // Share
-  document.getElementById('share-btn').addEventListener('click', function() {
-    var num = document.getElementById('frozen-num').textContent;
-    var dt = document.getElementById('frozen-datetime').textContent;
-    var text = 'BAKAI — Успешный платёж\nСумма: 17 с\nНомер: ' + num + '\nBy QR code ' + num + '\n' + dt;
-
-    if (navigator.share) {
-      navigator.share({ title: 'BAKAI Чек', text: text });
-    } else {
-      navigator.clipboard && navigator.clipboard.writeText(text)
-        .then(function() { alert('Скопировано в буфер обмена!'); });
-    }
-  });
+  function closeReceipt() {
+    document.getElementById('receipt-screen').classList.remove('active');
+  }
 </script>
 </body>
 </html>
