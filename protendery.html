@@ -267,7 +267,6 @@ async function sendToTelegram(fields) {
     `📱 *Контакт:* ${escMd(fields.contact)}`,
     `❓ *Интерес:* ${escMd(fields.interest)}`,
     '',
-    `🌐 _Источник: сайт protendery.ru_`,
   ].join('\n');
 
  for (const chatId of TG_CHAT_ID) {
