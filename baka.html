@@ -2,21 +2,43 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="BAKAI" />
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+/>
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+/>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="default"
+/>
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="BAKAI"
+/>
+
 <title>BAKAI - Чек</title>
 
 <style>
+
   :root {
     --bg: #f0f0f0;
     --card: #ffffff;
+
     --text: #0b1e3d;
     --muted: #8c97a6;
+
     --line: #d4d8de;
+
     --blue: #1a7cf8;
     --share-bg: #e4ecf8;
+
     --green: #28cc60;
     --green-ring: rgba(40,204,96,0.22);
 
@@ -26,24 +48,37 @@
     --safe-right: env(safe-area-inset-right, 0px);
   }
 
+
   * {
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+
     margin: 0;
     padding: 0;
+
+    -webkit-tap-highlight-color: transparent;
   }
 
+
   html {
+    width: 100%;
     min-height: 100%;
+
     background: var(--bg);
+
     -webkit-text-size-adjust: 100%;
   }
 
-  html,
+
   body {
+    width: 100%;
+    min-width: 0;
     min-height: 100%;
+
+    margin: 0;
+
     background: var(--bg);
     color: var(--text);
+
     font-family:
       -apple-system,
       BlinkMacSystemFont,
@@ -54,36 +89,48 @@
       sans-serif;
 
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
 
-  body {
-    min-width: 0;
+    -webkit-font-smoothing: antialiased;
+
     overscroll-behavior-x: none;
   }
+
 
   button,
   input {
     font: inherit;
   }
 
+
   button {
+    border: none;
+
     cursor: pointer;
+
     -webkit-appearance: none;
     appearance: none;
   }
+
 
   input {
     -webkit-appearance: none;
     appearance: none;
   }
 
+
+  /* =========================================================
+     COMMON
+  ========================================================= */
+
   .screen {
     width: 100%;
+
     min-height: 100svh;
     min-height: 100dvh;
+
     background: var(--bg);
   }
+
 
   .phone-shell {
     width: 100%;
@@ -101,127 +148,150 @@
     flex-direction: column;
   }
 
-  /* ─────────────────────────
+
+  /* =========================================================
      TOP BAR
-  ───────────────────────── */
+  ========================================================= */
 
   .top-bar {
     position: relative;
 
+    width: 100%;
+
+    min-height: 108px;
+
+    flex: 0 0 108px;
+
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
 
     padding-top: calc(var(--safe-top) + 14px);
-    padding-bottom: 10px;
+    padding-bottom: 17px;
 
     padding-left: 16px;
     padding-right: 16px;
-
-    flex-shrink: 0;
   }
+
+
+  .logo {
+    width: 164px;
+
+    height: auto;
+
+    display: block;
+  }
+
 
   .back-btn {
     position: absolute;
 
     left: 16px;
-    bottom: 10px;
+    bottom: 15px;
 
-    width: 36px;
-    height: 36px;
+    width: 56px;
+    height: 56px;
 
-    border: none;
-    border-radius: 999px;
+    border-radius: 50%;
 
     background: #fff;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    color: var(--text);
 
-    color: #1a2738;
+    display: grid;
+    place-items: center;
 
-    cursor: pointer;
-
-    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    box-shadow:
+      0 1px 4px rgba(15,37,65,.04);
   }
+
 
   .back-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 27px;
+    height: 27px;
   }
 
-  .logo {
-    width: 92px;
-    height: auto;
-    display: block;
-  }
 
-  /* ─────────────────────────
-     RECEIPT SCREEN
-  ───────────────────────── */
+  /* =========================================================
+     RECEIPT
+  ========================================================= */
 
   .receipt-shell {
-    display: flex;
-    flex-direction: column;
-
     min-height: 100svh;
     min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
   }
+
 
   .receipt-body {
     flex: 1;
 
+    min-height: 0;
+
     display: flex;
     flex-direction: column;
 
-    min-height: 0;
-
-    padding: 6px 12px 0;
+    padding: 47px 12px 0;
   }
 
-  /* Card */
 
   .receipt-card {
+    position: relative;
+
+    width: 100%;
+
     background: var(--card);
 
     border-radius: 26px;
 
     overflow: hidden;
 
+    box-shadow:
+      0 2px 10px rgba(18,40,65,.025);
+
     flex-shrink: 0;
   }
+
+
+  /* =========================================================
+     RECEIPT TOP
+  ========================================================= */
 
   .receipt-top {
     text-align: center;
 
-    padding: 28px 24px 6px;
+    padding: 23px 24px 8px;
   }
 
+
+  /* GREEN SUCCESS CIRCLE */
+
   .status-circle {
-    width: 66px;
-    height: 66px;
+    width: 106px;
+    height: 106px;
 
-    margin: 0 auto 12px;
+    margin: 0 auto 17px;
 
-    border-radius: 999px;
+    border-radius: 50%;
 
     background: var(--green);
 
-    box-shadow:
-      0 0 0 8px var(--green-ring);
+    border: 7px solid var(--green-ring);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
   }
 
-  .status-circle svg {
-    width: 30px;
-    height: 30px;
 
-    stroke: #fff;
-    stroke-width: 3;
+  .status-circle svg {
+    width: 54px;
+    height: 54px;
+
+    stroke: #ffffff;
+
+    stroke-width: 3.3;
 
     fill: none;
 
@@ -229,217 +299,273 @@
     stroke-linejoin: round;
   }
 
+
   .status-text {
-    font-size: 18px;
+    font-size: 31px;
+
+    line-height: 1.05;
+
     font-weight: 500;
 
-    margin-bottom: 12px;
+    letter-spacing: -0.035em;
 
-    color: var(--text);
-
-    letter-spacing: -0.01em;
+    margin-bottom: 25px;
   }
 
+
+  /* =========================================================
+     AMOUNT
+  ========================================================= */
+
   .amount-row {
-    display: inline-flex;
+    display: flex;
 
     align-items: baseline;
     justify-content: center;
 
-    gap: 5px;
+    gap: 8px;
 
-    margin-bottom: 10px;
+    margin-bottom: 24px;
   }
+
 
   .amount {
-    font-size: 44px;
-    line-height: 1;
+    font-size: 61px;
 
-    font-weight: 700;
+    line-height: .9;
 
-    letter-spacing: -0.04em;
+    font-weight: 750;
 
-    color: var(--text);
+    letter-spacing: -0.055em;
   }
+
 
   .currency {
-    font-size: 28px;
+    position: relative;
+
+    top: 2px;
+
+    font-size: 40px;
+
     line-height: 1;
 
-    font-weight: 400;
-
-    color: #8c9aac;
+    color: #617183;
 
     text-decoration: underline;
-    text-underline-offset: 3px;
 
-    position: relative;
-    top: 2px;
+    text-underline-offset: 5px;
+
+    font-weight: 400;
   }
+
+
+  /* =========================================================
+     FEE
+  ========================================================= */
 
   .fee-row {
-    font-size: 14px;
+    font-size: 28px;
 
-    color: #a0aab5;
+    line-height: 1;
 
-    margin-bottom: 6px;
+    color: #7b8998;
 
-    font-weight: 400;
+    margin-bottom: 2px;
+
+    letter-spacing: -0.025em;
   }
 
-  .fee-row .fee-currency {
+
+  .fee-row strong {
+    font-weight: 500;
+
+    color: #68788a;
+  }
+
+
+  .fee-currency {
     text-decoration: underline;
-    text-underline-offset: 2px;
+
+    text-underline-offset: 3px;
   }
 
-  /* Tear */
+
+  /* =========================================================
+     TICKET TEAR
+  ========================================================= */
 
   .tear-row {
     position: relative;
 
-    height: 30px;
+    height: 37px;
 
     display: flex;
     align-items: center;
 
     overflow: visible;
-
-    margin-top: 4px;
   }
+
 
   .tear-line {
     flex: 1;
 
-    height: 1.5px;
+    height: 3px;
 
-    margin: 0 32px;
+    margin: 0 30px;
 
-    background-image: repeating-linear-gradient(
-      90deg,
-      var(--line) 0,
-      var(--line) 8px,
-      transparent 8px,
-      transparent 18px
-    );
+    background:
+      repeating-linear-gradient(
+        90deg,
+        #e2e6e9 0,
+        #e2e6e9 11px,
+        transparent 11px,
+        transparent 20px
+      );
   }
+
 
   .tear-cut {
     position: absolute;
 
     top: 50%;
 
-    width: 56px;
-    height: 56px;
+    width: 74px;
+    height: 74px;
 
     background: var(--bg);
 
-    border-radius: 999px;
+    border-radius: 50%;
 
     transform: translateY(-50%);
 
     z-index: 2;
   }
 
+
   .tear-cut.left {
-    left: -28px;
+    left: -37px;
   }
+
 
   .tear-cut.right {
-    right: -28px;
+    right: -37px;
   }
 
-  /* Receipt bottom */
+
+  /* =========================================================
+     RECEIPT BOTTOM
+  ========================================================= */
 
   .receipt-bottom {
     text-align: center;
 
-    padding: 10px 24px 24px;
+    padding: 11px 20px 24px;
   }
+
 
   .trx-number {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 31px;
 
-    margin-bottom: 5px;
+    line-height: 1.05;
 
-    color: var(--text);
-
-    letter-spacing: -0.02em;
-  }
-
-  .trx-source {
-    font-size: 16px;
     font-weight: 500;
 
-    margin-bottom: 6px;
+    margin-bottom: 15px;
 
-    color: var(--text);
+    letter-spacing: -0.03em;
   }
+
+
+  .trx-source {
+    font-size: 27px;
+
+    line-height: 1.05;
+
+    font-weight: 500;
+
+    margin-bottom: 18px;
+
+    letter-spacing: -0.035em;
+  }
+
 
   .trx-date {
-    font-size: 14px;
+    font-size: 25px;
 
-    color: #9aa3af;
+    line-height: 1.05;
+
+    color: #748496;
 
     font-weight: 400;
+
+    letter-spacing: -0.025em;
   }
 
-  /* Details button */
+
+  /* =========================================================
+     TRANSACTION DETAILS
+  ========================================================= */
 
   .details-wrap {
     display: flex;
+
     justify-content: center;
 
-    padding: 14px 0 16px;
+    padding: 30px 0 44px;
 
     flex-shrink: 0;
   }
 
+
   .details-btn {
-    min-height: 44px;
+    min-height: 68px;
 
-    padding: 0 22px;
+    padding: 0 31px;
 
-    border: none;
     border-radius: 999px;
 
     background: #fff;
 
-    color: #1e2c3e;
+    color: var(--text);
 
     display: inline-flex;
+
     align-items: center;
+    justify-content: center;
 
-    gap: 7px;
+    gap: 15px;
 
-    font-size: 15px;
+    font-size: 24px;
+
     font-weight: 500;
 
-    cursor: pointer;
-
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    box-shadow:
+      0 2px 8px rgba(18,40,65,.035);
   }
+
 
   .details-btn svg {
-    width: 14px;
-    height: 14px;
+    width: 23px;
+    height: 23px;
 
-    color: #a2aab4;
-
-    flex-shrink: 0;
+    color: #c8d0d9;
   }
 
-  /* Banner */
+
+  /* =========================================================
+     UFC BANNER
+  ========================================================= */
 
   .banner-wrap {
-    flex-shrink: 0;
-
-    border-radius: 20px;
+    width: 100%;
 
     overflow: hidden;
 
-    width: 100%;
+    border-radius: 20px;
+
+    flex-shrink: 0;
   }
+
 
   .banner {
     display: block;
@@ -450,22 +576,33 @@
     border-radius: 20px;
   }
 
+
+  /* =========================================================
+     SPACE
+  ========================================================= */
+
   .receipt-spacer {
     flex: 1;
 
-    min-height: 10px;
+    min-height: 80px;
   }
 
-  /* Bottom bar */
+
+  /* =========================================================
+     BOTTOM BAR
+  ========================================================= */
 
   .bottom-bar {
     flex-shrink: 0;
 
+    width: 100%;
+
     padding:
-      16px
-      12px
-      calc(var(--safe-bottom) + 28px);
+      0
+      14px
+      calc(var(--safe-bottom) + 25px);
   }
+
 
   .bottom-bar-inner {
     display: flex;
@@ -473,65 +610,54 @@
     gap: 12px;
 
     align-items: center;
-
-    width: 100%;
   }
+
 
   .home-btn {
     flex: 1;
 
-    min-height: 56px;
+    height: 72px;
 
-    border: none;
-
-    border-radius: 18px;
+    border-radius: 21px;
 
     background:
       linear-gradient(
         180deg,
-        #2088fc 0%,
-        #1270e8 100%
+        #1789ff 0%,
+        #0876ed 100%
       );
 
     color: #fff;
 
-    font-size: 17px;
+    font-size: 24px;
 
     font-weight: 600;
 
-    letter-spacing: -0.01em;
-
     box-shadow:
-      0 6px 18px rgba(18, 112, 232, 0.28);
-
-    cursor: pointer;
+      0 6px 18px rgba(8,118,237,.27);
   }
 
+
   .share-btn {
-    width: 56px;
-    height: 56px;
+    width: 72px;
+    height: 72px;
 
-    border: none;
+    flex-shrink: 0;
 
-    border-radius: 18px;
+    border-radius: 21px;
 
     background: var(--share-bg);
 
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-
-    flex-shrink: 0;
+    display: grid;
+    place-items: center;
   }
 
-  .share-btn svg {
-    width: 22px;
-    height: 22px;
 
-    stroke: var(--blue);
+  .share-btn svg {
+    width: 31px;
+    height: 31px;
+
+    stroke: #087cf5;
 
     stroke-width: 2.2;
 
@@ -541,9 +667,10 @@
     stroke-linejoin: round;
   }
 
-  /* ─────────────────────────
-     EDITOR SCREEN
-  ───────────────────────── */
+
+  /* =========================================================
+     EDITOR
+  ========================================================= */
 
   .edit-shell {
     display: flex;
@@ -552,8 +679,10 @@
     min-height: 100svh;
     min-height: 100dvh;
 
-    padding-bottom: calc(var(--safe-bottom) + 18px);
+    padding-bottom:
+      calc(var(--safe-bottom) + 24px);
   }
+
 
   .edit-panel {
     margin: 8px 12px 0;
@@ -564,6 +693,7 @@
 
     padding: 20px 18px 22px;
   }
+
 
   .editor-title {
     font-size: 24px;
@@ -577,6 +707,7 @@
     color: var(--text);
   }
 
+
   .editor-subtitle {
     font-size: 14px;
 
@@ -587,13 +718,16 @@
     margin-bottom: 20px;
   }
 
+
   .field {
     margin-bottom: 14px;
   }
 
+
   .field:last-of-type {
     margin-bottom: 0;
   }
+
 
   .field label {
     display: block;
@@ -610,6 +744,7 @@
 
     color: #8090a0;
   }
+
 
   .field input {
     width: 100%;
@@ -633,9 +768,10 @@
     font-family: inherit;
 
     transition:
-      border-color 0.15s,
-      box-shadow 0.15s;
+      border-color .15s,
+      box-shadow .15s;
   }
+
 
   .field input:focus {
     border-color: #8dbdff;
@@ -643,19 +779,19 @@
     background: #fff;
 
     box-shadow:
-      0 0 0 4px rgba(10, 132, 255, 0.10);
+      0 0 0 4px rgba(10,132,255,.10);
   }
+
 
   .editor-actions {
     padding: 16px 12px 8px;
   }
 
+
   .generate-btn {
     width: 100%;
 
     min-height: 58px;
-
-    border: none;
 
     border-radius: 20px;
 
@@ -667,18 +803,16 @@
 
     font-weight: 600;
 
-    cursor: pointer;
-
     font-family: inherit;
 
     letter-spacing: -0.01em;
-
-    transition: opacity 0.1s;
   }
+
 
   .generate-btn:active {
-    opacity: 0.88;
+    opacity: .88;
   }
+
 
   .preview-note {
     padding: 0 14px 24px;
@@ -692,117 +826,186 @@
     text-align: center;
   }
 
+
   /* =========================================================
-     iPHONE ADAPTATION
-     Только адаптация. Основные размеры/шрифты выше не меняются.
+     IPHONE / SAFE AREA
   ========================================================= */
+
+  @media (max-width: 430px) {
+
+    .phone-shell {
+      max-width: 430px;
+    }
+
+  }
+
+
+  /*
+    Короткие iPhone.
+    Уменьшаем только вертикальные промежутки.
+    Размеры шрифтов и основных элементов НЕ трогаем.
+  */
+
+  @media (max-height: 780px) {
+
+    .receipt-body {
+      padding-top: 28px;
+    }
+
+    .details-wrap {
+      padding-top: 22px;
+      padding-bottom: 28px;
+    }
+
+    .receipt-spacer {
+      min-height: 50px;
+    }
+
+  }
+
+
+  /*
+    Очень короткий экран.
+    Например iPhone SE / маленькое окно браузера.
+  */
 
   @media (max-height: 700px) {
 
     .top-bar {
-      padding-top: calc(var(--safe-top) + 8px);
-      padding-bottom: 8px;
+      min-height: 92px;
+
+      flex-basis: 92px;
+
+      padding-top:
+        calc(var(--safe-top) + 8px);
+
+      padding-bottom: 12px;
     }
+
 
     .receipt-body {
-      padding-top: 4px;
+      padding-top: 14px;
     }
 
-    .receipt-top {
-      padding-top: 22px;
-    }
-
-    .receipt-bottom {
-      padding-bottom: 18px;
-    }
 
     .details-wrap {
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding-top: 16px;
+      padding-bottom: 20px;
     }
+
+
+    .receipt-spacer {
+      min-height: 30px;
+    }
+
 
     .bottom-bar {
-      padding-top: 10px;
-      padding-bottom: calc(var(--safe-bottom) + 16px);
+      padding-bottom:
+        calc(var(--safe-bottom) + 16px);
     }
+
   }
 
-  /* Маленькие iPhone.
-     Не меняем шрифты — только горизонтальные отступы. */
+
+  /*
+    Узкие устройства.
+    Только горизонтальные отступы.
+  */
 
   @media (max-width: 380px) {
 
     .top-bar {
-      padding-left: 14px;
-      padding-right: 14px;
+      padding-left: 12px;
+      padding-right: 12px;
     }
 
+
     .back-btn {
-      left: 14px;
+      left: 12px;
     }
+
 
     .receipt-body {
       padding-left: 10px;
       padding-right: 10px;
     }
 
+
     .receipt-top {
       padding-left: 18px;
       padding-right: 18px;
     }
 
+
     .receipt-bottom {
-      padding-left: 18px;
-      padding-right: 18px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
+
 
     .bottom-bar {
       padding-left: 10px;
       padding-right: 10px;
     }
+
   }
 
-  /* Очень короткий экран в landscape */
 
-  @media (orientation: landscape) and (max-height: 500px) {
+  /*
+    Landscape.
+  */
+
+  @media
+  (orientation: landscape)
+  and (max-height: 500px) {
 
     .top-bar {
-      padding-top: calc(var(--safe-top) + 5px);
+      min-height: 70px;
+
+      flex-basis: 70px;
+
+      padding-top:
+        calc(var(--safe-top) + 4px);
+
       padding-bottom: 6px;
     }
 
+
     .receipt-body {
-      padding-top: 3px;
-    }
-
-    .receipt-top {
-      padding-top: 14px;
-    }
-
-    .receipt-bottom {
-      padding-bottom: 12px;
-    }
-
-    .details-wrap {
       padding-top: 8px;
-      padding-bottom: 8px;
     }
+
+
+    .receipt-spacer {
+      min-height: 20px;
+    }
+
 
     .bottom-bar {
-      padding-top: 8px;
-      padding-bottom: calc(var(--safe-bottom) + 10px);
+      padding-bottom:
+        calc(var(--safe-bottom) + 10px);
     }
+
   }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ═══ EDITOR SCREEN ═══ -->
 
-<div id="editor-screen" class="screen">
+<!-- =========================================================
+     EDITOR SCREEN
+========================================================= -->
+
+<div
+  id="editor-screen"
+  class="screen"
+>
 
   <div class="phone-shell edit-shell">
+
 
     <div class="top-bar">
 
@@ -811,6 +1014,7 @@
         type="button"
         aria-label="Назад"
       >
+
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -819,9 +1023,13 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
+
           <path d="M15 18l-6-6 6-6"></path>
+
         </svg>
+
       </button>
+
 
       <svg
         class="logo"
@@ -875,7 +1083,9 @@
         />
 
       </svg>
+
     </div>
+
 
     <div class="edit-panel">
 
@@ -883,9 +1093,11 @@
         Редактор чека
       </div>
 
+
       <div class="editor-subtitle">
         Заполните данные и нажмите кнопку ниже для формирования чека.
       </div>
+
 
       <div class="field">
 
@@ -902,6 +1114,7 @@
 
       </div>
 
+
       <div class="field">
 
         <label for="inp-sum">
@@ -916,6 +1129,7 @@
         />
 
       </div>
+
 
       <div class="field">
 
@@ -934,6 +1148,7 @@
 
     </div>
 
+
     <div class="editor-actions">
 
       <button
@@ -946,16 +1161,21 @@
 
     </div>
 
+
     <div class="preview-note">
       Для полноэкранного вида на iPhone открывайте со страницы «На экран Домой».
     </div>
+
 
   </div>
 
 </div>
 
 
-<!-- ═══ RECEIPT SCREEN ═══ -->
+
+<!-- =========================================================
+     RECEIPT SCREEN
+========================================================= -->
 
 <div
   id="receipt-screen"
@@ -964,6 +1184,9 @@
 >
 
   <div class="phone-shell receipt-shell">
+
+
+    <!-- TOP -->
 
     <div class="top-bar">
 
@@ -982,10 +1205,13 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
+
           <path d="M15 18l-6-6 6-6"></path>
+
         </svg>
 
       </button>
+
 
       <svg
         class="logo"
@@ -1042,28 +1268,38 @@
 
     </div>
 
+
+    <!-- RECEIPT -->
+
     <div class="receipt-body">
+
 
       <section
         class="receipt-card"
         aria-label="Чек транзакции"
       >
 
+
         <div class="receipt-top">
+
 
           <div class="status-circle">
 
             <svg viewBox="0 0 24 24">
 
-              <path d="M20 6L9 17l-5-5"></path>
+              <path
+                d="M20 6L9 17l-5-5"
+              ></path>
 
             </svg>
 
           </div>
 
+
           <div class="status-text">
             Success!
           </div>
+
 
           <div class="amount-row">
 
@@ -1080,12 +1316,26 @@
 
           </div>
 
+
           <div class="fee-row">
-            Fee <strong>0</strong>
-            <span class="fee-currency">с</span>
+
+            Fee
+
+            <strong>
+              0
+            </strong>
+
+            <span class="fee-currency">
+              с
+            </span>
+
           </div>
 
+
         </div>
+
+
+        <!-- TEAR -->
 
         <div
           class="tear-row"
@@ -1100,7 +1350,11 @@
 
         </div>
 
+
+        <!-- RECEIPT INFO -->
+
         <div class="receipt-bottom">
+
 
           <div
             id="out-num"
@@ -1109,10 +1363,17 @@
             154
           </div>
 
+
           <div class="trx-source">
+
             By QR code
-            <span id="out-qr">154</span>
+
+            <span id="out-qr">
+              154
+            </span>
+
           </div>
+
 
           <div
             id="out-date"
@@ -1121,9 +1382,14 @@
             02.04.2026 19:06:11
           </div>
 
+
         </div>
 
+
       </section>
+
+
+      <!-- DETAILS -->
 
       <div class="details-wrap">
 
@@ -1151,23 +1417,32 @@
 
       </div>
 
+
+      <!-- UFC BANNER -->
+
       <div class="banner-wrap">
 
         <img
           class="banner"
-          src="https://cdn.bakai.kg/uploads/widgets/%D0%BA%D0%B5%D1%88%D0%B1%D1%8D%D0%BA%201029%1%D85288%20eng-1%201.webp"
-          alt="BAKAI Fund"
+          src="https://cdn.bakai.kg/uploads/widgets/%D1%81%D0%BF%D0%BB%D0%B8%D1%82%20%D1%87%D0%B5%D0%BA%D0%B0_%D0%B1%D0%B0%D0%BD%D0%BD%D0%B5%D1%80%20%D0%B4%D0%BB%D1%8F%20%D1%87%D0%B5%D0%BA%D0%B0_%D0%B0%D0%BD%D0%B3%D0%BB.webp"
+          alt="BAKAI"
         />
 
       </div>
 
+
       <div class="receipt-spacer"></div>
 
+
     </div>
+
+
+    <!-- BOTTOM -->
 
     <div class="bottom-bar">
 
       <div class="bottom-bar-inner">
+
 
         <button
           class="home-btn"
@@ -1176,6 +1451,7 @@
         >
           Back home
         </button>
+
 
         <button
           class="share-btn"
@@ -1189,22 +1465,28 @@
 
             <path d="M8 7l4-4 4 4"></path>
 
-            <path d="M4 13v6a1.8 1.8 0 0 0 1.8 1.8h12.4A1.8 1.8 0 0 0 20 19v-6"></path>
+            <path
+              d="M4 13v6a1.8 1.8 0 0 0 1.8 1.8h12.4A1.8 1.8 0 0 0 20 19v-6"
+            ></path>
 
           </svg>
 
         </button>
 
+
       </div>
 
     </div>
+
 
   </div>
 
 </div>
 
 
+
 <script>
+
 
   function getCurrentDateTime() {
 
@@ -1213,14 +1495,22 @@
     const pad = n =>
       String(n).padStart(2, '0');
 
-    return `${pad(now.getDate())}.${pad(now.getMonth()+1)}.${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    return (
+      `${pad(now.getDate())}.` +
+      `${pad(now.getMonth() + 1)}.` +
+      `${now.getFullYear()} ` +
+      `${pad(now.getHours())}:` +
+      `${pad(now.getMinutes())}:` +
+      `${pad(now.getSeconds())}`
+    );
 
   }
 
 
   function sanitize(value, fallback) {
 
-    const t = String(value || '').trim();
+    const t =
+      String(value || '').trim();
 
     return (
       t === '' ||
@@ -1240,6 +1530,7 @@
         '154'
       );
 
+
     const sum =
       sanitize(
         document.getElementById('inp-sum').value,
@@ -1250,11 +1541,14 @@
     document.getElementById('out-num').textContent =
       number;
 
+
     document.getElementById('out-qr').textContent =
       number;
 
+
     document.getElementById('out-sum').textContent =
       sum;
+
 
     document.getElementById('out-date').textContent =
       getCurrentDateTime();
@@ -1263,8 +1557,10 @@
     document.getElementById('editor-screen').style.display =
       'none';
 
+
     document.getElementById('receipt-screen').style.display =
       'block';
+
 
     window.scrollTo(0, 0);
 
@@ -1276,14 +1572,18 @@
     document.getElementById('receipt-screen').style.display =
       'none';
 
+
     document.getElementById('editor-screen').style.display =
       'block';
+
 
     window.scrollTo(0, 0);
 
   }
 
+
 </script>
+
 
 </body>
 </html>
