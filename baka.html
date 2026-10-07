@@ -264,6 +264,164 @@
     .home-btn{font-size:21px}
     .share-btn{width:64px}
   }
+
+  /* =========================================================
+     iPhone adaptation patch
+     IMPORTANT: original typography and visual dimensions above
+     are intentionally preserved.
+     ========================================================= */
+
+  html{
+    -webkit-text-size-adjust:100%;
+  }
+
+  html, body{
+    min-height:100%;
+  }
+
+  body{
+    min-width:0;
+    overscroll-behavior-x:none;
+  }
+
+  .screen{
+    min-height:100svh;
+    min-height:100dvh;
+  }
+
+  .phone-shell{
+    min-height:100svh;
+    min-height:100dvh;
+    padding-left:var(--safe-left);
+    padding-right:var(--safe-right);
+  }
+
+  /* Keep the original top-bar sizes on normal phones.
+     Safe-area is added only to the top, so Dynamic Island/status
+     area does not overlap the header. */
+  .top-bar{
+    padding-top:calc(var(--safe-top) + 14px);
+  }
+
+  /* The receipt needs to be allowed to shrink inside short iPhones
+     instead of forcing the bottom controls below the viewport. */
+  .receipt-shell,
+  .edit-shell{
+    min-height:100svh;
+    min-height:100dvh;
+  }
+
+  .receipt-body{
+    min-height:0;
+  }
+
+  .receipt-spacer{
+    min-height:0;
+  }
+
+  .bottom-bar{
+    padding-bottom:calc(var(--safe-bottom) + 28px);
+  }
+
+  /* iPhone SE / short screens:
+     only spacing is reduced; typography remains exactly original. */
+  @media (max-height:700px){
+    .top-bar{
+      padding-top:calc(var(--safe-top) + 9px);
+      padding-bottom:8px;
+    }
+
+    .receipt-body{
+      padding-top:4px;
+    }
+
+    .receipt-top{
+      padding-top:20px;
+    }
+
+    .receipt-bottom{
+      padding-bottom:18px;
+    }
+
+    .details-wrap{
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+
+    .bottom-bar{
+      padding-top:10px;
+      padding-bottom:calc(var(--safe-bottom) + 16px);
+    }
+  }
+
+  /* Narrow iPhones: preserve original font sizes and reduce only
+     horizontal/vertical spacing where absolutely necessary. */
+  @media (max-width:380px){
+    .top-bar{
+      padding-left:14px;
+      padding-right:14px;
+    }
+
+    .back-btn{
+      left:14px;
+    }
+
+    .receipt-body{
+      padding-left:10px;
+      padding-right:10px;
+    }
+
+    .receipt-top{
+      padding-left:18px;
+      padding-right:18px;
+    }
+
+    .receipt-bottom{
+      padding-left:18px;
+      padding-right:18px;
+    }
+
+    .bottom-bar{
+      padding-left:10px;
+      padding-right:10px;
+    }
+  }
+
+  /* Very short landscape iPhone: preserve typography and prevent
+     controls from being pushed outside the visible viewport. */
+  @media (orientation:landscape) and (max-height:500px){
+    .phone-shell{
+      max-width:100%;
+    }
+
+    .top-bar{
+      padding-top:calc(var(--safe-top) + 6px);
+      padding-bottom:6px;
+    }
+
+    .receipt-body{
+      padding-top:4px;
+    }
+
+    .receipt-top{
+      padding-top:14px;
+    }
+
+    .receipt-bottom{
+      padding-bottom:12px;
+    }
+
+    .details-wrap{
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+
+    .bottom-bar{
+      padding-top:8px;
+      padding-bottom:calc(var(--safe-bottom) + 10px);
+    }
+  }
+
 </style>
 </head>
 
