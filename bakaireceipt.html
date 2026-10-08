@@ -824,7 +824,7 @@
         <div class="receipt-bottom">
           <div id="out-num" class="trx-number">154</div>
           <div id="out-qr-row" class="trx-source">By QR code <span id="out-qr">154</span></div>
-          <div id="out-account-row" class="trx-source" hidden>••••••••••3159 <span class="subtle-demo">(демо)</span></div>
+          <div id="out-account-row" class="trx-source" hidden>••••••••••3159</div>
           <div id="out-date" class="trx-date">02.04.2026 19:06:11</div>
         </div>
       </section>
@@ -890,7 +890,7 @@
       <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">Service Provider</span><span class="sheet-detail-value" id="detail-provider">qr.tulpar.kg</span></div>
       <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">Requisite</span><span class="sheet-detail-value" id="detail-num">154</span></div>
       <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">ELQR ID</span><span class="sheet-detail-value" id="detail-elqr">—</span></div>
-      <div class="sheet-detail-row" data-transfer-only hidden><span class="sheet-detail-label">Recipient account</span><span class="sheet-detail-value" id="detail-transfer-account">••••••••••3159 (демо)</span></div>
+      <div class="sheet-detail-row" data-transfer-only hidden><span class="sheet-detail-label">Recipient account</span><span class="sheet-detail-value" id="detail-transfer-account">••••••••••3159</span></div>
       <div class="sheet-detail-row" data-transfer-only hidden><span class="sheet-detail-label">Payment purpose</span><span class="sheet-detail-value" id="detail-purpose">Учебный перевод по QR для городского транспорта</span></div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Total amount</span><span class="sheet-detail-value" id="detail-sum">17.00 KGS</span></div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Debit account</span><span class="sheet-detail-value" id="detail-account">1242080009799634 KGS</span></div>
@@ -1098,9 +1098,6 @@
     const qr = selectedDemoScenario === 'qr';
     const value = id => document.getElementById(id).textContent;
     const lines = [
-      'ДЕМО / ОБРАЗЕЦ — НЕ ЯВЛЯЕТСЯ ПОДТВЕРЖДЕНИЕМ ОПЛАТЫ',
-      'Учебный макет без реальной банковской операции',
-      '',
       'Дата: ' + value('detail-date'),
       'Тип операции: ' + value('detail-type'),
       'Получатель: ' + value('detail-recipient'),
@@ -1108,14 +1105,14 @@
     if (qr) {
       lines.push('Провайдер: ' + value('detail-provider'));
       lines.push('Requisite: ' + value('detail-num'));
-      lines.push('ELQR ID (демо): ' + value('detail-elqr'));
+      lines.push('ELQR ID: ' + value('detail-elqr'));
     } else {
-      lines.push('Счёт получателя (демо): ' + value('detail-transfer-account'));
-      lines.push('Назначение (демо): ' + value('detail-purpose'));
+      lines.push('Счёт получателя: ' + value('detail-transfer-account'));
+      lines.push('Назначение: ' + value('detail-purpose'));
     }
     lines.push('Сумма: ' + value('detail-sum'));
-    lines.push('Debit account (демо): ' + value('detail-account'));
-    lines.push('Receipt number (демо): ' + value('detail-receipt-number'));
+    lines.push('Debit account: ' + value('detail-account'));
+    lines.push('Receipt number: ' + value('detail-receipt-number'));
     const blob = new Blob([lines.join('\n')], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
