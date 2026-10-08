@@ -504,7 +504,6 @@
   .share-btn svg { width: 20px; height: 20px; }
   /* Permanent demo markings distinguish this preview from proof of a real transaction. */
   .receipt-card::after {
-    content: "ДЕМО";
     position: absolute;
     left: 50%; top: 49%;
     transform: translate(-50%, -50%) rotate(-23deg);
@@ -637,7 +636,6 @@
 
     <div class="receipt-body">
       <section class="receipt-card" aria-label="Демонстрационный образец чека, не подтверждает оплату">
-        <span class="demo-label">DEMO / ОБРАЗЕЦ</span>
         <div class="receipt-top">
           <div class="status-circle">
             <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
@@ -684,7 +682,6 @@
           alt="BAKAI Fund" />
       </div>
 
-      <p class="demo-notice">Учебный макет · Не является подтверждением оплаты</p>
       <div class="receipt-spacer"></div>
     </div>
 
@@ -747,16 +744,7 @@
     btn.setAttribute('aria-expanded', String(!expanded));
     panel.setAttribute('aria-hidden', String(expanded));
   }
-  async function shareDemo() {
-    const text = 'ДЕМО / ОБРАЗЕЦ. Не является подтверждением оплаты.';
-    if (navigator.share) {
-      try { await navigator.share({title:'Учебный макет чека', text}); }
-      catch(e) { if (e.name !== 'AbortError') showToast('Не удалось поделиться'); }
-    } else if(navigator.clipboard && window.isSecureContext) {
-      try { await navigator.clipboard.writeText(text); showToast('Описание демо скопировано'); }
-      catch(e) { showToast('Поделиться не удалось'); }
-    } else showToast(text);
-  }
+  
   function showToast(message) {
     const toast = document.getElementById('toast');
     toast.textContent = message;
