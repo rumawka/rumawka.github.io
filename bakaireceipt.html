@@ -504,6 +504,7 @@
   .share-btn svg { width: 20px; height: 20px; }
   /* Permanent demo markings distinguish this preview from proof of a real transaction. */
   .receipt-card::after {
+    content: "ДЕМО";
     position: absolute;
     left: 50%; top: 49%;
     transform: translate(-50%, -50%) rotate(-23deg);
@@ -687,6 +688,32 @@
   @media (prefers-reduced-motion: reduce) {
     .transaction-sheet, .sheet-backdrop { transition-duration: .01ms; }
   }
+  /* Two accessible editor presets: mode affects fields AND preview composition. */
+  .scenario-picker { border: 0; min-width: 0; margin: 0 0 17px; }
+  .scenario-legend { font-size: 11px; font-weight: 700; color: #8090a0; letter-spacing: .06em; margin-bottom: 9px; }
+  .scenario-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .scenario-option { display: block; min-width: 0; position: relative; cursor: pointer; }
+  .scenario-option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .scenario-option-content { min-height: 70px; display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    padding: 12px 10px; border-radius: 15px; border: 1.5px solid #e1e8f1; background: #f9fbfe; color: #253d58;
+    transition: border-color .15s ease, background-color .15s ease; }
+  .scenario-option-content strong { font-size: 17px; line-height: 20px; }
+  .scenario-option-content small { font-size: 11px; line-height: 15px; color: #728398; }
+  .scenario-option input:checked + .scenario-option-content { background: #e9f3ff; border-color: #187cf5; }
+  .scenario-option input:focus-visible + .scenario-option-content { outline: 3px solid #8ebcff; outline-offset: 2px; }
+  .field[hidden], .sheet-detail-row[hidden], .banner-wrap[hidden], .trx-source[hidden] { display: none !important; }
+  .scenario-hint { margin: 6px 0 0; color: #8390a0; font-size: 12px; }
+  .readonly-summary { border-radius: 13px; padding: 13px; background: #f4f7fc; color: #364c64; font-size: 14px; line-height: 1.4; }
+  #inp-sum[readonly] { color: #243c56; background: #f4f7fb; }
+  .receipt-card.transfer-mode .receipt-bottom { padding: 14px 22px 16px; }
+  .receipt-card.transfer-mode .trx-number { font-size: 16px; line-height: 1.29; font-weight: 600; letter-spacing: -.018em; overflow-wrap: break-word; margin-bottom: 7px; }
+  .receipt-card.transfer-mode .trx-source { font-size: 15px; font-weight: 500; line-height: 1.3; }
+  .subtle-demo { font-size: 11px; color: #8998a9; }
+  @media(max-width: 350px){
+    .scenario-option-content { padding: 10px 8px; }
+    .scenario-option-content small { font-size: 10px; }
+    .receipt-card.transfer-mode .trx-number { font-size: 15px; }
+  }
 </style>
 </head>
 <body>
@@ -717,14 +744,34 @@
       <div class="editor-title">Редактор чека</div>
       <div class="editor-subtitle">Заполните поля, чтобы увидеть учебный макет. Не является подтверждением банковской операции.</div>
 
-      <div class="field">
-        <label for="inp-num">Номер транзакции</label>
-        <input id="inp-num" type="text" inputmode="numeric" value="154" />
+      <fieldset class="scenario-picker" aria-label="Выбор демонстрационного сценария">
+        <legend class="scenario-legend">ВАРИАНТ ЧЕКА</legend>
+        <div class="scenario-options">
+          <label class="scenario-option">
+            <input type="radio" name="demo-scenario" value="qr" checked onchange="selectDemoScenario('qr')" />
+            <span class="scenario-option-content"><strong>17 сом</strong><small>QR · TULPAR</small></span>
+          </label>
+          <label class="scenario-option">
+            <input type="radio" name="demo-scenario" value="transfer" onchange="selectDemoScenario('transfer')" />
+            <span class="scenario-option-content"><strong>30 сом</strong><small>Городской транспорт</small></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="field" id="qr-number-field">
+        <label for="inp-num">Requisite (QR)</label>
+        <input id="inp-num" type="text" inputmode="numeric" value="154" maxlength="18" />
+      </div>
+
+      <div class="field" id="transfer-summary-field" hidden>
+        <label>Получатель</label>
+        <div class="readonly-summary">Городской транспорт — демонстрационный сценарий</div>
       </div>
 
       <div class="field">
         <label for="inp-sum">Сумма</label>
-        <input id="inp-sum" type="text" inputmode="decimal" value="17" />
+        <input id="inp-sum" type="text" inputmode="decimal" value="17" readonly aria-describedby="scenario-hint" />
+        <p id="scenario-hint" class="scenario-hint">Сумма задаётся выбранным вариантом.</p>
       </div>
 
       <div class="field">
@@ -765,6 +812,7 @@
 
     <div class="receipt-body">
       <section class="receipt-card" aria-label="Демонстрационный образец чека, не подтверждает оплату">
+        <span class="demo-label">DEMO / ОБРАЗЕЦ</span>
         <div class="receipt-top">
           <div class="status-circle">
             <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
@@ -785,7 +833,8 @@
 
         <div class="receipt-bottom">
           <div id="out-num" class="trx-number">154</div>
-          <div class="trx-source">By QR code <span id="out-qr">154</span></div>
+          <div id="out-qr-row" class="trx-source">By QR code <span id="out-qr">154</span></div>
+          <div id="out-account-row" class="trx-source" hidden>••••••••••3159 <span class="subtle-demo">(демо)</span></div>
           <div id="out-date" class="trx-date">02.04.2026 19:06:11</div>
         </div>
       </section>
@@ -799,17 +848,19 @@
         </button>
       </div>
 
-      <div class="banner-wrap">
+      <div class="banner-wrap" id="banner-wrap">
         <img class="banner"
           src="https://cdn.bakai.kg/uploads/widgets/ufc%201029x288%20eng.webp"
           alt="BAKAI UFC — рекламный баннер" />
       </div>
+
+      <p class="demo-notice">Учебный макет · Не является подтверждением оплаты</p>
       <div class="receipt-spacer"></div>
     </div>
 
     <div class="bottom-bar">
       <div class="bottom-bar-inner">
-        <button class="home-btn" type="button" onclick="backToEditor()">Back home</button>
+        <button class="home-btn" id="home-btn" type="button" onclick="backToEditor()">Back home</button>
         <button class="share-btn" type="button" aria-label="Поделиться демонстрацией" onclick="shareDemo()">
           <svg viewBox="0 0 24 24">
             <path d="M12 16V3"></path>
@@ -835,20 +886,23 @@
     </button>
   </div>
   <div class="sheet-body">
+    <p class="sheet-demo-caption">ДЕМО / ОБРАЗЕЦ — не является подтверждением оплаты. Номера и идентификаторы сгенерированы для прототипа.</p>
     <div class="sheet-details">
       <div class="sheet-detail-row">
         <span class="sheet-detail-label">Receipt</span>
         <button class="sheet-download" type="button" onclick="downloadDemoDetails()" aria-label="Скачать сведения о демонстрационной операции">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 17v3h16v-3"/></svg>
-          Download
+          Download DEMO
         </button>
       </div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Execution date</span><span class="sheet-detail-value" id="detail-date">—</span></div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Transaction type</span><span class="sheet-detail-value" id="detail-type">Платеж по QR</span></div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Recipient</span><span class="sheet-detail-value" id="detail-recipient">154 TULPAR</span></div>
-      <div class="sheet-detail-row"><span class="sheet-detail-label">Service Provider</span><span class="sheet-detail-value" id="detail-provider">qr.tulpar.kg</span></div>
-      <div class="sheet-detail-row"><span class="sheet-detail-label">Requisite</span><span class="sheet-detail-value" id="detail-num">154</span></div>
-      <div class="sheet-detail-row"><span class="sheet-detail-label">ELQR ID</span><span class="sheet-detail-value" id="detail-elqr">—</span></div>
+      <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">Service Provider</span><span class="sheet-detail-value" id="detail-provider">qr.tulpar.kg</span></div>
+      <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">Requisite</span><span class="sheet-detail-value" id="detail-num">154</span></div>
+      <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">ELQR ID</span><span class="sheet-detail-value" id="detail-elqr">—</span></div>
+      <div class="sheet-detail-row" data-transfer-only hidden><span class="sheet-detail-label">Recipient account</span><span class="sheet-detail-value" id="detail-transfer-account">••••••••••3159 (демо)</span></div>
+      <div class="sheet-detail-row" data-transfer-only hidden><span class="sheet-detail-label">Payment purpose</span><span class="sheet-detail-value" id="detail-purpose">Учебный перевод по QR для городского транспорта</span></div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Total amount</span><span class="sheet-detail-value" id="detail-sum">17.00 KGS</span></div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Debit account</span><span class="sheet-detail-value" id="detail-account">1242080009799634 KGS</span></div>
       <div class="sheet-detail-row"><span class="sheet-detail-label">Receipt number</span><span class="sheet-detail-value" id="detail-receipt-number">—</span></div>
@@ -892,24 +946,50 @@
     return '179380' + String(randomPart).padStart(4, '0');
   }
 
+  const DEMO_CITY_RECIPIENT = '055AX — Муниципальное предприятие «Бишкекский городской транспорт» при Департаменте транспорта и развития дорожно-транспортной инфраструктуры мэрии г. Бишкек';
+  let selectedDemoScenario = 'qr';
+
+  function selectDemoScenario(scenario) {
+    selectedDemoScenario = scenario === 'transfer' ? 'transfer' : 'qr';
+    const qr = selectedDemoScenario === 'qr';
+    document.getElementById('inp-sum').value = qr ? '17' : '30';
+    document.getElementById('qr-number-field').hidden = !qr;
+    document.getElementById('transfer-summary-field').hidden = qr;
+  }
+
   function generateReceipt() {
+    const qr = selectedDemoScenario === 'qr';
     const number = sanitize(document.getElementById('inp-num').value, '154');
-    const sum    = sanitize(document.getElementById('inp-sum').value, '17');
+    const sum = qr ? '17' : '30';
+    const date = getCurrentDateTime();
+    const demoReceiptNumber = makeDemoReceiptNumber();
+    const card = document.querySelector('#receipt-screen .receipt-card');
+    card.classList.toggle('transfer-mode', !qr);
 
-    document.getElementById('out-num').textContent  = number;
-    document.getElementById('out-qr').textContent   = number;
-    document.getElementById('out-sum').textContent  = sum;
-    document.getElementById('out-date').textContent = getCurrentDateTime();
+    document.getElementById('out-sum').textContent = sum;
+    document.getElementById('out-num').textContent = qr ? number : DEMO_CITY_RECIPIENT;
+    document.getElementById('out-qr').textContent = number;
+    document.getElementById('out-qr-row').hidden = !qr;
+    document.getElementById('out-account-row').hidden = qr;
+    document.getElementById('out-date').textContent = date;
+    document.getElementById('banner-wrap').hidden = !qr;
+    document.getElementById('home-btn').textContent = qr ? 'Back home' : 'Back to transfers';
+
+    document.getElementById('detail-date').textContent = date;
+    document.getElementById('detail-type').textContent = qr ? 'Платеж по QR' : 'Перевод клиенту Банка';
+    document.getElementById('detail-recipient').textContent = qr ? number + ' TULPAR' : DEMO_CITY_RECIPIENT;
     document.getElementById('detail-num').textContent = number;
-    document.getElementById('detail-recipient').textContent = number + ' TULPAR';
+    document.getElementById('detail-provider').textContent = 'qr.tulpar.kg';
     document.getElementById('detail-elqr').textContent = makeDemoUUID();
-    document.getElementById('detail-receipt-number').textContent = makeDemoReceiptNumber();
-    const parsedSum = Number(sum.replace(',', '.'));
-    document.getElementById('detail-sum').textContent = Number.isFinite(parsedSum) ? parsedSum.toFixed(2) + ' KGS' : sum + ' KGS';
-    document.getElementById('detail-date').textContent = document.getElementById('out-date').textContent;
-    closeTransactionDetails(false);
+    document.getElementById('detail-purpose').textContent = 'Демо-платёж по QR, торговая точка: 055AX. Идентификатор: DEMO-' + demoReceiptNumber.slice(-4);
+    document.getElementById('detail-sum').textContent = Number(sum).toFixed(2) + ' KGS';
+    document.getElementById('detail-receipt-number').textContent = demoReceiptNumber;
+    document.querySelectorAll('[data-qr-only]').forEach(el => { el.hidden = !qr; });
+    document.querySelectorAll('[data-transfer-only]').forEach(el => { el.hidden = qr; });
+    document.querySelector('.sheet-body').scrollTop = 0;
 
-    document.getElementById('editor-screen').style.display  = 'none';
+    closeTransactionDetails(false);
+    document.getElementById('editor-screen').style.display = 'none';
     document.getElementById('receipt-screen').style.display = 'block';
     window.scrollTo(0, 0);
   }
@@ -995,28 +1075,39 @@
   });
 
   function downloadDemoDetails() {
+    const qr = selectedDemoScenario === 'qr';
+    const value = id => document.getElementById(id).textContent;
     const lines = [
-      'Дата: ' + document.getElementById('detail-date').textContent,
-      'Тип операции: ' + document.getElementById('detail-type').textContent,
-      'Получатель: ' + document.getElementById('detail-recipient').textContent,
-      'Провайдер: ' + document.getElementById('detail-provider').textContent,
-      'Requisite: ' + document.getElementById('detail-num').textContent,
-      'ELQR ID (демо): ' + document.getElementById('detail-elqr').textContent,
-      'Сумма: ' + document.getElementById('detail-sum').textContent,
-      'Debit account (демо): ' + document.getElementById('detail-account').textContent,
-      'Receipt number (демо): ' + document.getElementById('detail-receipt-number').textContent,
+      'ДЕМО / ОБРАЗЕЦ — НЕ ЯВЛЯЕТСЯ ПОДТВЕРЖДЕНИЕМ ОПЛАТЫ',
+      'Учебный макет без реальной банковской операции',
+      '',
+      'Дата: ' + value('detail-date'),
+      'Тип операции: ' + value('detail-type'),
+      'Получатель: ' + value('detail-recipient'),
     ];
+    if (qr) {
+      lines.push('Провайдер: ' + value('detail-provider'));
+      lines.push('Requisite: ' + value('detail-num'));
+      lines.push('ELQR ID (демо): ' + value('detail-elqr'));
+    } else {
+      lines.push('Счёт получателя (демо): ' + value('detail-transfer-account'));
+      lines.push('Назначение (демо): ' + value('detail-purpose'));
+    }
+    lines.push('Сумма: ' + value('detail-sum'));
+    lines.push('Debit account (демо): ' + value('detail-account'));
+    lines.push('Receipt number (демо): ' + value('detail-receipt-number'));
     const blob = new Blob([lines.join('\n')], {type: 'text/plain;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'payment_demo_sample.txt';
+    a.download = qr ? 'demo_qr_17.txt' : 'demo_transport_30.txt';
     document.body.appendChild(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   async function shareDemo() {
+    const text = 'ДЕМО / ОБРАЗЕЦ. Не является подтверждением оплаты.';
     if (navigator.share) {
       try { await navigator.share({title:'Учебный макет чека', text}); }
       catch(e) { if (e.name !== 'AbortError') showToast('Не удалось поделиться'); }
