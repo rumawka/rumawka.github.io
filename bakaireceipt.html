@@ -1001,7 +1001,7 @@
     document.getElementById('detail-num').textContent = number;
     document.getElementById('detail-provider').textContent = 'qr.tulpar.kg';
     document.getElementById('detail-elqr').textContent = makeDemoUUID();
-    document.getElementById('detail-purpose').textContent = 'Демо-платёж по QR, торговая точка: 055AX. Идентификатор: DEMO-' + demoReceiptNumber.slice(-4);
+    document.getElementById('detail-purpose').textContent = 'Платёж по QR, торговая точка: 055AX. Идентификатор:' + demoReceiptNumber.slice(-4);
     document.getElementById('detail-sum').textContent = amount.toFixed(2) + ' KGS';
     document.getElementById('detail-receipt-number').textContent = demoReceiptNumber;
     document.querySelectorAll('[data-qr-only]').forEach(el => { el.hidden = !qr; });
