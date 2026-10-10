@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="BAKAI" />
+<title>Демо-приложение: QR-сканер и предпросмотр</title>
+<style>
+  :root {
+    --bg: #f0f0f0;
+    --card: #ffffff;
+    --text: #0b1e3d;
+    --muted: #8c97a6;
+    --line: #d4d8de;
+    --blue: #1a7cf8;
+    --share-bg: #e4ecf8;
+    --green: #28cc60;
+    --green-ring: rgba(40,204,96,0.22);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+    touch-action: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .screen {
+    width: 100%;
+    min-height: 100svh;
+    background: var(--bg);
+  }
+
+  .phone-shell {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100svh;
+    margin: 0 auto;
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: calc(var(--safe-top) + 14px);
+    padding-bottom: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    flex-shrink: 0;
+  }
+
+  .back-btn {
+    position: absolute;
+    left: 16px;
+    bottom: 10px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a2738;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  }
+
+  .back-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .logo {
+    width: 92px;
+    height: auto;
+    display: block;
+  }
+
+  /* ─── RECEIPT SCREEN ─── */
+  .receipt-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+
+  .receipt-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 12px 0;
+  }
+
+  /* Card */
+  .receipt-card {
+    background: var(--card);
+    border-radius: 26px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .receipt-top {
+    text-align: center;
+    padding: 28px 24px 6px;
+  }
+
+  .status-circle {
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 12px;
+    border-radius: 999px;
+    background: var(--green);
+    box-shadow: 0 0 0 8px var(--green-ring);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .status-circle svg {
+    width: 30px;
+    height: 30px;
+    stroke: #fff;
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .status-text {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .amount-row {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .amount {
+    font-size: 44px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--text);
+  }
+
+  .currency {
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 400;
+    color: #8c9aac;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    position: relative;
+    top: 2px;
+  }
+
+  .fee-row {
+    font-size: 14px;
+    color: #a0aab5;
+    margin-bottom: 6px;
+    font-weight: 400;
+  }
+
+  .fee-row .fee-currency {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Tear */
+  .tear-row {
+    position: relative;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    margin-top: 4px;
+  }
+
+  .tear-line {
+    flex: 1;
+    height: 1.5px;
+    margin: 0 32px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--line) 0,
+      var(--line) 8px,
+      transparent 8px,
+      transparent 18px
+    );
+  }
+
+  .tear-cut {
+    position: absolute;
+    top: 50%;
+    width: 56px;
+    height: 56px;
+    background: var(--bg);
+    border-radius: 999px;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .tear-cut.left  { left: -28px; }
+  .tear-cut.right { right: -28px; }
+
+  /* Receipt bottom */
+  .receipt-bottom {
+    text-align: center;
+    padding: 10px 24px 24px;
+  }
+
+  .trx-number {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .trx-source {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .trx-date {
+    font-size: 14px;
+    color: #9aa3af;
+    font-weight: 400;
+  }
+
+  /* Details button */
+  .details-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 14px 0 16px;
+    flex-shrink: 0;
+  }
+
+  .details-btn {
+    min-height: 44px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 999px;
+    background: #fff;
+    color: #1e2c3e;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .details-btn svg {
+    width: 14px;
+    height: 14px;
+    color: #a2aab4;
+    flex-shrink: 0;
+  }
+
+  /* Banner */
+  .banner-wrap {
+    flex-shrink: 0;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .banner {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .receipt-spacer { flex: 1; }
+
+  /* Bottom bar */
+  .bottom-bar {
+    flex-shrink: 0;
+    padding: 16px 12px calc(var(--safe-bottom) + 28px);
+  }
+
+  .bottom-bar-inner {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .home-btn {
+    flex: 1;
+    min-height: 56px;
+    border: none;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #2088fc 0%, #1270e8 100%);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    box-shadow: 0 6px 18px rgba(18, 112, 232, 0.28);
+    cursor: pointer;
+  }
+
+  .share-btn {
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 18px;
+    background: var(--share-bg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .share-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--blue);
+    stroke-width: 2.2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ─── EDITOR SCREEN ─── */
+  .edit-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+
+  .edit-panel {
+    margin: 8px 12px 0;
+    background: #fff;
+    border-radius: 24px;
+    padding: 20px 18px 22px;
+  }
+
+  .editor-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .editor-subtitle {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #7a8794;
+    margin-bottom: 20px;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field:last-of-type { margin-bottom: 0; }
+
+  .field label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8090a0;
+  }
+
+  .field input {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 16px;
+    border: 1.5px solid #e7eaf0;
+    border-radius: 16px;
+    background: #fbfcfd;
+    color: var(--text);
+    font-size: 18px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .field input:focus {
+    border-color: #8dbdff;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.10);
+  }
+
+  .editor-actions {
+    padding: 16px 12px 8px;
+  }
+
+  .generate-btn {
+    width: 100%;
+    min-height: 58px;
+    border: none;
+    border-radius: 20px;
+    background: #0d2645;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+    transition: opacity 0.1s;
+  }
+
+  .generate-btn:active { opacity: 0.88; }
+
+  .preview-note {
+    padding: 0 14px 24px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #9aa3ae;
+    text-align: center;
+  }
+
+  /* ─────────── SECOND SCREEN / MOBILE REFINEMENT ─────────── */
+  :root { color-scheme: light; }
+  html,body { touch-action: pan-y; overscroll-behavior-x: none; }
+  button { font-family: inherit; }
+  button:focus-visible { outline: 3px solid #7ab8ff; outline-offset: 3px; }
+  .receipt-shell .top-bar {
+    min-height: calc(var(--safe-top) + 61px);
+    padding-top: calc(var(--safe-top) + 8px);
+    padding-bottom: 18px;
+  }
+  .receipt-shell .back-btn { left: 11px; bottom: 17px; width: 34px; height: 34px; box-shadow: none; }
+  .receipt-shell .back-btn svg { width: 20px; height: 20px; }
+  .receipt-body { padding: 7px 11px 0; }
+  .receipt-card { position: relative; border-radius: 24px; isolation: isolate; }
+  .receipt-top { padding: 12px 15px 0; }
+  .status-circle {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 7px;
+    background: #20c75c;
+    box-shadow: 0 0 0 3px rgba(32, 199, 92, .25);
+  }
+  .status-circle svg { width: 27px; height: 27px; stroke-width: 2.8; }
+  .status-text { font-size: 16px; line-height: 20px; font-weight: 500; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .amount-row { gap: 4px; margin-bottom: 6px; }
+  .amount { font-size: 32px; line-height: 34px; font-weight: 700; letter-spacing: -.045em; }
+  .currency { font-size: 19px; line-height: 1; top: 1px; color: #8998a9; }
+  .fee-row { font-size: 14px; line-height: 18px; margin-bottom: 0; color: #8f9dac; }
+  .tear-row { height: 18px; margin-top: 2px; }
+  .tear-line {
+    height: 1px;
+    margin: 0 27px;
+    background-image: repeating-linear-gradient(90deg, #d6dce3 0, #d6dce3 5px, transparent 5px, transparent 11px);
+  }
+  .tear-cut { width: 37px; height: 37px; }
+  .tear-cut.left { left: -18.5px; }
+  .tear-cut.right { right: -18.5px; }
+  .receipt-bottom { padding: 8px 18px 14px; }
+  .trx-number { font-size: 17px; line-height: 21px; margin-bottom: 3px; }
+  .trx-source { font-size: 15px; line-height: 19px; margin-bottom: 2px; }
+  .trx-date { font-size: 14px; line-height: 18px; }
+  .details-wrap { padding: 14px 0 18px; }
+  .details-btn { min-height: 34px; padding: 0 15px; gap: 6px; font-size: 13px; box-shadow: none; }
+  .details-btn svg { width: 13px; height: 13px; transition: transform .2s ease; }
+  .details-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .banner-wrap, .banner { border-radius: 15px; }
+  .banner { aspect-ratio: 1029/288; object-fit: cover; }
+  .bottom-bar { padding: 14px 12px max(22px, calc(var(--safe-bottom) + 4px)); }
+  .bottom-bar-inner { gap: 10px; }
+  .home-btn, .share-btn { height: 48px; min-height: 48px; border-radius: 14px; }
+  .home-btn { font-size: 14px; background: #0780fb; box-shadow: 0 2px 4px rgba(0,109,240,.16); }
+  .share-btn { width: 48px; background: #e1ebf9; }
+  .share-btn svg { width: 20px; height: 20px; }
+  /* A legible, unobtrusive label keeps the editable receipt visibly a sample. */
+  .demo-label {
+    display: table;
+    max-width: 100%;
+    margin: 0 auto 15px;
+    padding: 6px 11px;
+    border: 1px solid #d1deeb;
+    border-radius: 999px;
+    background: #eef4fa;
+    color: #334e6b;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 650;
+    text-align: center;
+    letter-spacing: .005em;
+  }
+  .demo-notice {
+    margin: 10px 0 0;
+    color: #7f8d9c;
+    font-size: 10px;
+    line-height: 1.3;
+    text-align: center;
+  }
+  .toast { display: none; position: fixed; bottom: calc(var(--safe-bottom) + 96px); left:50%; transform:translateX(-50%); max-width:85vw; border-radius: 99px; padding: 9px 16px; font-size:13px; line-height:1.3; white-space:nowrap; text-align:center; color: #fff; background: #17344f; z-index:50; }
+  .toast.visible { display:block; }
+  @media (max-height: 680px) {
+    .receipt-shell .top-bar { padding-bottom: 10px; min-height: calc(var(--safe-top) + 52px); }
+    .details-wrap { padding-top: 10px; padding-bottom: 12px; }
+    .receipt-shell .bottom-bar { padding-top: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .details-btn svg, .field input { transition: none; }
+  }
+
+
+  /* Accessible modal bottom sheet for the clearly-labelled demo. */
+  body.sheet-open { overflow: hidden; }
+  .sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(12, 23, 35, .15);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .25s ease, visibility .25s;
+  }
+  .sheet-backdrop[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .transaction-sheet {
+    position: fixed;
+    z-index: 1001;
+    left: 50%;
+    bottom: 0;
+    width: min(100%, 430px);
+    max-height: calc(100dvh - 32px);
+    max-height: calc(100svh - 32px);
+    background: #f5f5f5;
+    border-radius: 25px 25px 0 0;
+    box-shadow: 0 -7px 35px rgba(5, 28, 58, .12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translate(-50%, 105%);
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform .32s cubic-bezier(.22, .9, .24, 1), visibility .32s;
+    padding-bottom: var(--safe-bottom);
+  }
+  .transaction-sheet[data-open="true"] {
+    transform: translate(-50%, 0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .sheet-grab-area {
+    height: 30px;
+    min-height: 30px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10px;
+    touch-action: none;
+    cursor: grab;
+  }
+  .sheet-handle {
+    height: 5px;
+    width: 45px;
+    background: #d1d4db;
+    border-radius: 999px;
+  }
+  .sheet-header {
+    padding: 4px 15px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .sheet-heading { font-size: 18px; line-height: 24px; font-weight: 650; letter-spacing: -.02em; color: #0b1e3d; }
+  .sheet-close {
+    border: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #e6e9ee;
+    color: #526170;
+    cursor: pointer;
+  }
+  .sheet-close svg { width: 17px; height: 17px; }
+  .sheet-body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 14px max(20px, var(--safe-bottom));
+  }
+  .sheet-demo-caption {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #395572;
+    margin: 0 0 11px;
+    padding: 8px 11px;
+    border: 1px solid #dbe6f4;
+    border-radius: 9px;
+    background: #eaf1f9;
+  }
+  .sheet-details {
+    background: #fff;
+    border-radius: 15px;
+    padding: 7px 14px;
+  }
+  .sheet-detail-row {
+    display: grid;
+    grid-template-columns: minmax(105px, .95fr) minmax(0, 1.2fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 35px;
+    padding: 8px 0;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .sheet-detail-label { color: #788592; }
+  .sheet-detail-value {
+    color: #13283f;
+    text-align: right;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+  .sheet-download {
+    border: 0;
+    color: #087bf5;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    justify-self: end;
+    font-size: 13px;
+    line-height: 1.25;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .sheet-download svg { width: 15px; height: 15px; }
+  @media (prefers-reduced-motion: reduce) {
+    .transaction-sheet, .sheet-backdrop { transition-duration: .01ms; }
+  }
+  /* Two accessible editor presets: mode affects fields AND preview composition. */
+  .scenario-picker { border: 0; min-width: 0; margin: 0 0 17px; }
+  .scenario-legend { font-size: 11px; font-weight: 700; color: #8090a0; letter-spacing: .06em; margin-bottom: 9px; }
+  .scenario-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .scenario-option { display: block; min-width: 0; position: relative; cursor: pointer; }
+  .scenario-option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .scenario-option-content { min-height: 70px; display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    padding: 12px 10px; border-radius: 15px; border: 1.5px solid #e1e8f1; background: #f9fbfe; color: #253d58;
+    transition: border-color .15s ease, background-color .15s ease; }
+  .scenario-option-content strong { font-size: 17px; line-height: 20px; }
+  .scenario-option-content small { font-size: 11px; line-height: 15px; color: #728398; }
+  .scenario-option input:checked + .scenario-option-content { background: #e9f3ff; border-color: #187cf5; }
+  .scenario-option input:focus-visible + .scenario-option-content { outline: 3px solid #8ebcff; outline-offset: 2px; }
+  .field[hidden], .sheet-detail-row[hidden], .banner-wrap[hidden], .trx-source[hidden] { display: none !important; }
+  .scenario-hint { margin: 6px 0 0; color: #8390a0; font-size: 12px; }
+  .readonly-summary { border-radius: 13px; padding: 13px; background: #f4f7fc; color: #364c64; font-size: 14px; line-height: 1.4; }
+  #inp-sum { font-variant-numeric: tabular-nums; }
+  .sum-error { margin: 7px 0 0; color: #b3261e; font-size: 12px; line-height: 1.4; }
+  #inp-sum[aria-invalid="true"], #inp-transport-code[aria-invalid="true"] {
+    border-color: #cf3d3d;
+    box-shadow: 0 0 0 3px rgba(207,61,61,.10);
+  }
+  .route-code-hint { margin: 7px 0 0; color: #8390a0; font-size: 12px; line-height: 1.35; }
+  .route-code-preview { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .receipt-card .status-circle { background:#4478ac; box-shadow:0 0 0 3px rgba(68,120,172,.22); }
+  .receipt-card.transfer-mode .receipt-bottom { padding: 14px 22px 16px; }
+  .receipt-card.transfer-mode .trx-number { font-size: 16px; line-height: 1.29; font-weight: 600; letter-spacing: -.018em; overflow-wrap: break-word; margin-bottom: 7px; }
+  .receipt-card.transfer-mode .trx-source { font-size: 15px; font-weight: 500; line-height: 1.3; }
+  .subtle-demo { font-size: 11px; color: #8998a9; }
+  @media(max-width: 350px){
+    .scenario-option-content { padding: 10px 8px; }
+    .scenario-option-content small { font-size: 10px; }
+    .receipt-card.transfer-mode .trx-number { font-size: 15px; }
+  }
+
+  /* QR scanner — contained in this file for GitHub Pages deployment. */
+  .scan-launch {
+    width: 100%; min-height: 48px; border: 1.5px solid #c9dfff;
+    border-radius: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin: 5px 0 7px; color: #086ee1; font-weight: 700; font-size: 15px;
+    background: #eff6ff; cursor: pointer; font-family: inherit;
+  }
+  .scan-launch svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .scan-hint { color: #798da2; font-size: 12px; line-height: 1.45; margin: 0 0 15px; }
+  .scanner-overlay[hidden] { display: none !important; }
+  .scanner-overlay {
+    position: fixed; inset: 0; z-index: 9999; color: #fff;
+    background: #090f1a; display: flex; flex-direction: column;
+    padding: calc(12px + var(--safe-top)) 16px max(18px, calc(var(--safe-bottom) + 10px));
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    overflow: auto; overscroll-behavior: contain;
+  }
+  .scanner-header { display: flex; align-items: center; justify-content: space-between; min-height: 48px; gap: 12px; }
+  .scanner-close { border: 1px solid #455064; color: white; background: #243044; width: 42px; height: 42px;
+    border-radius: 50%; font-size: 25px; line-height: 1; cursor: pointer; }
+  .scanner-header h2 { font-size: 18px; font-weight: 650; letter-spacing: -.02em; }
+  .scanner-tag { color: #a8bdd8; font-size: 11px; font-weight: 700; padding: 8px 10px; background:#1b2b41; border-radius: 99px; }
+  .scanner-intro { text-align: center; margin: 20px 6px 16px; color: #e2eaf7; line-height: 1.45; font-size: 14px; }
+  .scanner-stage { position: relative; width: 100%; max-width: 440px; margin: 0 auto;
+    background: #151f30; border-radius: 24px; min-height: 260px; aspect-ratio: 1.08;
+    overflow: hidden; border: 1px solid #35465e; }
+  #qr-reader { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+  #qr-reader video { display: block; width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  #qr-reader img { max-width: 100%; }
+  .scanner-reticle { pointer-events: none; position: absolute; inset: 15% 14%; border: 2px solid rgba(255,255,255,.26); border-radius: 18px; }
+  .scanner-reticle::before, .scanner-reticle::after { content:""; position:absolute; width:46px; height:46px; border: solid #65bcff; }
+  .scanner-reticle::before { top:-2px; left:-2px; border-width:4px 0 0 4px; border-radius:16px 0 0 0; }
+  .scanner-reticle::after { right:-2px; bottom:-2px; border-width:0 4px 4px 0; border-radius:0 0 16px 0; }
+  .scanner-stage[data-result="true"] .scanner-reticle { display:none; }
+  .scanner-status { text-align: center; color: #cad8e8; font-size: 13px; line-height: 1.4; margin: 12px 10px 8px; min-height: 20px; }
+  .scanner-actions { display:grid; grid-template-columns:1fr 1fr; gap: 10px; margin: 14px auto 0; width:100%; max-width:440px; }
+  .scanner-action { min-height: 51px; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:16px;
+    background: #1e314f; border: 1px solid #45628a; color:#fff; font-size:14px; font-weight:600; font-family: inherit; cursor:pointer; }
+  .scanner-action svg { height:19px; width:19px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .scanner-action:disabled { opacity:.42; cursor: not-allowed; }
+  .scanner-photo-input { position: absolute; width:1px; height:1px; opacity:0; }
+  .scanner-result { width:100%; max-width:440px; margin: 18px auto 0; background:#f6f9ff; color:#102943;
+    border-radius:20px; padding:16px; }
+  .scanner-result[hidden] { display:none !important; }
+  .scanner-result h3 { font-size: 17px; margin-bottom:6px; }
+  .scanner-result p { color:#4f6278; font-size:13px; line-height:1.45; margin-bottom:12px; }
+  .scanner-result label { display: block; font-size:12px; font-weight:650; margin-bottom:6px; }
+  .scanner-result input, .scanner-result textarea { display:block; width:100%; border-radius:12px; border:1px solid #c9d5e6;
+    padding:12px; font: 15px inherit; background:white; color: #102943; }
+  .scanner-result input { text-transform:uppercase; font-weight:650; font-size:18px; }
+  .scanner-result textarea { font-size:12px; line-height:1.45; resize:vertical; min-height:70px; overflow-wrap:anywhere; }
+  .scanner-result .result-note { margin:7px 0 12px; color:#64758a; font-size:12px; }
+  .scanner-accept { border:0; background:#007bff; color:white; font-family:inherit; border-radius:14px;
+    min-height:48px; width:100%; font-size:15px; font-weight:700; cursor:pointer; }
+  .scanner-accept:disabled { opacity:.55; }
+  .scanner-advanced { max-width:440px; width:100%; margin:16px auto 0; color:#cbd6e6; font-size:13px; }
+  .scanner-advanced summary { cursor:pointer; padding:8px 0; }
+  .scanner-advanced textarea { margin:10px 0; display:block; width:100%; padding:12px; min-height:68px; font-size:13px;
+    background:#e9eff7; border-radius:12px; border:0; color:#192e46; }
+  .scanner-advanced button { padding:9px 14px; border:0; background:#dcecff; color:#173c69; border-radius:12px; font: 600 13px inherit; cursor:pointer; }
+  .scanner-privacy { max-width:440px; margin: auto auto 0; padding-top:18px; color:#9eb3d1; font-size:11px; text-align:center; line-height:1.5; }
+  body.scanner-active { overflow:hidden; }
+  @media (max-height:730px) { .scanner-intro { margin: 8px 4px; } .scanner-stage { min-height:195px; aspect-ratio:1.4; }
+    .scanner-privacy { margin-top:10px; } }
+
+</style>
+</head>
+<body>
+
+<!-- ═══ EDITOR SCREEN ═══ -->
+<div id="editor-screen" class="screen">
+  <div class="phone-shell edit-shell">
+    <div class="top-bar">
+      <button class="back-btn" type="button" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </button>
+      <svg class="logo" viewBox="0 0 250 80" aria-label="BAKAI">
+        <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
+        <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
+        <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
+        <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
+        <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
+        <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
+        <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
+        <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
+        <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
+      </svg>
+    </div>
+
+    <div class="edit-panel">
+      <div class="editor-title">Редактор чека</div>
+      <div class="editor-subtitle">Заполните поля, чтобы увидеть учебный макет. Не является подтверждением банковской операции.</div>
+
+      <fieldset class="scenario-picker" aria-label="Выбор демонстрационного сценария">
+        <legend class="scenario-legend">ВАРИАНТ ЧЕКА</legend>
+        <div class="scenario-options">
+          <label class="scenario-option">
+            <input type="radio" name="demo-scenario" value="qr" checked onchange="selectDemoScenario('qr')" />
+            <span class="scenario-option-content"><strong>17 сом</strong><small>QR · TULPAR</small></span>
+          </label>
+          <label class="scenario-option">
+            <input type="radio" name="demo-scenario" value="transfer" onchange="selectDemoScenario('transfer')" />
+            <span class="scenario-option-content"><strong>30 сом</strong><small>Городской транспорт</small></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="field" id="qr-number-field">
+        <label for="inp-num">Requisite (QR)</label>
+        <input id="inp-num" type="text" inputmode="numeric" value="154" maxlength="18" />
+      </div>
+
+      <div class="field" id="transport-route-field" hidden>
+        <label for="inp-transport-code">Номер на QR-табличке</label>
+        <input id="inp-transport-code" type="text" inputmode="text" autocomplete="off"
+          spellcheck="false" autocapitalize="characters" maxlength="12" value="033AX"
+          placeholder="Например, 033AX" aria-describedby="route-code-hint route-code-error"
+          aria-invalid="false" oninput="clearTransportCodeError()" />
+        <p id="route-code-hint" class="route-code-hint">Номер сбоку от QR-кода, как на фото: <span class="route-code-preview">033AX</span>. Для другой таблички впишите её номер.</p>
+        <p id="route-code-error" class="sum-error" role="alert" hidden></p>
+        <button type="button" class="scan-launch" onclick="openQrScanner()">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3M7 12h10"/></svg>
+          Сканировать QR-код
+        </button>
+        <p class="scan-hint">Считывает QR с камеры или фото. Если номер не содержится в коде, его можно указать вручную.</p>
+      </div>
+
+      <div class="field">
+        <label for="inp-sum">Сумма</label>
+        <input id="inp-sum" type="text" inputmode="decimal" autocomplete="off" maxlength="14" value="17" placeholder="Например, 125,50" aria-describedby="scenario-hint sum-error" aria-invalid="false" oninput="clearSumError()" />
+        <p id="scenario-hint" class="scenario-hint">Выберите готовые 17 / 30 сом или впишите свою сумму. Сценарий оформления останется выбранным.</p>
+        <p id="sum-error" class="sum-error" role="alert" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="inp-date">Дата и время</label>
+        <input id="inp-date" type="text" value="Автоматически" readonly />
+      </div>
+    </div>
+
+    <div class="editor-actions">
+      <button class="generate-btn" type="button" onclick="generateReceipt()">Предпросмотр макета</button>
+    </div>
+
+    <div class="preview-note">Для полноэкранного вида на iPhone открывайте со страницы «На экран Домой».</div>
+  </div>
+</div>
+
+<!-- ═══ RECEIPT SCREEN ═══ -->
+<div id="receipt-screen" class="screen" style="display:none;">
+  <div class="phone-shell receipt-shell">
+    <div class="top-bar">
+      <button class="back-btn" type="button" onclick="backToEditor()" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </button>
+      <svg class="logo" viewBox="0 0 250 80" aria-label="BAKAI">
+        <path d="m9.41 8.67h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.5-9.26 5.5-13.59 0-6.24-3.02-11.98-5.85-15.09z" fill="#004EA2"/>
+        <path d="m9.41 42.25h17.35c8.94 0 13.53 8.24 13.53 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.85-9.25 5.85-12.88 0-6.24-3.37-12.69-6.2-15.8z" fill="#004EA2"/>
+        <path d="m41.09 8.67h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.29-6.58 14.88-14.08 14.88h-16.45c4.75-4.42 5.84-10.03 5.84-14.36 0-6.24-2.3-11.21-5.93-14.32z" fill="#C42945"/>
+        <path d="m41.09 42.25h17.34c8.95 0 13.28 8.24 13.28 13.8 0 8.3-6.58 14.88-14.08 14.88h-16.45c4.75-4.41 5.84-9.25 5.84-13.58 0-6.24-2.3-11.99-5.93-15.1z" fill="#C42945"/>
+        <path d="m83.92 19.91h14.5c7.99 0 10.96 7.01 10.96 10.21 0 3.59-2.15 6.62-3.89 7.97 3.37 1.15 6.57 4.47 6.57 9.82 0 6.67-6.36 11.83-13.27 11.83h-14.87v-39.83zm9.05 15.95h3.74c2.78 0 4.22-2.11 4.22-4.41s-1.79-4.31-3.94-4.31h-4.02v8.72zm0.05 16.08h5.4c4.41 0 5.19-2.56 5.19-4.48 0-2.05-1.15-4.3-4.69-4.3h-5.9v8.78z" fill="#004EA2"/>
+        <path d="m127.5 19.91h7.01l16.44 39.83h-9.25l-3.76-9.48h-13.13l-3.65 9.48h-9l15.34-39.83zm3.16 11.5-3.82 11.33h8.25l-4.43-11.33z" fill="#004EA2"/>
+        <path d="m153.4 19.91h9.71v15.4c7.63-0.82 13.13-12.25 14.58-15.4h8.66c-3.1 9.2-7.98 16.16-14.13 19.42 7.55 2.96 12.48 11.78 14.49 20.41h-8.21c-3.54-8.82-9.68-15.88-15.39-16.83v16.57h-9.71v-39.57z" fill="#004EA2"/>
+        <path d="m203.2 19.91h7.63l16.98 39.83h-10.03l-3.98-9.8h-13.26l-3.91 9.8h-8.99l15.56-39.83zm4.48 11.5-4.43 11.66h8.25l-3.82-11.66z" fill="#004EA2"/>
+        <path d="m231 20.13h8.77v39.61h-8.77v-39.61z" fill="#004EA2"/>
+      </svg>
+    </div>
+
+    <div class="receipt-body">
+      <section class="receipt-card" aria-label="Демонстрационный образец чека, не подтверждает оплату">
+        <div class="receipt-top">
+          <div class="demo-label">Образец · Не подтверждает оплату</div>
+          <div class="status-circle">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
+          </div>
+          <div class="status-text">Предпросмотр · не оплачено</div>
+          <div class="amount-row">
+            <span id="out-sum" class="amount">17</span>
+            <span class="currency">с</span>
+          </div>
+          <div class="fee-row">Fee <strong>0</strong> <span class="fee-currency">с</span></div>
+        </div>
+
+        <div class="tear-row" aria-hidden="true">
+          <span class="tear-cut left"></span>
+          <span class="tear-line"></span>
+          <span class="tear-cut right"></span>
+        </div>
+
+        <div class="receipt-bottom">
+          <div id="out-num" class="trx-number">154</div>
+          <div id="out-qr-row" class="trx-source">By QR code <span id="out-qr">154</span></div>
+          <div id="out-account-row" class="trx-source" hidden>••••••••••3159 <span class="subtle-demo">(демо)</span></div>
+          <div id="out-date" class="trx-date">02.04.2026 19:06:11</div>
+        </div>
+      </section>
+
+      <div class="details-wrap">
+        <button class="details-btn" type="button" id="details-btn" aria-expanded="false" aria-haspopup="dialog" aria-controls="transaction-sheet" onclick="toggleDetails()">
+          Transaction details
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="banner-wrap" id="banner-wrap">
+        <img class="banner"
+          src="https://cdn.bakai.kg/uploads/widgets/ufc%201029x288%20eng.webp"
+          alt="BAKAI UFC — рекламный баннер" />
+      </div>
+
+      <p class="demo-notice">Учебный макет · Не является подтверждением оплаты</p>
+      <div class="receipt-spacer"></div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <button class="home-btn" id="home-btn" type="button" onclick="backToEditor()">Back home</button>
+        <button class="share-btn" type="button" aria-label="Поделиться демонстрацией" onclick="shareDemo()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 16V3"></path>
+            <path d="M8 7l4-4 4 4"></path>
+            <path d="M4 13v6a1.8 1.8 0 0 0 1.8 1.8h12.4A1.8 1.8 0 0 0 20 19v-6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- The scanner reads local QR data only. No payment or banking API is called. -->
+<section id="qr-scanner-overlay" class="scanner-overlay" role="dialog" aria-modal="true" aria-labelledby="qr-scanner-title" hidden>
+  <div class="scanner-header">
+    <button type="button" class="scanner-close" aria-label="Закрыть сканер" onclick="closeQrScanner()">×</button>
+    <h2 id="qr-scanner-title">Сканер QR</h2>
+    <span class="scanner-tag">ПРОТОТИП</span>
+  </div>
+  <p class="scanner-intro">Наведите камеру на QR-код таблички или загрузите фотографию</p>
+  <div id="scanner-stage" class="scanner-stage" data-result="false">
+    <div id="qr-reader"></div>
+    <div class="scanner-reticle" aria-hidden="true"></div>
+  </div>
+  <p id="scanner-status" class="scanner-status" role="status" aria-live="polite">Подготовка камеры…</p>
+  <div class="scanner-actions">
+    <button id="scanner-torch" class="scanner-action" type="button" onclick="toggleQrTorch()" disabled>
+      <svg viewBox="0 0 24 24"><path d="M7 2h10l-2 8-5 4 1 8-5-9z"/></svg> Фонарик
+    </button>
+    <button class="scanner-action" type="button" onclick="document.getElementById('scanner-file').click()">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1"/><path d="m5 18 6-6 3 3 2-2 3 4"/></svg> Из галереи
+    </button>
+    <input id="scanner-file" class="scanner-photo-input" type="file" accept="image/*" onchange="handleQrImage(this)" />
+  </div>
+  <div id="scanner-result" class="scanner-result" hidden>
+    <h3>QR распознан</h3>
+    <p id="scanner-result-description">Проверьте номер таблички перед подстановкой.</p>
+    <label for="scanner-code-input">Номер QR-таблички</label>
+    <input id="scanner-code-input" type="text" autocomplete="off" maxlength="12" placeholder="Например, 033AX" oninput="validateScannerCode()" />
+    <div id="scanner-code-message" class="result-note">Не удалось выделить номер автоматически.</div>
+    <details>
+      <summary style="font-size:12px;color:#466a93;margin:12px 0 7px">Показать исходные данные QR</summary>
+      <textarea id="scanner-payload" readonly aria-label="Считанное содержимое QR"></textarea>
+    </details>
+    <button id="scanner-accept" class="scanner-accept" type="button" onclick="applyQrScanToEditor()" disabled>Подставить в редактор</button>
+  </div>
+  <details class="scanner-advanced">
+    <summary>Вставить исходный текст QR вручную</summary>
+    <textarea id="scanner-paste" placeholder="Вставьте сюда содержимое QR, полученное другим сканером"></textarea>
+    <button type="button" onclick="scanPastedQr()">Проверить текст</button>
+  </details>
+  <p class="scanner-privacy">Распознавание происходит на устройстве. Камера запрашивается только после нажатия кнопки. Считывание QR не означает оплату.</p>
+</section>
+
+<!-- Bottom sheet is separate from the receipt flow so it overlays instead of pushing content. -->
+<div id="sheet-backdrop" class="sheet-backdrop" data-open="false" aria-hidden="true" onclick="closeTransactionDetails()"></div>
+<section id="transaction-sheet" class="transaction-sheet" data-open="false" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="transaction-sheet-title" inert>
+  <div id="sheet-grab-area" class="sheet-grab-area" aria-label="Потяните вниз, чтобы закрыть">
+    <span class="sheet-handle" aria-hidden="true"></span>
+  </div>
+  <div class="sheet-header">
+    <h2 class="sheet-heading" id="transaction-sheet-title">Transaction details</h2>
+    <button type="button" class="sheet-close" aria-label="Закрыть сведения" onclick="closeTransactionDetails()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="sheet-body">
+    <p class="sheet-demo-caption">ДЕМО / ОБРАЗЕЦ — не является подтверждением оплаты. Номера и идентификаторы сгенерированы для прототипа.</p>
+    <div class="sheet-details">
+      <div class="sheet-detail-row">
+        <span class="sheet-detail-label">Receipt</span>
+        <button class="sheet-download" type="button" onclick="downloadDemoDetails()" aria-label="Скачать сведения о демонстрационной операции">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 17v3h16v-3"/></svg>
+          Download DEMO
+        </button>
+      </div>
+      <div class="sheet-detail-row"><span class="sheet-detail-label">Execution date</span><span class="sheet-detail-value" id="detail-date">—</span></div>
+      <div class="sheet-detail-row"><span class="sheet-detail-label">Transaction type</span><span class="sheet-detail-value" id="detail-type">Платеж по QR</span></div>
+      <div class="sheet-detail-row"><span class="sheet-detail-label">Recipient</span><span class="sheet-detail-value" id="detail-recipient">154 TULPAR</span></div>
+      <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">Service Provider</span><span class="sheet-detail-value" id="detail-provider">qr.tulpar.kg</span></div>
+      <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">Requisite</span><span class="sheet-detail-value" id="detail-num">154</span></div>
+      <div class="sheet-detail-row" data-qr-only><span class="sheet-detail-label">ELQR ID</span><span class="sheet-detail-value" id="detail-elqr">—</span></div>
+      <div class="sheet-detail-row" data-transfer-only hidden><span class="sheet-detail-label">Recipient account</span><span class="sheet-detail-value" id="detail-transfer-account">••••••••••3159 (демо)</span></div>
+      <div class="sheet-detail-row" data-transfer-only hidden><span class="sheet-detail-label">Payment purpose</span><span class="sheet-detail-value" id="detail-purpose">Учебный перевод по QR для городского транспорта</span></div>
+      <div class="sheet-detail-row"><span class="sheet-detail-label">Total amount</span><span class="sheet-detail-value" id="detail-sum">17.00 KGS</span></div>
+      <div class="sheet-detail-row"><span class="sheet-detail-label">Debit account</span><span class="sheet-detail-value" id="detail-account">1242080009799634 KGS</span></div>
+      <div class="sheet-detail-row"><span class="sheet-detail-label">Receipt number</span><span class="sheet-detail-value" id="detail-receipt-number">—</span></div>
+    </div>
+  </div>
+</section>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+
+  // ===== QR code reader for local educational preview, NOT a payment verification =====
+  // Real QR formats vary. We only extract a transport marker when it is present in decoded text.
+  let qrScanner = null;
+  let qrScannerRunning = false;
+  let qrScannerStarting = false;
+  let qrScanConsumed = false;
+  let qrTorchOn = false;
+  let qrLastFocused = null;
+  let qrSession = 0;
+
+  const transportCodePattern = /^[0-9]{2,4}[A-ZА-ЯЁ]{1,3}$/;
+
+  function findTransportCode(raw) {
+    if (typeof raw !== 'string' || raw.length > 20000) return null;
+    const value = raw.trim();
+    const normalized = value.toUpperCase();
+    if (transportCodePattern.test(normalized)) return normalized;
+    // Match a labelled field, a URL parameter or a standalone code with word boundaries.
+    const labelled = /(?:MERCHANT[_ -]?CODE|STORE[_ -]?ID|STORE|TERMINAL|ROUTE|TRADING[_ -]?POINT|POINT|МЕСТО|ТОЧКА|КОД)[^0-9A-ZА-ЯЁ]{0,18}([0-9]{2,4}[A-ZА-ЯЁ]{1,3})(?![0-9A-ZА-ЯЁ])/i.exec(normalized);
+    if (labelled) return labelled[1];
+    const query = /(?:[?&#]|^)(?:store|terminal|route|code|point|merchant_code)=([0-9]{2,4}[A-ZА-ЯЁ]{1,3})(?:[&#]|$)/i.exec(normalized);
+    if (query) return query[1];
+    // Standalone marker only when clearly separated, not an arbitrary substring inside a token.
+    const tokens = normalized.match(/(?:^|[^A-ZА-ЯЁ0-9])([0-9]{2,4}[A-ZА-ЯЁ]{1,3})(?=$|[^A-ZА-ЯЁ0-9])/g) || [];
+    const matches = tokens.map(t => t.replace(/^[^0-9]+/, '').replace(/[^A-ZА-ЯЁ0-9]+$/, '')).filter(t => transportCodePattern.test(t));
+    return matches.length === 1 ? matches[0] : null;
+  }
+
+  function setScannerStatus(value) {
+    document.getElementById('scanner-status').textContent = value;
+  }
+
+  async function ensureQrLibrary() {
+    if (window.Html5Qrcode) return true;
+    setScannerStatus('Загружается модуль распознавания QR…');
+    // The dependency is loaded when the user explicitly asks to scan. No unnecessary load on startup.
+    try {
+      await new Promise((resolve, reject) => {
+        let el = document.getElementById('qr-reader-script');
+        if (!el) {
+          el = document.createElement('script');
+          el.id = 'qr-reader-script';
+          el.src = 'https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js';
+          el.onload = resolve;
+          el.onerror = reject;
+          document.head.appendChild(el);
+        } else if (window.Html5Qrcode) resolve();
+        else {
+          el.addEventListener('load', resolve, {once:true});
+          el.addEventListener('error', reject, {once:true});
+        }
+      });
+      return !!window.Html5Qrcode;
+    } catch(e) {
+      setScannerStatus('Не удалось загрузить модуль. Проверьте интернет и откройте страницу заново.');
+      return false;
+    }
+  }
+
+  function prepareQrReader() {
+    document.getElementById('qr-reader').replaceChildren();
+    qrScanner = new Html5Qrcode('qr-reader', {verbose: false});
+  }
+
+  async function openQrScanner() {
+    qrLastFocused = document.activeElement;
+    const overlay = document.getElementById('qr-scanner-overlay');
+    overlay.hidden = false;
+    document.body.classList.add('scanner-active');
+    document.getElementById('scanner-result').hidden = true;
+    document.getElementById('scanner-stage').dataset.result = 'false';
+    document.getElementById('scanner-paste').value = '';
+    qrScanConsumed = false;
+    const session = ++qrSession;
+    document.querySelector('.scanner-close').focus();
+    if (!(await ensureQrLibrary()) || session !== qrSession) return;
+    await startQrCamera(session);
+  }
+
+  async function stopQrCamera() {
+    if (!qrScanner) return;
+    if (qrScannerStarting) {
+      // Wait for start() to settle before using the same instance for a file scan.
+      for (let i=0; i<30 && qrScannerStarting; i++) await new Promise(resolve=>setTimeout(resolve, 50));
+    }
+    try {
+      if (qrScannerRunning || (qrScanner.getState && qrScanner.getState() === 2)) await qrScanner.stop();
+    } catch (_) {}
+    qrScannerRunning = false;
+    qrTorchOn = false;
+    document.getElementById('scanner-torch').disabled = true;
+    try { qrScanner.clear(); } catch (_) {}
+  }
+
+  async function startQrCamera(session = qrSession) {
+    if (session !== qrSession || document.getElementById('qr-scanner-overlay').hidden) return;
+    if (!window.isSecureContext) {
+      setScannerStatus('Для доступа к камере откройте страницу через HTTPS (GitHub Pages). Можно выбрать фото из галереи.');
+      return;
+    }
+    await stopQrCamera();
+    if (session !== qrSession) return;
+    prepareQrReader();
+    qrScannerStarting = true;
+    setScannerStatus('Разрешите доступ к камере, затем наведите её на QR-код.');
+    try {
+      await qrScanner.start({facingMode:'environment'}, {
+        fps: 10,
+        qrbox: (w,h) => {const n = Math.max(130,Math.min(255,Math.floor(Math.min(w,h)*.78))); return {width:n,height:n};}
+      }, text => { if (!qrScanConsumed && session === qrSession) {
+          qrScanConsumed = true;
+          showQrResult(text);
+          void stopQrCamera();
+        }
+      }, () => {});
+      qrScannerRunning = true;
+      if (session !== qrSession || qrScanConsumed) { await stopQrCamera(); return; }
+      setScannerStatus('Наведите камеру на QR-код внутри рамки.');
+      try {
+        const caps = qrScanner.getRunningTrackCameraCapabilities?.();
+        const torchSupported = caps?.torchFeature?.isSupported?.() || caps?.torch?.isSupported?.() || caps?.torch === true;
+        document.getElementById('scanner-torch').disabled = !torchSupported;
+      } catch (_) {}
+    } catch (err) {
+      if (session === qrSession) setScannerStatus('Камера недоступна. Разрешите доступ в Safari или выберите QR из галереи.');
+    } finally { qrScannerStarting = false; }
+  }
+
+  async function closeQrScanner() {
+    ++qrSession;
+    document.getElementById('qr-scanner-overlay').hidden = true;
+    document.body.classList.remove('scanner-active');
+    await stopQrCamera();
+    qrLastFocused?.focus?.();
+  }
+
+  async function toggleQrTorch() {
+    if (!qrScanner || !qrScannerRunning) return;
+    try {
+      qrTorchOn = !qrTorchOn;
+      await qrScanner.applyVideoConstraints({advanced:[{torch:qrTorchOn}]});
+      document.getElementById('scanner-torch').setAttribute('aria-pressed', String(qrTorchOn));
+    } catch (_) {
+      qrTorchOn = false;
+      document.getElementById('scanner-torch').disabled = true;
+      setScannerStatus('На этом устройстве фонарик через браузер недоступен.');
+    }
+  }
+
+  async function handleQrImage(input) {
+    const file = input.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { setScannerStatus('Выберите изображение с QR-кодом.'); input.value=''; return; }
+    if (file.size > 18*1024*1024) { setScannerStatus('Изображение слишком большое (максимум 18 МБ).'); input.value=''; return; }
+    const session = qrSession;
+    setScannerStatus('Распознаю QR на фотографии…');
+    await stopQrCamera();
+    if (session !== qrSession) return;
+    if (!(await ensureQrLibrary())) return;
+    prepareQrReader();
+    try {
+      const data = await qrScanner.scanFile(file, false);
+      if (session === qrSession) { qrScanConsumed = true; showQrResult(data); }
+    } catch (_) {
+      if (session === qrSession) setScannerStatus('QR не найден на фото. Попробуйте фото крупнее, без бликов, или введите номер вручную.');
+    } finally { input.value = ''; }
+  }
+
+  function showQrResult(raw) {
+    const data = String(raw).slice(0,20000);
+    document.getElementById('scanner-stage').dataset.result = 'true';
+    document.getElementById('scanner-result').hidden = false;
+    document.getElementById('scanner-payload').value = data;
+    const code = findTransportCode(data);
+    document.getElementById('scanner-code-input').value = code || '';
+    document.getElementById('scanner-result-description').textContent = code
+      ? 'В QR найден возможный номер таблички. Проверьте его по надписи рядом с QR.'
+      : 'QR считан, но номер таблички внутри не найден. Посмотрите номер рядом с кодом и введите его вручную.';
+    validateScannerCode();
+    setScannerStatus('QR считан. Сканирование остановлено.');
+    document.getElementById('scanner-result').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  function validateScannerCode() {
+    const input = document.getElementById('scanner-code-input');
+    input.value = input.value.toUpperCase().replace(/\s/g, '');
+    const valid = transportCodePattern.test(input.value);
+    document.getElementById('scanner-accept').disabled = !valid;
+    document.getElementById('scanner-code-message').textContent = valid
+      ? 'Сверьте номер с надписью на реальной табличке. Оплата не выполнялась.'
+      : 'Введите номер в формате 033AX или 055AX.';
+  }
+
+  function applyQrScanToEditor() {
+    const code = document.getElementById('scanner-code-input').value.trim().toUpperCase();
+    if (!transportCodePattern.test(code)) return;
+    document.querySelector('input[name="demo-scenario"][value="transfer"]').checked = true;
+    // Only change preset if necessary — preserve any custom amount user entered.
+    if (selectedDemoScenario !== 'transfer') selectDemoScenario('transfer');
+    document.getElementById('inp-transport-code').value = code;
+    clearTransportCodeError();
+    void closeQrScanner();
+    showToast('Номер ' + code + ' подставлен в демонстрационную форму');
+  }
+
+  async function scanPastedQr() {
+    const raw = document.getElementById('scanner-paste').value.trim();
+    if (!raw) { setScannerStatus('Вставьте исходные данные QR.'); return; }
+    await stopQrCamera();
+    qrScanConsumed = true;
+    showQrResult(raw);
+  }
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !document.getElementById('qr-scanner-overlay').hidden) {
+      event.preventDefault(); void closeQrScanner();
+    }
+  });
+
+  function getCurrentDateTime() {
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return `${pad(now.getDate())}.${pad(now.getMonth()+1)}.${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  }
+
+  function sanitize(value, fallback) {
+    const t = String(value || '').trim();
+    return (t === '' || t === 'Автоматически') ? fallback : t;
+  }
+
+  // UUID v4-shaped synthetic test ID; never corresponds to a verified transfer.
+  function makeDemoUUID() {
+    const bytes = new Uint8Array(16);
+    if (globalThis.crypto && typeof globalThis.crypto.getRandomValues === 'function') {
+      globalThis.crypto.getRandomValues(bytes);
+    } else {
+      // Fallback for restricted local browser contexts: sufficient for a visual prototype.
+      for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+    }
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+    return [hex.slice(0, 8), hex.slice(8, 12), hex.slice(12, 16), hex.slice(16, 20), hex.slice(20)].join('-');
+  }
+
+  function makeDemoReceiptNumber() {
+    const bytes = new Uint32Array(1);
+    const randomPart = globalThis.crypto && typeof globalThis.crypto.getRandomValues === 'function'
+      ? (globalThis.crypto.getRandomValues(bytes), bytes[0] % 10000)
+      : Math.floor(Math.random() * 10000);
+    return '179380' + String(randomPart).padStart(4, '0');
+  }
+
+  const DEMO_CITY_RECIPIENT_NAME = 'Муниципальное предприятие «Бишкекский городской транспорт» при Департаменте транспорта и развития дорожно-транспортной инфраструктуры мэрии г. Бишкек';
+  let selectedDemoScenario = 'qr';
+
+  function clearSumError() {
+    const input = document.getElementById('inp-sum');
+    input.setAttribute('aria-invalid', 'false');
+    const message = document.getElementById('sum-error');
+    message.hidden = true;
+    message.textContent = '';
+  }
+
+  function readDemoAmount() {
+    const input = document.getElementById('inp-sum');
+    // Both a decimal comma and a decimal point are accepted, as well as spaces in large amounts.
+    const normalized = input.value.trim().replace(/[\s\u00A0\u202F]/g, '').replace(',', '.');
+    if (!/^\d{1,9}(?:\.\d{1,2})?$/.test(normalized)) return null;
+    const number = Number(normalized);
+    return Number.isFinite(number) && number > 0 ? number : null;
+  }
+
+  function showSumError() {
+    const input = document.getElementById('inp-sum');
+    input.setAttribute('aria-invalid', 'true');
+    const message = document.getElementById('sum-error');
+    message.hidden = false;
+    message.textContent = 'Введите сумму больше 0, максимум с двумя цифрами после запятой.';
+    input.focus();
+  }
+
+  function clearTransportCodeError() {
+    const input = document.getElementById('inp-transport-code');
+    input.setAttribute('aria-invalid', 'false');
+    const message = document.getElementById('route-code-error');
+    message.hidden = true;
+    message.textContent = '';
+  }
+
+  function readTransportCode() {
+    const input = document.getElementById('inp-transport-code');
+    const code = input.value.trim().replace(/\s+/g, '').toUpperCase();
+    // The route/table number is visible beside the QR code (e.g. 033AX or 055AX).
+    if (!/^[0-9]{2,4}[A-ZА-ЯЁ]{1,3}$/.test(code)) {
+      input.setAttribute('aria-invalid', 'true');
+      const message = document.getElementById('route-code-error');
+      message.textContent = 'Укажите номер с таблички, например 033AX или 055AX.';
+      message.hidden = false;
+      input.focus();
+      return null;
+    }
+    input.value = code;
+    clearTransportCodeError();
+    return code;
+  }
+
+  function selectDemoScenario(scenario) {
+    selectedDemoScenario = scenario === 'transfer' ? 'transfer' : 'qr';
+    const qr = selectedDemoScenario === 'qr';
+    // Presets fill the amount; it stays editable afterwards.
+    document.getElementById('inp-sum').value = qr ? '17' : '30';
+    clearSumError();
+    document.getElementById('qr-number-field').hidden = !qr;
+    document.getElementById('transport-route-field').hidden = qr;
+  }
+
+  function generateReceipt() {
+    const qr = selectedDemoScenario === 'qr';
+    const number = sanitize(document.getElementById('inp-num').value, '154');
+    const amount = readDemoAmount();
+    if (amount === null) { showSumError(); return; }
+    const transportCode = qr ? null : readTransportCode();
+    if (!qr && transportCode === null) return;
+    const cityRecipient = qr ? '' : transportCode + ' — ' + DEMO_CITY_RECIPIENT_NAME;
+    clearSumError();
+    const sum = amount.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
+    const date = getCurrentDateTime();
+    const demoReceiptNumber = makeDemoReceiptNumber();
+    const card = document.querySelector('#receipt-screen .receipt-card');
+    card.classList.toggle('transfer-mode', !qr);
+
+    document.getElementById('out-sum').textContent = sum;
+    document.getElementById('out-num').textContent = qr ? number : cityRecipient;
+    document.getElementById('out-qr').textContent = number;
+    document.getElementById('out-qr-row').hidden = !qr;
+    document.getElementById('out-account-row').hidden = qr;
+    document.getElementById('out-date').textContent = date;
+    document.getElementById('banner-wrap').hidden = !qr;
+    document.getElementById('home-btn').textContent = qr ? 'Back home' : 'Back to transfers';
+
+    document.getElementById('detail-date').textContent = date;
+    document.getElementById('detail-type').textContent = qr ? 'Платеж по QR' : 'Перевод клиенту Банка';
+    document.getElementById('detail-recipient').textContent = qr ? number + ' TULPAR' : cityRecipient;
+    document.getElementById('detail-num').textContent = number;
+    document.getElementById('detail-provider').textContent = 'qr.tulpar.kg';
+    document.getElementById('detail-elqr').textContent = makeDemoUUID();
+    document.getElementById('detail-purpose').textContent = 'Демо-платёж по QR, торговая точка: ' + (transportCode || '—') + '. Идентификатор: DEMO-' + demoReceiptNumber.slice(-4);
+    document.getElementById('detail-sum').textContent = amount.toFixed(2) + ' KGS';
+    document.getElementById('detail-receipt-number').textContent = demoReceiptNumber;
+    document.querySelectorAll('[data-qr-only]').forEach(el => { el.hidden = !qr; });
+    document.querySelectorAll('[data-transfer-only]').forEach(el => { el.hidden = qr; });
+    document.querySelector('.sheet-body').scrollTop = 0;
+
+    closeTransactionDetails(false);
+    document.getElementById('editor-screen').style.display = 'none';
+    document.getElementById('receipt-screen').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  function backToEditor() {
+    closeTransactionDetails(false);
+    document.getElementById('receipt-screen').style.display = 'none';
+    document.getElementById('editor-screen').style.display  = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  function toggleDetails() {
+    const sheet = document.getElementById('transaction-sheet');
+    if (sheet.dataset.open === 'true') closeTransactionDetails();
+    else openTransactionDetails();
+  }
+
+  function openTransactionDetails() {
+    const sheet = document.getElementById('transaction-sheet');
+    const backdrop = document.getElementById('sheet-backdrop');
+    const btn = document.getElementById('details-btn');
+    sheet.dataset.open = 'true';
+    sheet.setAttribute('aria-hidden', 'false');
+    sheet.inert = false;
+    backdrop.dataset.open = 'true';
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('sheet-open');
+    sheet.querySelector('.sheet-close').focus({preventScroll: true});
+  }
+
+  function closeTransactionDetails(returnFocus = true) {
+    const sheet = document.getElementById('transaction-sheet');
+    const backdrop = document.getElementById('sheet-backdrop');
+    const btn = document.getElementById('details-btn');
+    const wasOpen = sheet.dataset.open === 'true';
+    sheet.style.transform = '';
+    sheet.style.transition = '';
+    sheet.dataset.open = 'false';
+    sheet.setAttribute('aria-hidden', 'true');
+    sheet.inert = true;
+    backdrop.dataset.open = 'false';
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('sheet-open');
+    if (wasOpen && returnFocus) btn.focus({preventScroll: true});
+  }
+
+  // Finger gesture on the handle: dismiss when dragged down far enough.
+  (function initSheetGesture() {
+    const area = document.getElementById('sheet-grab-area');
+    const sheet = document.getElementById('transaction-sheet');
+    let startY = null;
+    let distance = 0;
+    area.addEventListener('touchstart', (event) => {
+      if (sheet.dataset.open !== 'true') return;
+      startY = event.touches[0].clientY;
+      distance = 0;
+      sheet.style.transition = 'none';
+    }, {passive: true});
+    area.addEventListener('touchmove', (event) => {
+      if (startY === null) return;
+      distance = Math.max(0, event.touches[0].clientY - startY);
+      sheet.style.transform = `translate(-50%, ${distance}px)`;
+    }, {passive: true});
+    area.addEventListener('touchend', () => {
+      if (startY === null) return;
+      const dismiss = distance > 80;
+      startY = null;
+      sheet.style.transition = '';
+      sheet.style.transform = '';
+      if (dismiss) closeTransactionDetails();
+    }, {passive: true});
+    area.addEventListener('touchcancel', () => {
+      startY = null;
+      sheet.style.transition = '';
+      sheet.style.transform = '';
+    }, {passive: true});
+  })();
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.getElementById('transaction-sheet').dataset.open === 'true') {
+      closeTransactionDetails();
+    }
+  });
+
+  function downloadDemoDetails() {
+    const qr = selectedDemoScenario === 'qr';
+    const value = id => document.getElementById(id).textContent;
+    const lines = [
+      'ДЕМО / ОБРАЗЕЦ — НЕ ЯВЛЯЕТСЯ ПОДТВЕРЖДЕНИЕМ ОПЛАТЫ',
+      'Учебный макет без реальной банковской операции',
+      '',
+      'Дата: ' + value('detail-date'),
+      'Тип операции: ' + value('detail-type'),
+      'Получатель: ' + value('detail-recipient'),
+    ];
+    if (qr) {
+      lines.push('Провайдер: ' + value('detail-provider'));
+      lines.push('Requisite: ' + value('detail-num'));
+      lines.push('ELQR ID (демо): ' + value('detail-elqr'));
+    } else {
+      lines.push('Счёт получателя (демо): ' + value('detail-transfer-account'));
+      lines.push('Номер QR-таблички: ' + document.getElementById('inp-transport-code').value);
+      lines.push('Назначение (демо): ' + value('detail-purpose'));
+    }
+    lines.push('Сумма: ' + value('detail-sum'));
+    lines.push('Debit account (демо): ' + value('detail-account'));
+    lines.push('Receipt number (демо): ' + value('detail-receipt-number'));
+    const blob = new Blob([lines.join('\n')], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const amountTag = value('detail-sum').split(' ')[0].replace('.', '_');
+    a.download = (qr ? 'demo_qr_' : 'demo_transport_') + amountTag + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  async function shareDemo() {
+    const text = 'ДЕМО / ОБРАЗЕЦ. Не является подтверждением оплаты.';
+    if (navigator.share) {
+      try { await navigator.share({title:'Учебный макет чека', text}); }
+      catch(e) { if (e.name !== 'AbortError') showToast('Не удалось поделиться'); }
+    } else if(navigator.clipboard && window.isSecureContext) {
+      try { await navigator.clipboard.writeText(text); showToast('Описание демо скопировано'); }
+      catch(e) { showToast('Поделиться не удалось'); }
+    } else showToast(text);
+  }
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('visible');
+    clearTimeout(window._toastTimeout);
+    window._toastTimeout = setTimeout(() => toast.classList.remove('visible'), 2600);
+  }
+</script>
+</body>
+</html>
